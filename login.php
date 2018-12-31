@@ -27,7 +27,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
             </div>
-            <input type="email" class="form-control" id="email" placeholder="dit-navn@edu.easj.dk" required autofocus autocomplete="off">
+            <input type="email" name="email" class="form-control" id="email" placeholder="dit-navn@edu.easj.dk" required autofocus autocomplete="off">
             <div class="invalid-feedback">
                 Indtastet e-mail er ikke korrekt format
             </div>
@@ -39,7 +39,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
             </div>
-            <input type="password" class="form-control" id="password" placeholder="***********" required="">
+            <input type="password" name="password" class="form-control" id="password" placeholder="***********" required="">
             <div class="invalid-feedback">
                 Feltet er ikke udfyldt
             </div>

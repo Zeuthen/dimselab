@@ -1,3 +1,7 @@
+body{
+	padding-top:56px;
+}
+
 .nav-dropdown
 {
 	position : relative;
@@ -60,4 +64,8 @@
 .form-login
 {
 	max-width : 350px;
+}
+
+.table{
+	overflow-x:auto;
 }
