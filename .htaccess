@@ -1,0 +1,22 @@
+RewriteEngine  On    # Turn on the rewriting engine
+#RewriteBase    /
+
+RewriteRule    ^/?$    index.html    [NC,L]    # Handle requests for "home"
+RewriteRule    ^home/?$    index.html    [NC,L]    # Handle requests for "home"
+RewriteRule    ^login/?$    login.html    [NC,L]    # Handle requests for "login"
+RewriteRule    ^form/?$    form.html    [NC,L]    # Handle requests for "form"
+RewriteRule    ^forum/?$    forum.html    [NC,L]    # Handle requests for "forum"
+
+RewriteRule    ^article/?$    article.html    [NC,L]    # Handle requests for "article"
+RewriteRule    ^article/([A-Za-z0-9-]+)/?$    article.html?article_name=$1    [NC,L]    # Process article
+RewriteRule    ^article/([0-9]+)/?$    article.html?article_id=$1    [NC,L]    # Handle article requests
+
+RewriteRule    ^dashboard/?$    dashboard.html    [NC,L]    # Handle requests for "dashboard"
+RewriteRule    ^dashboard/([A-Za-z0-9-]+)/?$    get_product_by_name.php?product_name=$1    [NC,L]    # Process dashboard
+RewriteRule    ^dashboard/([0-9]+)/?$    dashboard.html?dashboard_id=$1    [NC,L]    # Handle dashboard requests
+
+RewriteRule    ^[A-Za-z-]+/([A-Za-z0-9-]+)/?$    get_product_by_name.php?product_name=$1    [NC,L]    # Process all products regardless directory
+
+
+RewriteRule    ^config\.php/?$    config.php   [NC,F]    # Handle requests for "config"
+RewriteRule    ^config/?$    config.php   [NC,F]    # Handle requests for "config"
