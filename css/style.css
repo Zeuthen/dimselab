@@ -2,6 +2,10 @@ body{
 	padding-top:56px;
 }
 
+.content{
+	padding-top:25px;
+}
+
 .nav-dropdown
 {
 	position : relative;

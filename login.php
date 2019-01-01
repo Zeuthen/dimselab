@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: brorm
- * Date: 29/12/2018
- * Time: 01:23
- */
+
 ?>
 
 
@@ -12,7 +7,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Dimselab - Login</title>
+    <link rel="shortcut icon" type="image/png" href="assets/favicon.jpg"/>
     <link rel="stylesheet" href="css/all.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/style.css"/>
