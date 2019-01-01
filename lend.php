@@ -50,13 +50,10 @@
 <div class="container content">
 
 	<div class="input-group">
-		<div class="input-group-prepend">
-			<span class="input-group-text"><i class="fas fa-search"></i></span>
-		</div>
-		<input type="search" name="search" class="form-control" id="search" placeholder="Søg" autofocus autocomplete="off">
+		<input type="text" name="stregkode" class="form-control" id="stregkode" placeholder="Stregkode" autofocus autocomplete="off">
 	</div>
 
-	<a href="./opret" role="button" class="btn btn-success float-right">Opret ny</a>
+	<a href="./opret" role="button" class="btn btn-success float-right">Udlån</a>
 
 	<div class="content-overview">
 		<table class="table table-hover">
