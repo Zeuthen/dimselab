@@ -1,5 +1,8 @@
 <?php
-
+session_start();
+if ( isset( $_SESSION["user"] ) ) {
+	header( "location: oversigt" );
+}
 ?>
 
 
@@ -8,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Dimselab - Login</title>
-    <link rel="shortcut icon" type="image/png" href="assets/favicon.jpg"/>
+    <link rel="shortcut icon" type="image/png" href="assets/favicon.ico"/>
     <link rel="stylesheet" href="css/all.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/style.css"/>
@@ -16,7 +19,7 @@
 <body class="bg-light mt-5">
 <h1 class="text-center mb-5">Velkommen til Dimselab</h1>
 
-<form class="needs-validation form-login text-center mx-auto mt-5 px-3 py-3" novalidate="" method="post">
+<form class="form-login text-center mx-auto mt-5 px-3 py-3" method="post" action="api/login.php">
     <div class="mb-3">
         <label for="email" class="sr-only">E-mail adresse</label>
         <div class="input-group">
@@ -24,9 +27,6 @@
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
             </div>
             <input type="email" name="email" class="form-control" id="email" placeholder="dit-navn@edu.easj.dk" required autofocus autocomplete="off">
-            <div class="invalid-feedback">
-                Indtastet e-mail er ikke korrekt format
-            </div>
         </div>
     </div>
     <div class="mb-3">
@@ -35,10 +35,8 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
             </div>
-            <input type="password" name="password" class="form-control" id="password" placeholder="***********" required="">
-            <div class="invalid-feedback">
-                Feltet er ikke udfyldt
-            </div>
+            <input type="password" name="password" class="form-control" id="password" placeholder="***********" required>
+
         </div>
     </div>
     <div class="custom-control custom-checkbox">
@@ -54,17 +52,31 @@
 <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
 <script>
-  /*  $(function ()
+    /*  $(function ()
+     {
+     });*/
+    $(".form-login").submit(function (e)
     {
-    });*/
-    $(".needs-validation").submit(function (e)
-    {
-        if ($(this)[0].checkValidity() === false)
+        var form = $(this);
+        var url = form.attr("action");
+
+        $.ajax({
+            method: "POST",
+            url   : url,
+            data  : form.serialize(),
+        }).done(function (result)
         {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-        $(this).addClass("was-validated");
+            if (result.length > 1)
+            {
+                alert(result);
+            }
+            else{
+                window.location="oversigt";
+            }
+        });
+
+
+        e.preventDefault();
     });
 </script>
 </body>

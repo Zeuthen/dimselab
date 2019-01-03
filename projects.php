@@ -1,6 +1,8 @@
 <?php
-
-
+session_start();
+if(!isset($_SESSION["user"])){
+	header("location: logind");
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +27,7 @@
     <div class="collapse navbar-collapse" id="navbarDimselab">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="./oversigt">Oversigt <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="./oversigt">Oversigt</a>
             </li>
             <li class="nav-item nav-dropdown">
                 <a class="nav-link" href="./udlånreturnering">Udlån/Returnering</a>
@@ -43,7 +45,7 @@
             </li>
         </ul>
         <ul class="form-inline ml-auto navbar-nav">
-            <li class="nav-item"><span class="navbar-text">Velkommen <strong>Username</strong></span></li>
+            <li class="nav-item"><span class="navbar-text">Velkommen <strong><?php echo $_SESSION["user"]?></strong></span></li>
             <li><a class="nav-link" href="./logud">Log ud</a></li>
         </ul>
     </div>
@@ -63,13 +65,10 @@
 		<table class="table table-hover">
 			<thead>
 			<tr>
+				<th scope="col">Projekt</th>
+				<th scope="col">Beskrivelse</th>
 				<th scope="col">Artikel</th>
-				<th scope="col">Kategori</th>
-				<th scope="col">Stregkode</th>
-				<th scope="col">Skuffenr</th>
-				<th scope="col">Lager</th>
-				<th scope="col">Udlånt</th>
-				<th scope="col">I alt</th>
+				<th scope="col">Bruger</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -78,27 +77,18 @@
 				<td>Kategori 1</td>
 				<td>Stregkode 1</td>
 				<td>1</td>
-				<td>20</td>
-				<td>10</td>
-				<td>30</td>
 			</tr>
 			<tr>
 				<td>Artikel 2</td>
 				<td>Kategori 2</td>
 				<td>Stregkode 2</td>
 				<td>2</td>
-				<td>20</td>
-				<td>10</td>
-				<td>30</td>
 			</tr>
 			<tr>
 				<td>Artikel 3</td>
 				<td>Kategori 3</td>
 				<td>Stregkode 3</td>
 				<td>3</td>
-				<td>20</td>
-				<td>10</td>
-				<td>30</td>
 			</tr>
 			</tbody>
 		</table>

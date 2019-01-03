@@ -1,6 +1,8 @@
 <?php
-
-
+session_start();
+if(!isset($_SESSION["user"])){
+	header("location: logind");
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +26,7 @@
     <div class="collapse navbar-collapse" id="navbarDimselab">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="./oversigt">Oversigt <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="./oversigt">Oversigt</a>
             </li>
             <li class="nav-item nav-dropdown">
                 <a class="nav-link" href="./udlånreturnering">Udlån/Returnering</a>
@@ -42,7 +44,7 @@
             </li>
         </ul>
         <ul class="form-inline ml-auto navbar-nav">
-            <li class="nav-item"><span class="navbar-text">Velkommen <strong>Username</strong></span></li>
+            <li class="nav-item"><span class="navbar-text">Velkommen <strong><?php echo $_SESSION["user"]?></strong></span></li>
             <li><a class="nav-link" href="./logud">Log ud</a></li>
         </ul>
     </div>
@@ -71,7 +73,7 @@
                 <th scope="col">I alt</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="table-content">
             <tr>
                 <td>Artikel 1</td>
                 <td>Kategori 1</td>
@@ -109,5 +111,14 @@
 <script type="text/javascript" src="js/all.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
+<script>
+    $.ajax({
+        method: "GET",
+        url: "api/getarticles.php",
+    })
+    .done(function( result ) {
+        $("#table-content").html(result);
+    });
+</script>
 </body>
 </html>

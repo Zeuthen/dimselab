@@ -1,6 +1,8 @@
 <?php
-
-
+session_start();
+if(!isset($_SESSION["user"])){
+	header("location: logind");
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +27,7 @@
     <div class="collapse navbar-collapse" id="navbarDimselab">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="./oversigt">Oversigt <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="./oversigt">Oversigt</a>
             </li>
             <li class="nav-item active nav-dropdown">
                 <a class="nav-link" href="./udlånreturnering">Udlån/Returnering</a>
@@ -43,7 +45,7 @@
             </li>
         </ul>
         <ul class="form-inline ml-auto navbar-nav">
-            <li class="nav-item"><span class="navbar-text">Velkommen <strong>Username</strong></span></li>
+            <li class="nav-item"><span class="navbar-text">Velkommen <strong><?php echo $_SESSION["user"]?></strong></span></li>
             <li><a class="nav-link" href="./logud">Log ud</a></li>
         </ul>
     </div>
@@ -57,7 +59,7 @@
 		<input type="search" name="search" class="form-control" id="search" placeholder="Søg" autofocus autocomplete="off">
 	</div>
 
-	<a href="./opret" role="button" class="btn btn-success float-right">Opret ny</a>
+	<a href="./opret" role="button" class="btn btn-success float-right">Returnér</a>
 
 	<div class="content-overview">
 		<table class="table table-hover">
@@ -67,9 +69,7 @@
 				<th scope="col">Kategori</th>
 				<th scope="col">Stregkode</th>
 				<th scope="col">Skuffenr</th>
-				<th scope="col">Lager</th>
-				<th scope="col">Udlånt</th>
-				<th scope="col">I alt</th>
+				<th scope="col">Antal</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -78,27 +78,21 @@
 				<td>Kategori 1</td>
 				<td>Stregkode 1</td>
 				<td>1</td>
-				<td>20</td>
-				<td>10</td>
-				<td>30</td>
+                <td><input type="number" min="0" max="1000000" name="antal" id="antal" placeholder="0"/></td>
 			</tr>
 			<tr>
 				<td>Artikel 2</td>
 				<td>Kategori 2</td>
 				<td>Stregkode 2</td>
 				<td>2</td>
-				<td>20</td>
-				<td>10</td>
-				<td>30</td>
+                <td><input type="number" min="0" max="1000000" name="antal" id="antal" placeholder="0"/></td>
 			</tr>
 			<tr>
 				<td>Artikel 3</td>
 				<td>Kategori 3</td>
 				<td>Stregkode 3</td>
 				<td>3</td>
-				<td>20</td>
-				<td>10</td>
-				<td>30</td>
+                <td><input type="number" min="0" max="1000000" name="antal" id="antal" placeholder="0"/></td>
 			</tr>
 			</tbody>
 		</table>

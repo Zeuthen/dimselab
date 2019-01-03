@@ -1,5 +1,8 @@
 <?php
-
+session_start();
+if(!isset($_SESSION["user"])){
+	header("location: logind");
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +27,7 @@
     <div class="collapse navbar-collapse" id="navbarDimselab">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="./oversigt">Oversigt <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="./oversigt">Oversigt</a>
             </li>
             <li class="nav-item active nav-dropdown">
                 <a class="nav-link" href="./udlånreturnering">Udlån/Returnering</a>
@@ -42,7 +45,7 @@
             </li>
         </ul>
         <ul class="form-inline ml-auto navbar-nav">
-            <li class="nav-item"><span class="navbar-text">Velkommen <strong>Username</strong></span></li>
+            <li class="nav-item"><span class="navbar-text">Velkommen <strong><?php echo $_SESSION["user"]?></strong></span></li>
             <li><a class="nav-link" href="./logud">Log ud</a></li>
         </ul>
     </div>

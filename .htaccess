@@ -4,7 +4,7 @@ RewriteEngine  On    # Turn on the rewriting engine
 RewriteRule    ^/?$    index.php    [NC,L]    # Handle requests for "oversigt"
 RewriteRule    ^oversigt/?$    index.php    [NC,L]    # Handle requests for "oversigt"
 RewriteRule    ^logind/?$    login.php    [NC,L]    # Handle requests for "logind"
-RewriteRule    ^logud/?$    logout.php    [NC,L]    # Handle requests for "logud"
+RewriteRule    ^logud/?$    api/logout.php    [NC,L]    # Handle requests for "logud"
 RewriteRule    ^historik/?$    history.php    [NC,L]    # Handle requests for "historik"
 RewriteRule    ^statistik/?$    statistic.php    [NC,L]    # Handle requests for "statistik"
 RewriteRule    ^projekter/?$    projects.php    [NC,L]    # Handle requests for "projecter"

@@ -1,6 +1,8 @@
 <?php
-
-
+session_start();
+if(!isset($_SESSION["user"])){
+	header("location: logind");
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +27,7 @@
     <div class="collapse navbar-collapse" id="navbarDimselab">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="./oversigt">Oversigt <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="./oversigt">Oversigt</a>
             </li>
             <li class="nav-item nav-dropdown">
                 <a class="nav-link" href="./udlånreturnering">Udlån/Returnering</a>
@@ -43,7 +45,7 @@
             </li>
         </ul>
         <ul class="form-inline ml-auto navbar-nav">
-            <li class="nav-item"><span class="navbar-text">Velkommen <strong>Username</strong></span></li>
+            <li class="nav-item"><span class="navbar-text">Velkommen <strong><?php echo $_SESSION["user"]?></strong></span></li>
             <li><a class="nav-link" href="./logud">Log ud</a></li>
         </ul>
     </div>
@@ -57,8 +59,6 @@
         <input type="search" name="search" class="form-control" id="search" placeholder="Søg" autofocus autocomplete="off">
     </div>
 
-    <a href="./opret" role="button" class="btn btn-success float-right">Opret ny</a>
-
     <div class="content-overview">
         <table class="table table-hover">
             <thead>
@@ -67,9 +67,10 @@
                 <th scope="col">Kategori</th>
                 <th scope="col">Stregkode</th>
                 <th scope="col">Skuffenr</th>
-                <th scope="col">Lager</th>
-                <th scope="col">Udlånt</th>
-                <th scope="col">I alt</th>
+                <th scope="col">Bruger</th>
+                <th scope="col">Projekt</th>
+                <th scope="col">Ind/Ud</th>
+                <th scope="col">På lager</th>
             </tr>
             </thead>
             <tbody>
