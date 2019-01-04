@@ -59,10 +59,8 @@ if(!isset($_SESSION["user"])){
 		<input type="search" name="search" class="form-control" id="search" placeholder="Søg" autofocus autocomplete="off">
 	</div>
 
-	<a href="./opret" role="button" class="btn btn-success float-right">Opret ny</a>
-
 	<div class="content-overview">
-		<table class="table table-hover">
+		<table class="table table-hover mt-4">
 			<thead>
 			<tr>
 				<th scope="col">Projekt</th>

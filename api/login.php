@@ -13,8 +13,8 @@ try {
 
 	$sql = "SELECT * FROM brugere WHERE Email = :email AND Adgangskode = :adgangskode";
 	$sth = $conn->prepare( $sql );
-	$sth->bindParam(':email', $_POST["email"], PDO::PARAM_INT);
-	$sth->bindParam(':adgangskode', $_POST["password"], PDO::PARAM_INT);
+	$sth->bindParam(':email', $_POST["email"], PDO::PARAM_STR);
+	$sth->bindParam(':adgangskode', $_POST["password"], PDO::PARAM_STR);
 	$sth->execute();
 	$result=$sth->fetchAll();
 	if (count($result)>0){

@@ -60,7 +60,7 @@ if(!isset($_SESSION["user"])){
     </div>
 
     <div class="content-overview">
-        <table class="table table-hover">
+        <table class="table table-hover mt-4">
             <thead>
             <tr>
                 <th scope="col">Artikel</th>

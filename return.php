@@ -1,20 +1,19 @@
 <?php
 session_start();
-if(!isset($_SESSION["user"])){
-	header("location: logind");
+if ( ! isset( $_SESSION["user"] ) ) {
+	header( "location: logind" );
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <title>Dimselab - Returnering</title>
     <link rel="shortcut icon" type="image/png" href="assets/favicon.jpg"/>
-	<link rel="stylesheet" href="css/all.min.css"/>
-	<link rel="stylesheet" href="css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="css/style.css"/>
-
+    <link rel="stylesheet" href="css/all.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -45,58 +44,84 @@ if(!isset($_SESSION["user"])){
             </li>
         </ul>
         <ul class="form-inline ml-auto navbar-nav">
-            <li class="nav-item"><span class="navbar-text">Velkommen <strong><?php echo $_SESSION["user"]?></strong></span></li>
+            <li class="nav-item"><span class="navbar-text">Velkommen <strong><?php echo $_SESSION["user"] ?></strong></span></li>
             <li><a class="nav-link" href="./logud">Log ud</a></li>
         </ul>
     </div>
 </nav>
 <div class="container content">
 
-	<div class="input-group">
-		<div class="input-group-prepend">
-			<span class="input-group-text"><i class="fas fa-search"></i></span>
-		</div>
-		<input type="search" name="search" class="form-control" id="search" placeholder="Søg" autofocus autocomplete="off">
-	</div>
+    <form class="form-lend row" method="post" action="api/lend.php">
+        <div class="col-lg-10"><input type="text"
+                                      name="stregkode"
+                                      class="form-control"
+                                      id="stregkode"
+                                      placeholder="Stregkode"
+                                      autofocus
+                                      autocomplete="off"></div>
+        <div class="col-lg-2">
+            <button id="checkreturn" class="btn btn-primary btn-block" type="submit">Tjek Stregkode</button>
+        </div>
 
-	<a href="./opret" role="button" class="btn btn-success float-right">Returnér</a>
+    </form>
 
-	<div class="content-overview">
-		<table class="table table-hover">
-			<thead>
-			<tr>
-				<th scope="col">Artikel</th>
-				<th scope="col">Kategori</th>
-				<th scope="col">Stregkode</th>
-				<th scope="col">Skuffenr</th>
-				<th scope="col">Antal</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td>Artikel 1</td>
-				<td>Kategori 1</td>
-				<td>Stregkode 1</td>
-				<td>1</td>
-                <td><input type="number" min="0" max="1000000" name="antal" id="antal" placeholder="0"/></td>
-			</tr>
-			<tr>
-				<td>Artikel 2</td>
-				<td>Kategori 2</td>
-				<td>Stregkode 2</td>
-				<td>2</td>
-                <td><input type="number" min="0" max="1000000" name="antal" id="antal" placeholder="0"/></td>
-			</tr>
-			<tr>
-				<td>Artikel 3</td>
-				<td>Kategori 3</td>
-				<td>Stregkode 3</td>
-				<td>3</td>
-                <td><input type="number" min="0" max="1000000" name="antal" id="antal" placeholder="0"/></td>
-			</tr>
-			</tbody>
-		</table>
-	</div>
+    <form class="row my-4">
+        <div class="col-lg-2">
+            <input type="text" name="artikel" class="form-control" id="artikel" value="Artikel 1" readonly />
+        </div>
+        <div class="col-lg-2">
+            <input type="text" name="artikel" class="form-control" id="artikel" value="Kategori 1" readonly />
+        </div>
+        <div class="col-lg-2">
+            <input type="text" name="artikel" class="form-control" id="artikel" value="Stregkode 1" readonly/>
+        </div>
+        <div class="col-lg-2">
+            <input type="text" name="artikel" class="form-control" id="artikel" value="Skuffenr 1" readonly/>
+        </div>
+        <div class="col-lg-2">
+            <input type="number" min="0" max="1000000" name="antal" class="form-control" id="antal" placeholder="Antal" required/>
+        </div>
+        <div class="col-lg-2">
+            <button id="addreturn" class="btn btn-success btn-block" type="submit">Tilføj til returnering</button>
+        </div>
+    </form>
+
+    <div class="content-overview">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Artikel</th>
+                <th scope="col">Kategori</th>
+                <th scope="col">Stregkode</th>
+                <th scope="col">Skuffenr</th>
+                <th scope="col">Antal</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Artikel 1</td>
+                <td>Kategori 1</td>
+                <td>Stregkode 1</td>
+                <td>1</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>Artikel 2</td>
+                <td>Kategori 2</td>
+                <td>Stregkode 2</td>
+                <td>2</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>Artikel 3</td>
+                <td>Kategori 3</td>
+                <td>Stregkode 3</td>
+                <td>3</td>
+                <td>3</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
 </div>
 
