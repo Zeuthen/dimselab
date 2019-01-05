@@ -56,7 +56,7 @@ if(!isset($_SESSION["user"])){
 		<div class="input-group-prepend">
 			<span class="input-group-text"><i class="fas fa-search"></i></span>
 		</div>
-        <input type="search" name="projectsearch" class="form-control" id="projectsearch" placeholder="Søg" autofocus autocomplete="off">
+        <input type="search" name="search" class="form-control" id="projectsearch" placeholder="Søg projekt" autofocus autocomplete="off">
 	</div>
 
 	<div class="content-overview">
@@ -90,7 +90,7 @@ if(!isset($_SESSION["user"])){
             url   : "api/getprojects.php",
         }).done(function (result)
         {
-            $("#table-overview").html(result);
+            $("#table-project").html(result);
         });
     });
     $("#projectsearch").keyup(function (event)

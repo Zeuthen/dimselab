@@ -56,7 +56,8 @@ if(!isset($_SESSION["user"])){
         <div class="input-group-prepend">
             <span class="input-group-text"><i class="fas fa-search"></i></span>
         </div>
-        <input type="search" name="statisticsearch" class="form-control" id="statisticsearch" placeholder="Søg" autofocus autocomplete="off">
+        <input type="search" name="search" class="form-control" id="statisticsearch" placeholder="Søg statistik" autofocus
+               autocomplete="off">
     </div>
 
     <div class="content-overview">
@@ -64,13 +65,11 @@ if(!isset($_SESSION["user"])){
             <thead>
             <tr>
                 <th scope="col">Artikel</th>
-                <th scope="col">Kategori</th>
                 <th scope="col">Stregkode</th>
                 <th scope="col">Skuffenr</th>
                 <th scope="col">Bruger</th>
                 <th scope="col">Projekt</th>
-                <th scope="col">Ind/Ud</th>
-                <th scope="col">På lager</th>
+                <th scope="col">Projekt beskrivelse</th>
             </tr>
             </thead>
             <tbody id="table-statistic">

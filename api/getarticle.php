@@ -1,8 +1,5 @@
 <?php
-$db       = "dimselab";
-$host     = "localhost";
-$username = "root";
-$password = "";
+require_once "config.php";
 
 try {
 
@@ -18,17 +15,16 @@ try {
 		$sth->bindParam( ':stregkode', $_GET["stregkode"], PDO::PARAM_STR );
 		$sth->execute();
 		$result = $sth->fetchAll( PDO::FETCH_ASSOC );
-		foreach ( $result as $row ) {
+		echo json_encode($result);
+		/*foreach ( $result as $row ) {
 			echo "<tr>";
 			echo "<td>" .$row["Artikel"] ."</td>";
 			echo "<td>" .$row["Kategori"] ."</td>";
 			echo "<td>" .$row["Stregkode"] ."</td>";
 			echo "<td>" .$row["Skuffenummer"] ."</td>";
-			echo "<td> </td>";
-			echo "<td> </td>";
 			echo "<td>" .$row["Antal"] ."</td>";
 			echo "</tr>";
-		}
+		}*/
 	}
 }
 catch( PDOException $e ) {

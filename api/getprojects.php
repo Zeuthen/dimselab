@@ -1,8 +1,5 @@
 <?php
-$db       = "dimselab";
-$host     = "localhost";
-$username = "root";
-$password = "";
+require_once "config.php";
 
 try {
 
@@ -11,7 +8,6 @@ try {
 	$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 	$result = "";
 	if ( isset( $_GET["search"] ) ) {
-
 		$sql = "SELECT projekter.Navn as Projekt, projekter.Beskrivelse, brugere.Brugernavn as Bruger, artikler.Navn as Artikel
 				FROM projekter
 				INNER JOIN brugere ON brugere.ID = projekter.FK_bruger_ID

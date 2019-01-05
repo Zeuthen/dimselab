@@ -1,8 +1,5 @@
 <?php
-$db       = "dimselab";
-$host     = "localhost";
-$username = "root";
-$password = "";
+require_once "config.php";
 
 try {
 
@@ -11,7 +8,7 @@ try {
 	$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 	$result = "";
 	if ( isset( $_GET["search"] ) ) {
-		$sql    = "SELECT artikler.Navn as Artikel, artikler.Stregkode, artikler.Skuffenummer, artikler.Antal, kategorier.Navn as Kategori 
+		$sql = "SELECT artikler.Navn as Artikel, artikler.Stregkode, artikler.Skuffenummer, artikler.Antal, kategorier.Navn as Kategori 
 				FROM artikler 
 				INNER JOIN kategorier ON kategorier.ID = artikler.FK_kategori_ID 
 				WHERE artikler.Navn LIKE :artikel";

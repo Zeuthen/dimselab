@@ -52,25 +52,25 @@ if ( ! isset( $_SESSION["user"] ) ) {
 <div class="container content">
 
     <form class="form-lend row" method="post" action="api/lend.php">
-        <div class="col-lg-10"><input type="text"
-                                      name="stregkode"
-                                      class="form-control"
-                                      id="stregkode"
-                                      placeholder="Stregkode"
-                                      autofocus
-                                      autocomplete="off"></div>
+        <div class="col-lg-10">
+            <input type="text"
+                   name="stregkode"
+                   class="form-control"
+                   id="stregkode"
+                   placeholder="Artikel stregkode"
+                   autofocus
+                   autocomplete="off"></div>
         <div class="col-lg-2">
             <button id="checkreturn" class="btn btn-primary btn-block" type="submit">Tjek Stregkode</button>
         </div>
-
     </form>
 
-    <form class="row my-4">
+    <form class="form-return row my-4">
         <div class="col-lg-2">
-            <input type="text" name="artikel" class="form-control" id="artikel" value="Artikel 1" readonly />
+            <input type="text" name="artikel" class="form-control" id="artikel" value="Artikel 1" readonly/>
         </div>
         <div class="col-lg-2">
-            <input type="text" name="artikel" class="form-control" id="artikel" value="Kategori 1" readonly />
+            <input type="text" name="artikel" class="form-control" id="artikel" value="Kategori 1" readonly/>
         </div>
         <div class="col-lg-2">
             <input type="text" name="artikel" class="form-control" id="artikel" value="Stregkode 1" readonly/>
@@ -99,28 +99,13 @@ if ( ! isset( $_SESSION["user"] ) ) {
             </thead>
             <tbody>
             <tr>
-                <td>Artikel 1</td>
-                <td>Kategori 1</td>
-                <td>Stregkode 1</td>
-                <td>1</td>
-                <td>3</td>
-            </tr>
-            <tr>
-                <td>Artikel 2</td>
-                <td>Kategori 2</td>
-                <td>Stregkode 2</td>
-                <td>2</td>
-                <td>3</td>
-            </tr>
-            <tr>
-                <td>Artikel 3</td>
-                <td>Kategori 3</td>
-                <td>Stregkode 3</td>
-                <td>3</td>
-                <td>3</td>
+                <td colspan="7">Ingen artikler til returnering</td>
             </tr>
             </tbody>
         </table>
+        <div class="col-lg-12">
+            <button id="returnarticle" class="btn btn-success btn-block" type="submit">Returnér artikler</button>
+        </div>
     </div>
 
 </div>
@@ -129,5 +114,65 @@ if ( ! isset( $_SESSION["user"] ) ) {
 <script type="text/javascript" src="js/all.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
+<script>
+    $(document).ready(function ()
+    {
+        $.ajax({
+            method: "GET",
+            url   : "api/getarticles.php",
+        }).done(function (result)
+        {
+            $("#table-overview").html(result);
+        });
+        $.ajax({
+            method: "GET",
+            url   : "api/getcategories.php",
+        }).done(function (result)
+        {
+            $("#kategori").html(result);
+        });
+    });
+    $("#overviewsearch").keyup(function (event)
+    {
+        var $searchtext = $(event.target).val();
+
+        if ($searchtext.length === 0)
+        {
+            $.ajax({
+                method: "GET",
+                url   : "api/getarticles.php",
+            }).done(function (result)
+            {
+                $("#table-overview").html(result);
+            });
+        }
+        else
+        {
+            $.ajax({
+                method: "GET",
+                url   : "api/getarticles.php?search=" + $searchtext,
+            }).done(function (result)
+            {
+                $("#table-overview").html(result);
+            });
+        }
+    });
+    $(".form-return").submit(function (e)
+    {
+        var form = $(this);
+        var url = form.attr("action");
+
+        $.ajax({
+            method: "POST",
+            url   : url,
+            data  : form.serialize(),
+        }).done(function (result)
+        {
+            alert("Artikel tilføjet")
+        });
+
+        e.preventDefault();
+    });
+</script>
 </body>
 </html>

@@ -1,8 +1,5 @@
 <?php
-$db       = "dimselab";
-$host     = "localhost";
-$username = "root";
-$password = "";
+require_once "config.php";
 
 try {
 

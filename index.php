@@ -55,7 +55,7 @@ if ( ! isset( $_SESSION["user"] ) ) {
         <div class="input-group-prepend">
             <span class="input-group-text"><i class="fas fa-search"></i></span>
         </div>
-        <input type="search" name="overviewsearch" class="form-control" id="overviewsearch" placeholder="Søg" autofocus autocomplete="off">
+        <input type="search" name="search" class="form-control" id="overviewsearch" placeholder="Søg artikel" autofocus autocomplete="off">
     </div>
 
     <form class="form-article row my-4" method="post" action="api/createarticle.php">

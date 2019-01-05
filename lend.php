@@ -14,7 +14,6 @@ if ( ! isset( $_SESSION["user"] ) ) {
     <link rel="stylesheet" href="css/all.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/style.css"/>
-
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -52,83 +51,85 @@ if ( ! isset( $_SESSION["user"] ) ) {
 </nav>
 <div class="container content">
 
-    <form class="form-lend row" method="post" action="api/lend.php">
-        <div class="col-lg-10"><input type="text"
-                                      name="stregkode"
-                                      class="form-control"
-                                      id="stregkode"
-                                      placeholder="Stregkode"
-                                      autofocus
-                                      autocomplete="off"></div>
+    <form class="form-checklend row" method="GET" action="api/getarticle.php">
+        <div class="col-lg-10">
+            <input type="text"
+                   name="stregkode"
+                   class="form-control"
+                   id="stregkode"
+                   placeholder="Stregkode"
+                   autofocus
+                   required
+                   autocomplete="off"></div>
         <div class="col-lg-2">
             <button id="checklend" class="btn btn-primary btn-block" type="submit">Tjek Stregkode</button>
         </div>
-
     </form>
 
-    <form class="row my-4">
+    <form class="form-lend row my-4" method="POST" action="api/lend.php">
         <div class="col-lg-2">
-            <input type="text" name="artikel" class="form-control" id="artikel" value="Artikel 1" readonly />
+            <input type="text" name="artikel" class="form-control" id="artikel" placeholder="Artikel" readonly title="artikel"/>
         </div>
         <div class="col-lg-2">
-            <input type="text" name="artikel" class="form-control" id="artikel" value="Stregkode 1" readonly />
+            <input type="text" name="stregkode" class="form-control" id="stregkode" placeholder="Stregkode" readonly title="stregkode"/>
         </div>
         <div class="col-lg-2">
-            <input type="text" name="projekt" class="form-control" id="projekt" placeholder="Projekt navn" required />
+            <input type="text" name="projekt" class="form-control" id="projekt" placeholder="Projekt navn" required title="projekt"/>
         </div>
         <div class="col-lg-2">
-            <input type="text" name="beskrivelse" class="form-control" id="beskrivelse" placeholder="Projekt beskrivelse" required />
+            <input type="text" name="beskrivelse" class="form-control" id="beskrivelse" placeholder="Projekt beskrivelse" required
+                   title="beskrivelse"/>
         </div>
         <div class="col-lg-2">
-            <input type="number" min="0" max="1000000" name="antal" class="form-control" id="antal" placeholder="Antal" required/>
+            <input type="number" name="antal" class="form-control" id="antal" placeholder="Antal" readonly title="antal"/>
         </div>
         <div class="col-lg-2">
             <button id="addlend" class="btn btn-success btn-block" type="submit">Tilføj til udlån</button>
         </div>
     </form>
-
-    <div class="content-overview">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">Artikel</th>
-                <th scope="col">Kategori</th>
-                <th scope="col">Stregkode</th>
-                <th scope="col">Skuffenr</th>
-                <th scope="col">Antal</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Artikel 1</td>
-                <td>Kategori 1</td>
-                <td>Stregkode 1</td>
-                <td>1</td>
-                <td>3</td>
-            </tr>
-            <tr>
-                <td>Artikel 2</td>
-                <td>Kategori 2</td>
-                <td>Stregkode 2</td>
-                <td>2</td>
-                <td>3</td>
-            </tr>
-            <tr>
-                <td>Artikel 3</td>
-                <td>Kategori 3</td>
-                <td>Stregkode 3</td>
-                <td>3</td>
-                <td>3</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
 </div>
 
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/all.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
+<script>
+    $(".form-checklend").submit(function (e)
+    {
+        var form = $(this);
+        var url = form.attr("action") + "?stregkode=" + $("#stregkode").val();
+
+        $.ajax({
+            method  : "GET",
+            url     : url,
+            dataType: "json",
+        }).done(function (response)
+        {
+            var result = response[0];
+            $(".form-lend #artikel").val(result["Artikel"]);
+            $(".form-lend #stregkode").val(result["Stregkode"]);
+            $(".form-lend #antal").val("1");
+        });
+
+        e.preventDefault();
+    });
+    $(".form-lend").submit(function (e)
+    {
+        var form = $(this);
+        var url = form.attr("action");
+
+        $.ajax({
+            method: "POST",
+            url   : url,
+            data  : form.serialize(),
+        }).done(function (response)
+        {
+            //KNAP_3_UDSTYR
+            alert("udlån fuldført"+response)
+        });
+
+        e.preventDefault();
+    });
+</script>
 </body>
 </html>
