@@ -56,7 +56,7 @@ if(!isset($_SESSION["user"])){
         <div class="input-group-prepend">
             <span class="input-group-text"><i class="fas fa-search"></i></span>
         </div>
-        <input type="search" name="search" class="form-control" id="search" placeholder="Søg" autofocus autocomplete="off">
+        <input type="search" name="statisticsearch" class="form-control" id="statisticsearch" placeholder="Søg" autofocus autocomplete="off">
     </div>
 
     <div class="content-overview">
@@ -73,33 +73,9 @@ if(!isset($_SESSION["user"])){
                 <th scope="col">På lager</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="table-statistic">
             <tr>
-                <td>Artikel 1</td>
-                <td>Kategori 1</td>
-                <td>Stregkode 1</td>
-                <td>1</td>
-                <td>20</td>
-                <td>10</td>
-                <td>30</td>
-            </tr>
-            <tr>
-                <td>Artikel 2</td>
-                <td>Kategori 2</td>
-                <td>Stregkode 2</td>
-                <td>2</td>
-                <td>20</td>
-                <td>10</td>
-                <td>30</td>
-            </tr>
-            <tr>
-                <td>Artikel 3</td>
-                <td>Kategori 3</td>
-                <td>Stregkode 3</td>
-                <td>3</td>
-                <td>20</td>
-                <td>10</td>
-                <td>30</td>
+                <td colspan="7">Ingen statistikker hentet</td>
             </tr>
             </tbody>
         </table>
@@ -111,5 +87,42 @@ if(!isset($_SESSION["user"])){
 <script type="text/javascript" src="js/all.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
+<script>
+    $(document).ready(function ()
+    {
+        $.ajax({
+            method: "GET",
+            url   : "api/getstatistics.php",
+        }).done(function (result)
+        {
+            $("#table-statistic").html(result);
+        });
+    });
+    $("#statisticsearch").keyup(function (event)
+    {
+        var $searchtext = $(event.target).val();
+
+        if ($searchtext.length === 0)
+        {
+            $.ajax({
+                method: "GET",
+                url   : "api/getstatistics.php",
+            }).done(function (result)
+            {
+                $("#table-statistic").html(result);
+            });
+        }
+        else
+        {
+            $.ajax({
+                method: "GET",
+                url   : "api/getstatistics.php?search=" + $searchtext,
+            }).done(function (result)
+            {
+                $("#table-statistic").html(result);
+            });
+        }
+    });
+</script>
 </body>
 </html>
