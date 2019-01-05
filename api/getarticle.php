@@ -18,29 +18,15 @@ try {
 		$sth->bindParam( ':stregkode', $_GET["stregkode"], PDO::PARAM_STR );
 		$sth->execute();
 		$result = $sth->fetchAll( PDO::FETCH_ASSOC );
-		foreach ( $result as $item ) {
+		foreach ( $result as $row ) {
 			echo "<tr>";
-			echo "<td>";
-			echo $item["Artikel"];
-			echo "</td>";
-			echo "<td>";
-			echo $item["Kategori"];
-			echo "</td>";
-			echo "<td>";
-			echo $item["Stregkode"];
-			echo "</td>";
-			echo "<td>";
-			echo $item["Skuffenummer"];
-			echo "</td>";
-			echo "<td>";
-
-			echo "</td>";
-			echo "<td>";
-
-			echo "</td>";
-			echo "<td>";
-			echo $item["Antal"];
-			echo "</td>";
+			echo "<td>" .$row["Artikel"] ."</td>";
+			echo "<td>" .$row["Kategori"] ."</td>";
+			echo "<td>" .$row["Stregkode"] ."</td>";
+			echo "<td>" .$row["Skuffenummer"] ."</td>";
+			echo "<td> </td>";
+			echo "<td> </td>";
+			echo "<td>" .$row["Antal"] ."</td>";
 			echo "</tr>";
 		}
 	}

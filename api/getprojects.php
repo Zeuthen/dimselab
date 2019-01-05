@@ -11,46 +11,37 @@ try {
 	$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 	$result = "";
 	if ( isset( $_GET["search"] ) ) {
-		$sql    = "SELECT artikler.Navn as Artikel, artikler.Stregkode, artikler.Skuffenummer, artikler.Antal, kategorier.Navn as Kategori 
-				FROM artikler 
-				INNER JOIN kategorier ON kategorier.ID = artikler.FK_kategori_ID 
-				WHERE artikler.Navn LIKE :artikel";
+
+		$sql = "SELECT projekter.Navn as Projekt, projekter.Beskrivelse, brugere.Brugernavn as Bruger, artikler.Navn as Artikel
+				FROM projekter
+				INNER JOIN brugere ON brugere.ID = projekter.FK_bruger_ID
+				INNER JOIN artikler ON artikler.ID = projekter.FK_artikel_ID
+				WHERE projekter.Navn LIKE :projekt";
 		$sth    = $conn->prepare( $sql );
 		$search = "%" . $_GET["search"] . "%";
-		$sth->bindParam( ':artikel', $search, PDO::PARAM_STR );
+		$sth->bindParam( ':projekt', $search, PDO::PARAM_STR );
 		$sth->execute();
 		$result = $sth->fetchAll( PDO::FETCH_ASSOC );
 	} else {
-		$sql = "SELECT artikler.Navn as Artikel, artikler.Stregkode, artikler.Skuffenummer, artikler.Antal, kategorier.Navn as Kategori 
-				FROM artikler 
-				INNER JOIN kategorier ON kategorier.ID = artikler.FK_kategori_ID";
+		$sql = "SELECT projekter.Navn as Projekt, projekter.Beskrivelse, brugere.Brugernavn as Bruger, artikler.Navn as Artikel
+				FROM projekter
+				INNER JOIN brugere ON brugere.ID = projekter.FK_bruger_ID
+				INNER JOIN artikler ON artikler.ID = projekter.FK_artikel_ID";
 		$sth = $conn->prepare( $sql );
 		$sth->execute();
 		$result = $sth->fetchAll( PDO::FETCH_ASSOC );
 	}
-	foreach ( $result as $item ) {
+
+	$sth = $conn->prepare( $sql );
+	$sth->execute();
+	$result = $sth->fetchAll( PDO::FETCH_ASSOC );
+
+	foreach ( $result as $row ) {
 		echo "<tr>";
-		echo "<td>";
-		echo $item["Artikel"];
-		echo "</td>";
-		echo "<td>";
-		echo $item["Kategori"];
-		echo "</td>";
-		echo "<td>";
-		echo $item["Stregkode"];
-		echo "</td>";
-		echo "<td>";
-		echo $item["Skuffenummer"];
-		echo "</td>";
-		echo "<td>";
-
-		echo "</td>";
-		echo "<td>";
-
-		echo "</td>";
-		echo "<td>";
-		echo $item["Antal"];
-		echo "</td>";
+		echo "<td>" . $row["Projekt"] . "</td>";
+		echo "<td>" . $row["Beskrivelse"] . "</td>";
+		echo "<td>" . $row["Artikel"] . "</td>";
+		echo "<td>" . $row["Bruger"] . "</td>";
 		echo "</tr>";
 	}
 }
