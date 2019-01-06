@@ -6,7 +6,7 @@ try {
 	$result = "";
 	if ( isset( $_GET["search"] ) ) {
 
-		$sql = "SELECT artikler.Navn as Artikel, artikler.Stregkode, brugere.Navn as Bruger, projekter.Navn as Projekt
+		$sql = "SELECT artikler.Navn as Artikel, artikler.Stregkode, brugere.Navn as Bruger, projekter.Navn as Projekt, statistik.Created
 				FROM statistik
 				INNER JOIN brugere ON brugere.ID = statistik.FK_bruger_ID
 				INNER JOIN artikler ON artikler.ID = statistik.FK_artikel_ID
@@ -18,7 +18,7 @@ try {
 		$sth->execute();
 		$result = $sth->fetchAll( PDO::FETCH_ASSOC );
 	} else {
-		$sql = "SELECT artikler.Navn as Artikel, artikler.Stregkode, brugere.Navn as Bruger, projekter.Navn as Projekt
+		$sql = "SELECT artikler.Navn as Artikel, artikler.Stregkode, brugere.Navn as Bruger, projekter.Navn as Projekt, statistik.Created
 				FROM statistik
 				INNER JOIN brugere ON brugere.ID = statistik.FK_bruger_ID
 				INNER JOIN artikler ON artikler.ID = statistik.FK_artikel_ID
@@ -34,6 +34,7 @@ try {
 		echo "<td>" . $row["Stregkode"] . "</td>";
 		echo "<td>" . $row["Bruger"] . "</td>";
 		echo "<td>" . $row["Projekt"] . "</td>";
+		echo "<td>" . $row["Created"] . "</td>";
 		echo "</tr>";
 	}
 }
