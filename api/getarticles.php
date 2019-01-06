@@ -2,10 +2,6 @@
 require_once "config.php";
 
 try {
-
-	$conn = new PDO( "mysql:host=$host;dbname=$db", $username, $password );
-	// set the PDO error mode to exception
-	$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 	$result = "";
 	if ( isset( $_GET["search"] ) ) {
 		$sql = "SELECT artikler.Navn as Artikel, artikler.Stregkode, artikler.Skuffenummer, artikler.Antal, kategorier.Navn as Kategori 

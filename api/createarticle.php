@@ -2,11 +2,6 @@
 require_once "config.php";
 
 try {
-
-	$conn = new PDO( "mysql:host=$host;dbname=$db", $username, $password );
-	// set the PDO error mode to exception
-	$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-
 	if ( isset( $_POST["artikel"] ) && isset( $_POST["stregkode"] ) && isset( $_POST["skuffenr"] ) && isset( $_POST["antal"] ) &&
 	     isset( $_POST["kategori"] ) ) {
 		$sql = "INSERT INTO artikler (Navn, Stregkode, Skuffenummer, Antal, FK_kategori_ID) 
@@ -18,7 +13,6 @@ try {
 		$sth->bindParam( ':antal', $_POST["antal"], PDO::PARAM_INT );
 		$sth->bindParam( ':FK_kategori_ID', $_POST["kategori"], PDO::PARAM_INT );
 		$sth->execute();
-
 	}
 }
 catch( PDOException $e ) {

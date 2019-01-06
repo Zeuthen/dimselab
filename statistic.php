@@ -66,10 +66,9 @@ if(!isset($_SESSION["user"])){
             <tr>
                 <th scope="col">Artikel</th>
                 <th scope="col">Stregkode</th>
-                <th scope="col">Skuffenr</th>
                 <th scope="col">Bruger</th>
                 <th scope="col">Projekt</th>
-                <th scope="col">Projekt beskrivelse</th>
+                <th scope="col">Dato</th>
             </tr>
             </thead>
             <tbody id="table-statistic">

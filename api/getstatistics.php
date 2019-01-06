@@ -3,9 +3,6 @@ require_once "config.php";
 
 try {
 
-	$conn = new PDO( "mysql:host=$host;dbname=$db", $username, $password );
-	// set the PDO error mode to exception
-	$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 	$result = "";
 	if ( isset( $_GET["search"] ) ) {
 
@@ -21,7 +18,7 @@ try {
 		$sth->execute();
 		$result = $sth->fetchAll( PDO::FETCH_ASSOC );
 	} else {
-		$sql = "SELECT artikler.Navn as Artikel, artikler.Stregkode, artikler.Skuffenummer, brugere.Navn as Bruger, projekter.Navn as Projekt, projekter.Beskrivelse
+		$sql = "SELECT artikler.Navn as Artikel, artikler.Stregkode, brugere.Navn as Bruger, projekter.Navn as Projekt
 				FROM statistik
 				INNER JOIN brugere ON brugere.ID = statistik.FK_bruger_ID
 				INNER JOIN artikler ON artikler.ID = statistik.FK_artikel_ID
@@ -31,18 +28,12 @@ try {
 		$result = $sth->fetchAll( PDO::FETCH_ASSOC );
 	}
 
-	$sth = $conn->prepare( $sql );
-	$sth->execute();
-	$result = $sth->fetchAll( PDO::FETCH_ASSOC );
-
 	foreach ( $result as $row ) {
 		echo "<tr>";
 		echo "<td>" . $row["Artikel"] . "</td>";
 		echo "<td>" . $row["Stregkode"] . "</td>";
-		echo "<td>" . $row["Skuffenummer"] . "</td>";
 		echo "<td>" . $row["Bruger"] . "</td>";
 		echo "<td>" . $row["Projekt"] . "</td>";
-		echo "<td>" . $row["Beskrivelse"] . "</td>";
 		echo "</tr>";
 	}
 }
