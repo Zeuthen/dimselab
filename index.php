@@ -29,12 +29,15 @@ if ( ! isset( $_SESSION["user"] ) ) {
                 <a class="nav-link" href="./oversigt">Oversigt</a>
             </li>
             <li class="nav-item nav-dropdown">
+                <a class="nav-link" href="./udlån">Udlån</a>
+            </li>
+            <!--<li class="nav-item nav-dropdown">
                 <a class="nav-link" href="./udlånreturnering">Udlån/Returnering</a>
                 <div class="dropdown-submenu" aria-labelledby="dropdownLending">
                     <a class="submenu-item" href="./udlån">Udlån</a>
                     <a class="submenu-item" href="./returnering">Returnering</a>
                 </div>
-            </li>
+            </li>-->
             <li class="nav-item nav-dropdown">
                 <a class="nav-link" href="./historik">Historik</a>
                 <div class="dropdown-submenu" aria-labelledby="dropdownHistory">
