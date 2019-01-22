@@ -8,7 +8,7 @@ try {
 	$sth = $conn->prepare( $sql );
 	$sth->execute();
 	$result = $sth->fetchAll( PDO::FETCH_ASSOC );
-	echo "<option value='ingen'>Kategori</option>";
+	echo "<option value='ingen'>Vælg Kategori</option>";
 	foreach ( $result as $row ) {
 		echo "<option value='" . $row['ID'] . "'>" . $row['Kategori'] . "</option>";
 	}

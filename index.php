@@ -1,6 +1,7 @@
 <?php
 session_start();
-if ( ! isset( $_SESSION["user"] ) ) {
+if ( ! isset( $_SESSION["user"] ) )
+{
 	header( "location: logind" );
 }
 ?>
@@ -9,7 +10,7 @@ if ( ! isset( $_SESSION["user"] ) ) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dimselab - Oversigt</title>
+    <title>Oversigt - Dimselab</title>
     <link rel="shortcut icon" type="image/png" href="assets/favicon.ico"/>
     <link rel="stylesheet" href="css/all.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
@@ -61,33 +62,7 @@ if ( ! isset( $_SESSION["user"] ) ) {
         <input type="search" name="search" class="form-control" id="overviewsearch" placeholder="Søg artikel" autofocus autocomplete="off">
     </div>
 
-    <form class="form-article row my-4" method="post" action="api/createarticle.php">
-        <div class="col-lg-2">
-            <input type="text" name="artikel" class="form-control" id="artikel" placeholder="Artikel" required/>
-        </div>
-        <div class="col-lg-2">
-            <select class="custom-select" name="kategori" id="kategori" required>
-                <option value="none">>>Kategori<<</option>
-                <option>Category 1</option>
-                <option>Category 2</option>
-                <option>Category 3</option>
-                <option>Category 4</option>
-                <option>Category 5</option>
-            </select>
-        </div>
-        <div class="col-lg-2">
-            <input type="text" name="stregkode" class="form-control" id="stregkode" placeholder="Stregkode" required/>
-        </div>
-        <div class="col-lg-2">
-            <input type="text" name="skuffenr" class="form-control" id="skuffenr" placeholder="Skuffenr" required/>
-        </div>
-        <div class="col-lg-2">
-            <input type="number" min="0" max="1000000" name="antal" class="form-control" id="antal" placeholder="Antal" required/>
-        </div>
-        <div class="col-lg-2">
-            <button id="createarticle" class="btn btn-success btn-block" type="submit">Opret Artikel</button>
-        </div>
-    </form>
+    <button class="btn btn-success my-4 float-right" data-toggle='modal' data-target='#newArticleModal'>Ny artikel</button>
 
     <div class="content-overview">
         <table class="table table-hover">
@@ -100,6 +75,7 @@ if ( ! isset( $_SESSION["user"] ) ) {
                 <th scope="col">Lager</th>
                 <th scope="col">Udlånt</th>
                 <th scope="col">I alt</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody id="table-overview">
@@ -112,6 +88,107 @@ if ( ! isset( $_SESSION["user"] ) ) {
 
 </div>
 
+<div class="modal fade" id="editArticleModal" tabindex="-1" role="dialog" aria-labelledby="projectModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-new-article" method="post" action="api/createarticle.php">
+                    <div class="mb-3">
+                        <label for="artikel">Artikel</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="artikel" name="artikel" placeholder="Artikel" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="kategori">Kategori</label>
+                        <div class="input-group">
+                            <select class="custom-select" id="kategori" name="kategori" required>
+                                <option value="">Kategori</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="stregkode">Stregkode</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="stregkode" name="stregkode" placeholder="Stregkode" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="skuffenummer">Skuffenummer</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="skuffenummer" name="skuffenummer" placeholder="Skuffenummer" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="skuffenummer">Antal</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="antal" name="antal" min="0" max="1000000" placeholder="Antal" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger">Slet artikel</button>
+                <button type="button" class="btn btn-primary">Gem ændringer</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="newArticleModal" tabindex="-1" role="dialog" aria-labelledby="projectModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-new-article" method="post" action="api/createarticle.php">
+                    <div class="mb-3">
+                        <label for="artikel">Artikel</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="artikel" name="artikel" placeholder="Artikel" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="kategori">Kategori</label>
+                        <div class="input-group">
+                            <select class="custom-select" id="kategori" name="kategori" required>
+                                <option value="ingen">Kategori</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="stregkode">Stregkode</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="stregkode" name="stregkode" placeholder="Stregkode" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="skuffenummer">Skuffenummer</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="skuffenummer" name="skuffenummer" placeholder="Skuffenummer" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="skuffenummer">Antal</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="antal" name="antal" min="0" max="1000000" placeholder="Antal" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Opret artikel</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/all.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
@@ -131,8 +208,25 @@ if ( ! isset( $_SESSION["user"] ) ) {
             url   : "api/getcategories.php",
         }).done(function (result)
         {
-            $("#kategori").html(result);
+            $("select#kategori").html(result);
         });
+    });
+
+    $("#editArticleModal").on("show.bs.modal", function (event)
+    {
+        var button = $(event.relatedTarget);
+        var article = button.data("article");
+        var category = button.data("category");
+        var stregkode = button.data("stregkode");
+        var skuffenummer = button.data("skuffenummer");
+        var antal = button.data("antal");
+
+        var modal = $(this);
+        modal.find(".modal-body input#artikel").val(article);
+        modal.find(".modal-body select#kategori").val(category);
+        modal.find(".modal-body input#stregkode").val(stregkode);
+        modal.find(".modal-body input#skuffenummer").val(skuffenummer);
+        modal.find(".modal-body input#antal").val(antal);
     });
     $("#overviewsearch").keyup(function (event)
     {
@@ -159,7 +253,7 @@ if ( ! isset( $_SESSION["user"] ) ) {
             });
         }
     });
-    $(".form-article").submit(function (e)
+    $(".form-new-article").submit(function (e)
     {
         var form = $(this);
         var url = form.attr("action");
@@ -170,7 +264,7 @@ if ( ! isset( $_SESSION["user"] ) ) {
             data  : form.serialize(),
         }).done(function (result)
         {
-            alert("Artikel tilføjet")
+            alert("Artikel tilføjet");
         });
 
         e.preventDefault();

@@ -1,13 +1,11 @@
 <?php
 require_once "config.php";
 
-try
-{
-	if ( isset( $_POST["artikel"] ) && isset( $_POST["skuffenr"] ) && isset( $_POST["stregkode"] ) && isset( $_POST["antal"] ) &&
-	     isset( $_POST["kategori"] ) )
-	{
-		$sql = "INSERT INTO artikler (Navn, Skuffenummer, Stregkode, Antal, FK_kategori_ID) 
-					VALUES (:navn, :skuffenummer :stregkode,, :antal, :FK_kategori_ID)";
+try {
+	if ( isset( $_POST["artikel"] ) && isset( $_POST["stregkode"] ) && isset( $_POST["skuffenr"] ) && isset( $_POST["antal"] ) &&
+	     isset( $_POST["kategori"] ) ) {
+		$sql = "INSERT INTO artikler (Navn, Stregkode, Skuffenummer, Antal, FK_kategori_ID) 
+					VALUES (:navn, :stregkode, :skuffenummer, :antal, :FK_kategori_ID)";
 		$sth = $conn->prepare( $sql );
 		$sth->bindParam( ':navn', $_POST["artikel"], PDO::PARAM_STR );
 		$sth->bindParam( ':stregkode', $_POST["stregkode"], PDO::PARAM_STR );
@@ -17,8 +15,7 @@ try
 		$sth->execute();
 	}
 }
-catch( PDOException $e )
-{
+catch( PDOException $e ) {
 	echo $e->getMessage();
 }
 ?>

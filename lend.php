@@ -1,6 +1,7 @@
 <?php
 session_start();
-if ( ! isset( $_SESSION["user"] ) ) {
+if ( ! isset( $_SESSION["user"] ) )
+{
 	header( "location: logind" );
 }
 ?>
@@ -9,7 +10,7 @@ if ( ! isset( $_SESSION["user"] ) ) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dimselab - Udlån</title>
+    <title>Udlån - Dimselab</title>
     <link rel="shortcut icon" type="image/png" href="assets/favicon.ico"/>
     <link rel="stylesheet" href="css/all.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
@@ -54,42 +55,46 @@ if ( ! isset( $_SESSION["user"] ) ) {
 </nav>
 <div class="container content">
 
-    <form class="form-checklend row" method="GET" action="api/getarticle.php">
-        <div class="col-lg-10">
-            <input type="text"
-                   name="stregkode"
-                   class="form-control"
-                   id="stregkode"
-                   placeholder="Stregkode"
-                   autofocus
-                   required
-                   autocomplete="off"></div>
-        <div class="col-lg-2">
-            <button id="checklend" class="btn btn-primary btn-block" type="submit">Tjek Stregkode</button>
-        </div>
-    </form>
-
-    <form class="form-lend row my-4" method="POST" action="api/lend.php">
-        <div class="col-lg-2">
-            <input type="text" name="artikel" class="form-control" id="artikel" placeholder="Artikel" readonly title="artikel"/>
-        </div>
-        <div class="col-lg-2">
-            <input type="text" name="stregkode" class="form-control" id="stregkode" placeholder="Stregkode" readonly title="stregkode"/>
-        </div>
-        <div class="col-lg-2">
-            <input type="text" name="projekt" class="form-control" id="projekt" placeholder="Projekt navn" required title="projekt"/>
-        </div>
-        <div class="col-lg-2">
-            <input type="text" name="beskrivelse" class="form-control" id="beskrivelse" placeholder="Projekt beskrivelse" required
-                   title="beskrivelse"/>
-        </div>
-        <div class="col-lg-2">
-            <input type="number" name="antal" class="form-control" id="antal" placeholder="Antal" readonly title="antal"/>
-        </div>
-        <div class="col-lg-2">
-            <button id="addlend" class="btn btn-success btn-block" type="submit">Tilføj til udlån</button>
-        </div>
-    </form>
+    <div class="col-lg-6 offset-lg-3">
+        <form class="form-lend my-4" method="POST" action="api/lend.php">
+            <div class="mb-3">
+                <label for="artikel">Artikel</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="artikel" name="artikel" placeholder="Artikel" readonly required="" title="artikel">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="stregkode">Scan Stregkode</label>
+                <div class="input-group">
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <input type="text"
+                                   class="form-control"
+                                   id="stregkode"
+                                   name="stregkode"
+                                   placeholder="Stregkode"
+                                   required=""
+                                   title="artikel">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <button id="checkstregkode" class="btn btn-primary btn-block">Tjek Stregkode</button>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="projekt">Projekt</label>
+                <div class="input-group">
+                    <select class="custom-select" name="projekt" id="projekt" required>
+                        <option value="">Projekt</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3">
+                <button id="addlend" class="btn btn-success btn-block" type="submit">Tilføj til udlån</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
@@ -97,7 +102,52 @@ if ( ! isset( $_SESSION["user"] ) ) {
 <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
 <script>
-    $(".form-checklend").submit(function (e)
+
+    $(document).ready(function ()
+    {
+        $.ajax({
+            method: "GET",
+            url   : "api/getprojects.php",
+        }).done(function (result)
+        {
+            $("select#projekt").html(result);
+        });
+    });
+
+    $(".form-lend #checkstregkode").click(function (e)
+    {
+        if ($(".form-lend #stregkode").val().length > 0)
+        {
+            var url = "api/getarticle.php?stregkode=" + $(".form-lend #stregkode").val();
+
+            $.ajax(
+                {
+                    method  : "GET",
+                    url     : url,
+                    dataType: "json",
+                }).done(function (response)
+                {
+                    if (response.length > 0)
+                    {
+                        var result = response[0];
+                        alert("Vi fandt "+ result["Artikel"]);
+                        $(".form-lend #artikel").val(result["Artikel"]);
+                    }
+                    else
+                    {
+                        alert("Ingen artikel");
+                    }
+                }
+            );
+        }
+        else
+        {
+            alert("Scan stregkode");
+        }
+        e.preventDefault();
+    });
+
+    $(".form-checklend").click(function (e)
     {
         var form = $(this);
         var url = form.attr("action") + "?stregkode=" + $("#stregkode").val();
@@ -111,7 +161,6 @@ if ( ! isset( $_SESSION["user"] ) ) {
             var result = response[0];
             $(".form-lend #artikel").val(result["Artikel"]);
             $(".form-lend #stregkode").val(result["Stregkode"]);
-            $(".form-lend #antal").val("1");
         });
 
         e.preventDefault();
@@ -128,7 +177,7 @@ if ( ! isset( $_SESSION["user"] ) ) {
         }).done(function (response)
         {
             //KNAP_3_UDSTYR
-            alert("udlån fuldført"+response)
+            alert("udlån fuldført" + response);
         });
 
         e.preventDefault();

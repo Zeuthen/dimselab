@@ -9,7 +9,7 @@ if(!isset($_SESSION["user"])){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dimselab - Historik</title>
+    <title>Historik - Dimselab</title>
     <link rel="shortcut icon" type="image/png" href="assets/favicon.ico"/>
     <link rel="stylesheet" href="css/all.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>

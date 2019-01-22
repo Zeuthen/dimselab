@@ -10,7 +10,7 @@ if ( isset( $_SESSION["user"] ) ) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dimselab - Login</title>
+    <title>Login - Dimselab</title>
     <link rel="shortcut icon" type="image/png" href="assets/favicon.ico"/>
     <link rel="stylesheet" href="css/all.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
@@ -36,13 +36,12 @@ if ( isset( $_SESSION["user"] ) ) {
                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
             </div>
             <input type="password" name="password" class="form-control" id="password" placeholder="***********" required>
-
         </div>
     </div>
-    <div class="custom-control custom-checkbox">
+    <!--<div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="remember-me">
         <label class="custom-control-label" for="remember-me">Husk mig</label>
-    </div>
+    </div>-->
     <hr class="mb-4">
     <button class="btn btn-primary btn-lg btn-block" type="submit">Log ind</button>
 </form>
@@ -74,7 +73,6 @@ if ( isset( $_SESSION["user"] ) ) {
                 window.location="oversigt";
             }
         });
-
 
         e.preventDefault();
     });

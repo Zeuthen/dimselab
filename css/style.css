@@ -73,3 +73,7 @@ body{
 .table{
 	overflow-x:auto;
 }
+
+tbody#table-project a{
+	cursor:pointer;
+}

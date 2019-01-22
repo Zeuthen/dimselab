@@ -1,7 +1,8 @@
 <?php
 session_start();
-if(!isset($_SESSION["user"])){
-	header("location: logind");
+if ( ! isset( $_SESSION["user"] ) )
+{
+	header( "location: logind" );
 }
 ?>
 
@@ -9,7 +10,7 @@ if(!isset($_SESSION["user"])){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dimselab - Statistik</title>
+    <title>Statistik - Dimselab</title>
     <link rel="shortcut icon" type="image/png" href="assets/favicon.ico"/>
     <link rel="stylesheet" href="css/all.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
@@ -48,7 +49,7 @@ if(!isset($_SESSION["user"])){
             </li>
         </ul>
         <ul class="form-inline ml-auto navbar-nav">
-            <li class="nav-item"><span class="navbar-text">Velkommen <strong><?php echo $_SESSION["user"]?></strong></span></li>
+            <li class="nav-item"><span class="navbar-text">Velkommen <strong><?php echo $_SESSION["user"] ?></strong></span></li>
             <li><a class="nav-link" href="./logud">Log ud</a></li>
         </ul>
     </div>
