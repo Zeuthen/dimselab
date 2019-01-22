@@ -6,7 +6,7 @@ try
 	$result = "";
 	if ( isset( $_GET["search"] ) )
 	{
-		$sql    = "SELECT projekter.Navn as Projekt, projekter.Beskrivelse, brugere.Brugernavn as Bruger, artikler.Navn as Artikel
+		$sql    = "SELECT projekter.ID as ProjektID, projekter.Navn as Projekt, projekter.Beskrivelse, brugere.Brugernavn as Bruger, artikler.Navn as Artikel
 				FROM projekter
 				INNER JOIN brugere ON brugere.ID = projekter.FK_bruger_ID
 				INNER JOIN artikler ON artikler.ID = projekter.FK_artikel_ID
@@ -19,7 +19,7 @@ try
 	}
 	else
 	{
-		$sql = "SELECT projekter.Navn as Projekt, projekter.Beskrivelse, brugere.Brugernavn as Bruger, artikler.Navn as Artikel
+		$sql = "SELECT projekter.ID as ProjektID, projekter.Navn as Projekt, projekter.Beskrivelse, brugere.Brugernavn as Bruger, artikler.Navn as Artikel
 				FROM projekter
 				INNER JOIN brugere ON brugere.ID = projekter.FK_bruger_ID
 				INNER JOIN artikler ON artikler.ID = projekter.FK_artikel_ID";
@@ -28,15 +28,24 @@ try
 		$result = $sth->fetchAll( PDO::FETCH_ASSOC );
 	}
 
-	foreach ( $result as $row )
+	if ( count( $result ) > 0 )
+	{
+		foreach ( $result as $row )
+		{
+			echo "<tr>";
+			echo "<td>" . $row["Projekt"] . "</td>";
+			echo "<td>" . $row["Beskrivelse"] . "</td>";
+			echo "<td>" . $row["Artikel"] . "</td>";
+			echo "<td>" . $row["Bruger"] . "</td>";
+			echo "<td><a href='#' data-toggle='modal' data-target='#editProjectModal' data-project-id='" . $row["ProjektID"] . "' data-project='" .
+			     $row["Projekt"] . "' data-description='" . $row["Beskrivelse"] . "'>Slet/Redigér</a></td>";
+			echo "</tr>";
+		}
+	}
+	else
 	{
 		echo "<tr>";
-		echo "<td>" . $row["Projekt"] . "</td>";
-		echo "<td>" . $row["Beskrivelse"] . "</td>";
-		echo "<td>" . $row["Artikel"] . "</td>";
-		echo "<td>" . $row["Bruger"] . "</td>";
-		echo "<td><a href='#' data-toggle='modal' data-target='#editProjectModal' data-project='" . $row["Projekt"] . "' data-description='" .
-		     $row["Beskrivelse"] . "'>Slet/Redigér</a></td>";
+		echo "<td colspan='5'>Ingen projekter fundet</td>";
 		echo "</tr>";
 	}
 }

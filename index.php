@@ -79,9 +79,6 @@ if ( ! isset( $_SESSION["user"] ) )
             </tr>
             </thead>
             <tbody id="table-overview">
-            <tr>
-                <td colspan="7">Ingen artikler hentet</td>
-            </tr>
             </tbody>
         </table>
     </div>
@@ -92,19 +89,21 @@ if ( ! isset( $_SESSION["user"] ) )
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <h5 class="modal-title">Slet eller redigér artikel</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form-new-article" method="post" action="api/createarticle.php">
-                    <div class="mb-3">
+                <form class="form-edit-article" method="post" action="api/editarticle.php">
+                    <input type="hidden" id="articleid" name="articleid">
+                    <div class="form-group">
                         <label for="artikel">Artikel</label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="artikel" name="artikel" placeholder="Artikel" required>
                         </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label for="kategori">Kategori</label>
                         <div class="input-group">
                             <select class="custom-select" id="kategori" name="kategori" required>
@@ -112,19 +111,19 @@ if ( ! isset( $_SESSION["user"] ) )
                             </select>
                         </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label for="stregkode">Stregkode</label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="stregkode" name="stregkode" placeholder="Stregkode" required>
                         </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label for="skuffenummer">Skuffenummer</label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="skuffenummer" name="skuffenummer" placeholder="Skuffenummer" required>
                         </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label for="skuffenummer">Antal</label>
                         <div class="input-group">
                             <input type="number" class="form-control" id="antal" name="antal" min="0" max="1000000" placeholder="Antal" required>
@@ -143,6 +142,7 @@ if ( ! isset( $_SESSION["user"] ) )
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <h5 class="modal-title">Opret ny artikel</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -215,6 +215,7 @@ if ( ! isset( $_SESSION["user"] ) )
     $("#editArticleModal").on("show.bs.modal", function (event)
     {
         var button = $(event.relatedTarget);
+        var articleid = button.data("article-id");
         var article = button.data("article");
         var category = button.data("category");
         var stregkode = button.data("stregkode");
@@ -222,6 +223,7 @@ if ( ! isset( $_SESSION["user"] ) )
         var antal = button.data("antal");
 
         var modal = $(this);
+        modal.find(".modal-body input#articleid").val(articleid);
         modal.find(".modal-body input#artikel").val(article);
         modal.find(".modal-body select#kategori").val(category);
         modal.find(".modal-body input#stregkode").val(stregkode);

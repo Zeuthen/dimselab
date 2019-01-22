@@ -73,13 +73,10 @@ if ( ! isset( $_SESSION["user"] ) )
                 <th scope="col">Beskrivelse</th>
                 <th scope="col">Artikel</th>
                 <th scope="col">Bruger</th>
-                <th>Bruger</th>
+                <th></th>
             </tr>
             </thead>
             <tbody id="table-project">
-            <tr>
-                <td colspan="7">Ingen projekter hentet</td>
-            </tr>
         </table>
     </div>
 
@@ -89,19 +86,25 @@ if ( ! isset( $_SESSION["user"] ) )
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <h5 class="modal-title">Slet eller redigér projekt</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form class="form-edit-project" method="post" action="api/editproject.php">
+                    <input type="hidden" id="projectid" name="projectid">
                     <div class="form-group">
                         <label for="project-name" class="col-form-label">Projekt navn:</label>
-                        <input type="text" class="form-control" id="project-name">
+                        <input type="text" class="form-control" id="project-name" name="projekt" placeholder="Projekt navn" required>
                     </div>
                     <div class="form-group">
                         <label for="project-description" class="col-form-label">Projekt beskrivelse:</label>
-                        <textarea class="form-control" id="project-description"></textarea>
+                        <textarea class="form-control"
+                                  id="project-description"
+                                  name="beskrivelse"
+                                  placeholder="Projekt beskrivelse"
+                                  required></textarea>
                     </div>
                 </form>
             </div>
@@ -116,24 +119,29 @@ if ( ! isset( $_SESSION["user"] ) )
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <h5 class="modal-title">Opret nyt projekt</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form class="form-new-project" method="post" action="api/createproject.php">
+                    <input type="hidden" id="projectid" name="projectid">
                     <div class="form-group">
                         <label for="project-name" class="col-form-label">Projekt navn:</label>
-                        <input type="text" class="form-control" id="project-name">
+                        <input type="text" class="form-control" id="project-name" name="projekt" placeholder="Projekt navn" required>
                     </div>
                     <div class="form-group">
                         <label for="project-description" class="col-form-label">Projekt beskrivelse:</label>
-                        <textarea class="form-control" id="project-description"></textarea>
+                        <textarea class="form-control"
+                                  id="project-description"
+                                  name="beskrivelse"
+                                  placeholder="Projekt beskrivelse"
+                                  required></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary">Luk</button>
                 <button type="button" class="btn btn-primary">Opret projekt</button>
             </div>
         </div>
@@ -157,10 +165,12 @@ if ( ! isset( $_SESSION["user"] ) )
     $("#editProjectModal").on("show.bs.modal", function (event)
     {
         var button = $(event.relatedTarget);
+        var projectid = button.data("project-id");
         var project = button.data("project");
         var description = button.data("description");
 
         var modal = $(this);
+        modal.find(".modal-body input#projectid").val(projectid);
         modal.find(".modal-body input").val(project);
         modal.find(".modal-body textarea").val(description);
     });
@@ -182,12 +192,28 @@ if ( ! isset( $_SESSION["user"] ) )
         {
             $.ajax({
                 method: "GET",
-                url   : "api/getprojects.php?search=" + $searchtext,
+                url   : "api/getprojecthistory.php?search=" + $searchtext,
             }).done(function (result)
             {
                 $("#table-project").html(result);
             });
         }
+    });
+    $(".form-new-project").submit(function (e)
+    {
+        var form = $(this);
+        var url = form.attr("action");
+
+        $.ajax({
+            method: "POST",
+            url   : url,
+            data  : form.serialize(),
+        }).done(function (result)
+        {
+            alert("Projekt tilføjet");
+        });
+
+        e.preventDefault();
     });
 </script>
 </body>

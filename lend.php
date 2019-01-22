@@ -57,13 +57,13 @@ if ( ! isset( $_SESSION["user"] ) )
 
     <div class="col-lg-6 offset-lg-3">
         <form class="form-lend my-4" method="POST" action="api/lend.php">
-            <div class="mb-3">
+            <div class="form-group">
                 <label for="artikel">Artikel</label>
                 <div class="input-group">
                     <input type="text" class="form-control" id="artikel" name="artikel" placeholder="Artikel" readonly required="" title="artikel">
                 </div>
             </div>
-            <div class="mb-3">
+            <div class="form-group">
                 <label for="stregkode">Scan Stregkode</label>
                 <div class="input-group">
                     <div class="col-lg-8">
@@ -82,7 +82,7 @@ if ( ! isset( $_SESSION["user"] ) )
                     </div>
                 </div>
             </div>
-            <div class="mb-3">
+            <div class="form-group">
                 <label for="projekt">Projekt</label>
                 <div class="input-group">
                     <select class="custom-select" name="projekt" id="projekt" required>
@@ -90,7 +90,7 @@ if ( ! isset( $_SESSION["user"] ) )
                     </select>
                 </div>
             </div>
-            <div class="mb-3">
+            <div class="form-group">
                 <button id="addlend" class="btn btn-success btn-block" type="submit">Tilføj til udlån</button>
             </div>
         </form>
