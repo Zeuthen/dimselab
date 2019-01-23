@@ -41,7 +41,10 @@ try
 			echo "<td>" . $row["Antal"] . "</td>";
 			echo "<td><a href='#' data-toggle='modal' data-target='#editArticleModal' data-article-id='" . $row["ArtikelID"] . "' data-article='" .
 			     $row["Artikel"] . "' data-category='" . $row["KategoriID"] . "' data-stregkode='" . $row["Stregkode"] . "' data-skuffenummer='" .
-			     $row["Skuffenummer"] . "' data-antal='" . $row["Antal"] . "'>Slet/Redigér</a></td>";
+			     $row["Skuffenummer"] . "' data-antal='" . $row["Antal"] . "'>Redigér</a></td>";
+			echo "<td><a href='#' onclick='return confirm_click(\"" . $row["ArtikelID"] . "\",\"" . $row["Artikel"] . "\");' data-article-id='" .
+			$row["ArtikelID"] . "' data-article='" .
+			     $row["Artikel"] . "'>Slet</a></td>";
 			echo "</tr>";
 		}
 	}

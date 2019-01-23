@@ -91,7 +91,7 @@ if ( ! isset( $_SESSION["user"] ) )
                 </div>
             </div>
             <div class="form-group">
-                <button id="addlend" class="btn btn-success btn-block" type="submit">Tilføj til udlån</button>
+                <button id="addlend" class="btn btn-success btn-block" type="submit">Lån</button>
             </div>
         </form>
     </div>
@@ -146,37 +146,18 @@ if ( ! isset( $_SESSION["user"] ) )
         }
         e.preventDefault();
     });
-
-    $(".form-checklend").click(function (e)
-    {
-        var form = $(this);
-        var url = form.attr("action") + "?stregkode=" + $("#stregkode").val();
-
-        $.ajax({
-            method  : "GET",
-            url     : url,
-            dataType: "json",
-        }).done(function (response)
-        {
-            var result = response[0];
-            $(".form-lend #artikel").val(result["Artikel"]);
-            $(".form-lend #stregkode").val(result["Stregkode"]);
-        });
-
-        e.preventDefault();
-    });
     $(".form-lend").submit(function (e)
     {
         var form = $(this);
         var url = form.attr("action");
 
+        alert(form.serialize());
         $.ajax({
             method: "POST",
             url   : url,
             data  : form.serialize(),
         }).done(function (response)
         {
-            //KNAP_3_UDSTYR
             alert("udlån fuldført" + response);
         });
 

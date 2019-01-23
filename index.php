@@ -76,6 +76,7 @@ if ( ! isset( $_SESSION["user"] ) )
                 <th scope="col">Udlånt</th>
                 <th scope="col">I alt</th>
                 <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody id="table-overview">
@@ -89,7 +90,7 @@ if ( ! isset( $_SESSION["user"] ) )
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Slet eller redigér artikel</h5>
+                <h5 class="modal-title">Redigér artikel</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -132,8 +133,7 @@ if ( ! isset( $_SESSION["user"] ) )
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">Slet artikel</button>
-                <button type="button" class="btn btn-primary">Gem ændringer</button>
+                <button type="submit" class="btn btn-primary" name="edit-article" form="form-edit-article">Gem ændringer</button>
             </div>
         </div>
     </div>
@@ -148,7 +148,7 @@ if ( ! isset( $_SESSION["user"] ) )
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form-new-article" method="post" action="api/createarticle.php">
+                <form id="form-new-article" class="form-new-article" method="POST" action="api/createarticle.php">
                     <div class="mb-3">
                         <label for="artikel">Artikel</label>
                         <div class="input-group">
@@ -166,13 +166,22 @@ if ( ! isset( $_SESSION["user"] ) )
                     <div class="mb-3">
                         <label for="stregkode">Stregkode</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="stregkode" name="stregkode" placeholder="Stregkode" required>
+                            <input type="text" class="form-control" id="stregkode" name="stregkode" placeholder="Stregkode"
+                                   data-toggle="tooltip" title="Ex. ROD5.SGS8.0001 <By+bygning>.<Artikel>.<skuffenr>"
+                                   required>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="skuffenummer">Skuffenummer</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="skuffenummer" name="skuffenummer" placeholder="Skuffenummer" required>
+                            <input type="number"
+                                   class="form-control"
+                                   id="skuffenummer"
+                                   name="skuffenummer"
+                                   min="0"
+                                   max="1000000"
+                                   placeholder="Skuffenummer"
+                                   required>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -184,7 +193,7 @@ if ( ! isset( $_SESSION["user"] ) )
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Opret artikel</button>
+                <button type="submit" class="btn btn-primary" name="new-article" form="form-new-article">Opret artikel</button>
             </div>
         </div>
     </div>
@@ -196,6 +205,7 @@ if ( ! isset( $_SESSION["user"] ) )
 <script>
     $(document).ready(function ()
     {
+        $("[data-toggle=\"tooltip\"]").tooltip();
         $.ajax({
             method: "GET",
             url   : "api/getarticles.php",
@@ -255,11 +265,14 @@ if ( ! isset( $_SESSION["user"] ) )
             });
         }
     });
+    $("button[type=\"submit\"]").click(function (e)
+    {
+        $(this).parent("form").submit();
+    });
     $(".form-new-article").submit(function (e)
     {
         var form = $(this);
         var url = form.attr("action");
-
         $.ajax({
             method: "POST",
             url   : url,
@@ -271,6 +284,25 @@ if ( ! isset( $_SESSION["user"] ) )
 
         e.preventDefault();
     });
+
+    function confirm_click(artikelid, artikel)
+    {
+        var check = confirm("Er du sikker på du vil slette artiklen: " + artikel);
+        if (check)
+        {
+            $.ajax({
+                method: "POST",
+                url   : "api/deletearticle.php",
+                data  :
+                "articleid=" + artikelid,
+            }).
+                done(function (result)
+                {
+                    alert("Artikel slettet");
+                });
+
+        }
+    }
 </script>
 </body>
 </html>

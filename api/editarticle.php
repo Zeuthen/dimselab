@@ -3,8 +3,8 @@ require_once "config.php";
 
 try
 {
-	if ( isset( $_POST["articleid"] ) && isset( $_POST["artikel"] ) && isset( $_POST["skuffenr"] ) && isset( $_POST["stregkode"] ) && isset( $_POST["antal"] ) &&
-	     isset( $_POST["kategori"] ) )
+	if ( isset( $_POST["articleid"] ) && isset( $_POST["artikel"] ) && isset( $_POST["skuffenr"] ) && isset( $_POST["stregkode"] ) &&
+	     isset( $_POST["antal"] ) && isset( $_POST["kategori"] ) )
 	{
 		$sql =
 			"UPDATE artikler SET Navn = :navn, Skuffenummer = :skuffenummer, Stregkode = :stregkode, Antal = :antal, FK_kategori_ID = :kategori) WHERE ID = :id";
