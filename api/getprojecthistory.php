@@ -6,10 +6,9 @@ try
 	$result = "";
 	if ( isset( $_GET["search"] ) )
 	{
-		$sql    = "SELECT projekter.ID as ProjektID, projekter.Navn as Projekt, projekter.Beskrivelse, brugere.Brugernavn as Bruger, artikler.Navn as Artikel
+		$sql    = "SELECT projekter.ID as ProjektID, projekter.Navn as Projekt, projekter.Beskrivelse, brugere.Brugernavn as Bruger
 				FROM projekter
 				INNER JOIN brugere ON brugere.ID = projekter.FK_bruger_ID
-				INNER JOIN artikler ON artikler.ID = projekter.FK_artikel_ID
 				WHERE projekter.Navn LIKE :project";
 		$sth    = $conn->prepare( $sql );
 		$search = "%" . $_GET["search"] . "%";
@@ -19,10 +18,9 @@ try
 	}
 	else
 	{
-		$sql = "SELECT projekter.ID as ProjektID, projekter.Navn as Projekt, projekter.Beskrivelse, brugere.Brugernavn as Bruger, artikler.Navn as Artikel
+		$sql = "SELECT projekter.ID as ProjektID, projekter.Navn as Projekt, projekter.Beskrivelse, brugere.Brugernavn as Bruger
 				FROM projekter
-				INNER JOIN brugere ON brugere.ID = projekter.FK_bruger_ID
-				INNER JOIN artikler ON artikler.ID = projekter.FK_artikel_ID";
+				INNER JOIN brugere ON brugere.ID = projekter.FK_bruger_ID";
 		$sth = $conn->prepare( $sql );
 		$sth->execute();
 		$result = $sth->fetchAll( PDO::FETCH_ASSOC );
@@ -35,10 +33,11 @@ try
 			echo "<tr>";
 			echo "<td>" . $row["Projekt"] . "</td>";
 			echo "<td>" . $row["Beskrivelse"] . "</td>";
-			echo "<td>" . $row["Artikel"] . "</td>";
 			echo "<td>" . $row["Bruger"] . "</td>";
 			echo "<td><a href='#' data-toggle='modal' data-target='#editProjectModal' data-project-id='" . $row["ProjektID"] . "' data-project='" .
-			     $row["Projekt"] . "' data-description='" . $row["Beskrivelse"] . "'>Slet/Redigér</a></td>";
+			     $row["Projekt"] . "' data-description='" . $row["Beskrivelse"] . "'>Redigér</a></td>";
+			echo "<td><a href='#' onclick='return confirm_click(\"" . $row["ProjektID"] . "\",\"" . $row["Projekt"] . "\");' data-project-id='" .
+			     $row["ProjektID"] . "' data-project='" . $row["Projekt"] . "'>Slet</a></td>";
 			echo "</tr>";
 		}
 	}

@@ -26,7 +26,6 @@ try
 		$result = $sth->fetchAll( PDO::FETCH_ASSOC );
 	}
 
-
 	if ( count( $result ) > 0 )
 	{
 		foreach ( $result as $row )
@@ -43,8 +42,7 @@ try
 			     $row["Artikel"] . "' data-category='" . $row["KategoriID"] . "' data-stregkode='" . $row["Stregkode"] . "' data-skuffenummer='" .
 			     $row["Skuffenummer"] . "' data-antal='" . $row["Antal"] . "'>Redigér</a></td>";
 			echo "<td><a href='#' onclick='return confirm_click(\"" . $row["ArtikelID"] . "\",\"" . $row["Artikel"] . "\");' data-article-id='" .
-			$row["ArtikelID"] . "' data-article='" .
-			     $row["Artikel"] . "'>Slet</a></td>";
+			$row["ArtikelID"] . "' data-article='" . $row["Artikel"] . "'>Slet</a></td>";
 			echo "</tr>";
 		}
 	}

@@ -142,7 +142,7 @@ if ( ! isset( $_SESSION["user"] ) )
         }
         else
         {
-            alert("Scan stregkode");
+            alert("Scan en stregkode");
         }
         e.preventDefault();
     });
@@ -150,15 +150,14 @@ if ( ! isset( $_SESSION["user"] ) )
     {
         var form = $(this);
         var url = form.attr("action");
-
-        alert(form.serialize());
         $.ajax({
             method: "POST",
             url   : url,
             data  : form.serialize(),
         }).done(function (response)
         {
-            alert("udlån fuldført" + response);
+            alert("udlån fuldført");
+            location.reload();
         });
 
         e.preventDefault();

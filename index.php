@@ -96,7 +96,7 @@ if ( ! isset( $_SESSION["user"] ) )
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form-edit-article" method="post" action="api/editarticle.php">
+                <form id="form-edit-article" class="form-edit-article" method="post" action="api/editarticle.php">
                     <input type="hidden" id="articleid" name="articleid">
                     <div class="form-group">
                         <label for="artikel">Artikel</label>
@@ -149,13 +149,22 @@ if ( ! isset( $_SESSION["user"] ) )
             </div>
             <div class="modal-body">
                 <form id="form-new-article" class="form-new-article" method="POST" action="api/createarticle.php">
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label for="artikel">Artikel</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="artikel" name="artikel" placeholder="Artikel" required>
+                            <div class="col">
+                                <input type="text" class="form-control" id="artikel" name="artikel" placeholder="Artikel" required></div>
+                            <div class="col">
+                                <input type="text" class="form-control" id="artikelprefix" name="artikelprefix" placeholder="Artikel Forkortelse"
+                                       required></div>
                         </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-group">
+                        <label for="lokation">Lokation</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="lokation" name="lokation" placeholder="Lokation ex. ROD5" required></div>
+                    </div>
+                    <div class="form-group">
                         <label for="kategori">Kategori</label>
                         <div class="input-group">
                             <select class="custom-select" id="kategori" name="kategori" required>
@@ -163,15 +172,13 @@ if ( ! isset( $_SESSION["user"] ) )
                             </select>
                         </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label for="stregkode">Stregkode</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="stregkode" name="stregkode" placeholder="Stregkode"
-                                   data-toggle="tooltip" title="Ex. ROD5.SGS8.0001 <By+bygning>.<Artikel>.<skuffenr>"
-                                   required>
+                            <input type="text" class="form-control" id="stregkode" name="stregkode" placeholder="Stregkode" readonly>
                         </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label for="skuffenummer">Skuffenummer</label>
                         <div class="input-group">
                             <input type="number"
@@ -179,12 +186,12 @@ if ( ! isset( $_SESSION["user"] ) )
                                    id="skuffenummer"
                                    name="skuffenummer"
                                    min="0"
-                                   max="1000000"
+                                   max="10000"
                                    placeholder="Skuffenummer"
                                    required>
                         </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label for="skuffenummer">Antal</label>
                         <div class="input-group">
                             <input type="number" class="form-control" id="antal" name="antal" min="0" max="1000000" placeholder="Antal" required>
@@ -205,7 +212,6 @@ if ( ! isset( $_SESSION["user"] ) )
 <script>
     $(document).ready(function ()
     {
-        $("[data-toggle=\"tooltip\"]").tooltip();
         $.ajax({
             method: "GET",
             url   : "api/getarticles.php",
@@ -221,7 +227,16 @@ if ( ! isset( $_SESSION["user"] ) )
             $("select#kategori").html(result);
         });
     });
-
+    $("#form-new-article input").keyup(function ()
+    {
+        var artikel = $("#form-new-article input#artikelprefix").val();
+        var location = $("#form-new-article input#lokation").val();
+        var skuffenummer = $("#form-new-article input#skuffenummer").val();
+        if (artikel.length === 4 && location.length === 4 && skuffenummer.length === 4)
+        {
+            $("input#stregkode").val(location+"."+artikel+"."+skuffenummer);
+        }
+    });
     $("#editArticleModal").on("show.bs.modal", function (event)
     {
         var button = $(event.relatedTarget);
@@ -280,11 +295,27 @@ if ( ! isset( $_SESSION["user"] ) )
         }).done(function (result)
         {
             alert("Artikel tilføjet");
+            location.reload();
         });
 
         e.preventDefault();
     });
+    $(".form-edit-article").submit(function (e)
+    {
+        var form = $(this);
+        var url = form.attr("action");
+        $.ajax({
+            method: "POST",
+            url   : url,
+            data  : form.serialize(),
+        }).done(function (result)
+        {
+            alert("Artikel ændret");
+            location.reload();
+        });
 
+        e.preventDefault();
+    });
     function confirm_click(artikelid, artikel)
     {
         var check = confirm("Er du sikker på du vil slette artiklen: " + artikel);
@@ -299,6 +330,7 @@ if ( ! isset( $_SESSION["user"] ) )
                 done(function (result)
                 {
                     alert("Artikel slettet");
+                    location.reload();
                 });
 
         }

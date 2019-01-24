@@ -71,12 +71,11 @@ if ( ! isset( $_SESSION["user"] ) )
             <tr>
                 <th scope="col">Projekt</th>
                 <th scope="col">Beskrivelse</th>
-                <th scope="col">Artikel</th>
                 <th scope="col">Bruger</th>
-                <th></th>
-            </tr>
+                <th scope="col"></th>
+                <th scope="col"></th>
             </thead>
-            <tbody id="table-project">
+            <tbody id="table-project"></tbody>
         </table>
     </div>
 
@@ -86,13 +85,13 @@ if ( ! isset( $_SESSION["user"] ) )
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Slet eller redigér projekt</h5>
+                <h5 class="modal-title">Redigér projekt</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form-edit-project" method="post" action="api/editproject.php">
+                <form id="form-edit-project" class="form-edit-project" method="post" action="api/editproject.php">
                     <input type="hidden" id="projectid" name="projectid">
                     <div class="form-group">
                         <label for="project-name" class="col-form-label">Projekt navn:</label>
@@ -109,8 +108,7 @@ if ( ! isset( $_SESSION["user"] ) )
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">Slet projekt</button>
-                <button type="button" class="btn btn-primary">Gem ændringer</button>
+                <button type="submit" class="btn btn-primary" name="edit-project" form="form-edit-project">Gem ændringer</button>
             </div>
         </div>
     </div>
@@ -125,8 +123,7 @@ if ( ! isset( $_SESSION["user"] ) )
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form-new-project" method="post" action="api/createproject.php">
-                    <input type="hidden" id="projectid" name="projectid">
+                <form id="form-new-project" class="form-new-project" method="POST" action="api/createproject.php">
                     <div class="form-group">
                         <label for="project-name" class="col-form-label">Projekt navn:</label>
                         <input type="text" class="form-control" id="project-name" name="projekt" placeholder="Projekt navn" required>
@@ -142,7 +139,7 @@ if ( ! isset( $_SESSION["user"] ) )
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Opret projekt</button>
+                <button type="submit" class="btn btn-primary" name="new-project" form="form-new-project">Opret projekt</button>
             </div>
         </div>
     </div>
@@ -171,7 +168,7 @@ if ( ! isset( $_SESSION["user"] ) )
 
         var modal = $(this);
         modal.find(".modal-body input#projectid").val(projectid);
-        modal.find(".modal-body input").val(project);
+        modal.find(".modal-body input#project-name").val(project);
         modal.find(".modal-body textarea").val(description);
     });
     $("#projectsearch").keyup(function (event)
@@ -203,7 +200,6 @@ if ( ! isset( $_SESSION["user"] ) )
     {
         var form = $(this);
         var url = form.attr("action");
-
         $.ajax({
             method: "POST",
             url   : url,
@@ -211,10 +207,46 @@ if ( ! isset( $_SESSION["user"] ) )
         }).done(function (result)
         {
             alert("Projekt tilføjet");
+            location.reload();
         });
 
         e.preventDefault();
     });
+    $(".form-edit-project").submit(function (e)
+    {
+        var form = $(this);
+        var url = form.attr("action");
+        $.ajax({
+            method: "POST",
+            url   : url,
+            data  : form.serialize(),
+        }).done(function (result)
+        {
+            alert("Projekt ændret"+result);
+            location.reload();
+        });
+
+        e.preventDefault();
+    });
+    function confirm_click(projectid, project)
+    {
+        var check = confirm("Er du sikker på du vil slette projektet: " + project);
+        if (check)
+        {
+            $.ajax({
+                method: "POST",
+                url   : "api/deleteproject.php",
+                data  :
+                "projectid=" + projectid,
+            }).
+                done(function (result)
+                {
+                    alert("Projekt slettet");
+                    location.reload();
+                });
+
+        }
+    }
 </script>
 </body>
 </html>

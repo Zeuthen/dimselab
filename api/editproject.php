@@ -3,9 +3,9 @@ require_once "config.php";
 
 try
 {
-	if ( isset( $_POST["projectid"] ) && isset( $_POST["projekt"] ) && isset( $_POST["beskrivelse"] ) && isset( $_POST["stregkode"] ) )
+	if ( isset( $_POST["projectid"] ) && isset( $_POST["projekt"] ) && isset( $_POST["beskrivelse"] ) )
 	{
-		$sql = "UPDATE projekter SET Navn = :navn, Beskrivelse = :beskrivelse) WHERE ID = :id";
+		$sql = "UPDATE projekter SET Navn = :navn, Beskrivelse = :beskrivelse WHERE ID = :id";
 		$sth = $conn->prepare( $sql );
 		$sth->bindParam( ':id', $_POST["projectid"], PDO::PARAM_INT );
 		$sth->bindParam( ':navn', $_POST["projekt"], PDO::PARAM_STR );
