@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "config.php";
+require_once "database1.php";
 
 try {
 	if ( isset( $_POST["projekt"] ) && isset( $_POST["beskrivelse"] ) && isset( $_SESSION["userid"] )) {

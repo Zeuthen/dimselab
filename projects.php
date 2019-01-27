@@ -91,7 +91,7 @@ if ( ! isset( $_SESSION["user"] ) )
                 </button>
             </div>
             <div class="modal-body">
-                <form id="form-edit-project" class="form-edit-project" method="post" action="api/editproject.php">
+                <form id="form-edit-project" class="form-edit-project" method="post" action="api/project/update.php">
                     <input type="hidden" id="projectid" name="projectid">
                     <div class="form-group">
                         <label for="project-name" class="col-form-label">Projekt navn:</label>
@@ -123,7 +123,7 @@ if ( ! isset( $_SESSION["user"] ) )
                 </button>
             </div>
             <div class="modal-body">
-                <form id="form-new-project" class="form-new-project" method="POST" action="api/createproject.php">
+                <form id="form-new-project" class="form-new-project" method="POST" action="api/project/create.php">
                     <div class="form-group">
                         <label for="project-name" class="col-form-label">Projekt navn:</label>
                         <input type="text" class="form-control" id="project-name" name="projekt" placeholder="Projekt navn" required>
