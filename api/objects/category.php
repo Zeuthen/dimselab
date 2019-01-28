@@ -14,7 +14,6 @@ class Category {
 		$this->conn = $db;
 	}
 
-
 	// read products
 	function read() {
 		// select all query

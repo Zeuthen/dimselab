@@ -13,6 +13,7 @@ class Article {
 	public $on_loan;
 	public $quantity;
 	public $category_id;
+	public $category;
 
 	public $search;
 
@@ -47,7 +48,8 @@ class Article {
 		$stmt->bindParam( ":category_id", $this->category_id, PDO::PARAM_INT );
 
 		// execute query
-		if ( $stmt->execute() ) {
+		if ( $stmt->execute() )
+		{
 			return true;
 		}
 
@@ -74,7 +76,7 @@ class Article {
 	// read one article
 	function readOne() {
 		// update query
-		$query = "SELECT name as article 
+		$query = "SELECT name
 				FROM " . $this->table_name . "
 				WHERE barcode = :barcode";
 
@@ -89,13 +91,20 @@ class Article {
 		// execute query
 		$stmt->execute();
 
+		// get retrieved row
+		$row = $stmt->fetch( PDO::FETCH_ASSOC );
+
+		// set values to object properties
+		$this->name = $row['name'];
+
 		return $stmt;
 	}
 
 	// update articles
 	function update() {
 		// select all query
-		$query = "UPDATE " . $this->table_name . " SET name = :name, tray_number = :tray_number, barcode = :barcode, quantity = :quantity, fk_category_id = :fk_category_id WHERE ID = :id";
+		$query = "UPDATE " . $this->table_name .
+		         " SET name = :name, tray_number = :tray_number, barcode = :barcode, quantity = :quantity, fk_category_id = :fk_category_id WHERE ID = :id";
 
 		// prepare query statement
 		$stmt = $this->conn->prepare( $query );
@@ -119,7 +128,8 @@ class Article {
 		$stmt->bindParam( ":category_id", $this->category_id, PDO::PARAM_INT );
 
 		// execute the query
-		if ( $stmt->execute() ) {
+		if ( $stmt->execute() )
+		{
 			return true;
 		}
 
@@ -141,7 +151,8 @@ class Article {
 		$stmt->bindParam( ":id", $this->id, PDO::PARAM_INT );
 
 		// execute query
-		if ( $stmt->execute() ) {
+		if ( $stmt->execute() )
+		{
 			return true;
 		}
 

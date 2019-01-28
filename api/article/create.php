@@ -18,14 +18,14 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 	//$data = json_decode( file_get_contents( "php://input" ) );
 
 	if ( isset( $_POST['article'] ) && isset( $_POST['category'] ) && isset( $_POST['barcode'] ) && isset( $_POST['tray_number'] ) && isset( $_POST['quantity'] ) ) {
-		// set product property values
+		// set user property values
 		$article->name        = $_POST['article'];
 		$article->tray_number = $_POST['tray_number'];
 		$article->barcode     = $_POST['barcode'];
 		$article->quantity    = $_POST['quantity'];
 		$article->category_id = $_POST['category'];
 
-		// create the product
+		// create the user
 		if ( $article->create() ) {
 			// set response code - 201 created
 			http_response_code( 201 );
@@ -33,7 +33,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 			// tell the user
 			echo json_encode( array( "message" => "Article was created." ) );
 		}
-		// if unable to create the product, tell the user
+		// if unable to create the user, tell the user
 		else {
 			// set response code - 503 service unavailable
 			http_response_code( 503 );
@@ -48,7 +48,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 		http_response_code( 400 );
 
 		// tell the user
-		echo json_encode( array( "message" => "Unable to create product. Data is incomplete." ) );
+		echo json_encode( array( "message" => "Unable to create user. Data is incomplete." ) );
 	}
 }
 ?>

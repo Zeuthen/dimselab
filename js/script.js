@@ -9,20 +9,53 @@ $(function ()
             url   : "api/article/read.php",
         }).done(function (response)
         {
-            $("#table-article").html(response);
+            var articles = "";
+            $.each(response, function (k, v)
+            {
+                articles += "<tr>";
+                articles += "<td>" + v.article + "</td>";
+                articles += "<td>" + v.category + "</td>";
+                articles += "<td>" + v.barcode + "</td>";
+                articles += "<td>" + v.tray_number + "</td>";
+                articles += "<td>" + (v.quantity - v.on_loan) + "</td>";
+                articles += "<td>" + v.on_loan + "</td>";
+                articles += "<td>" + v.quantity + "</td>";
+                articles += "<td>";
+                articles += "<a href='#' data-toggle='modal' data-target='#editArticleModal' data-article-id='" + v.article_id + "' data-article='" + v.article + "' data-category='" + v.category_id + "' data-barcode='" + v.barcode + "' data-tray_number='" + v.tray_number + "' data-quantity='" + v.quantity + "'>Redigér</a>";
+                articles += "</td>";
+                articles += "<td>";
+                articles += "<a href='#' onclick='return confirm_click(" + v.article_id + "," + v.article + ");'" + " data-article-id='" + v.article_id + "' data-article='" + v.article + "'>Slet</a>";
+                articles += "</td>";
+                articles += "</tr>";
+            });
+
+            $("#table-article").html(articles);
         }).fail(function (response)
         {
-            $("#table-article").html(response);
+            var articles = "<tr>";
+            articles += "<td>" + response["message"] + "</td>";
+            articles += "</tr>";
+
+            $("#table-article").html(articles);
         });
+
         $.ajax({
             method: "GET",
             url   : "api/category/read.php",
         }).done(function (response)
         {
-            $("select#new-article-category").html(response);
+            var categories = "<option value=''>Vælg Kategori</option>";
+            //$("select#new-article-category").append("<option value=''>Vælg Kategori</option>");
+            $.each(response, function (k, v)
+            {
+                //$("select#new-article-category").append("<option value=" + v.id + ">" + v.name + "</option>");
+                categories += "<option value=" + v.id + ">" + v.name + "</option>";
+            });
+            $("select#new-article-category").html(categories);
+            $("select#new-article-category").attr("disabled","disabled");
         }).fail(function (response)
         {
-            $("select#new-article-category").html(response);
+            $("select#new-article-category").html("<option value=''>"+ response["message"] + "</option>");
         });
     });
     $("#form-new-article input").keyup(function ()
@@ -62,7 +95,7 @@ $(function ()
             $.ajax({
                 method: "POST",
                 url   : "api/article/search.php",
-                data : $(event.target).serialize()
+                data  : $(event.target).serialize(),
             }).done(function (response)
             {
                 $("#table-article").html(response);
@@ -139,4 +172,5 @@ $(function ()
         }
     }
 
-});
+})
+;

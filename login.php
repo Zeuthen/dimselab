@@ -1,10 +1,10 @@
 <?php
 session_start();
-if ( isset( $_SESSION["user"] ) ) {
+if ( isset( $_SESSION["user"] ) )
+{
 	header( "location: oversigt" );
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,23 +19,30 @@ if ( isset( $_SESSION["user"] ) ) {
 <body class="bg-light mt-5">
 <h1 class="text-center mb-5">Velkommen til Dimselab</h1>
 
-<form class="form-login text-center mx-auto mt-5 px-3 py-3" method="post" action="api/login.php">
+<form class="form-login text-center mx-auto mt-5 px-3 py-3" method="post">
     <div class="mb-3">
         <label for="email" class="sr-only">E-mail adresse</label>
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
             </div>
-            <input type="email" name="email" class="form-control" id="email" placeholder="dit-navn@edu.easj.dk" required autofocus autocomplete="off">
+            <input type="email"
+                   id="login-email"
+                   name="email"
+                   class="form-control"
+                   placeholder="dit-navn@edu.easj.dk"
+                   required
+                   autofocus
+                   autocomplete="off">
         </div>
     </div>
     <div class="mb-3">
-        <label for="password" class="sr-only">Adgangskode</label>
+        <label for="login-password" class="sr-only">Adgangskode</label>
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
             </div>
-            <input type="password" name="password" class="form-control" id="password" placeholder="***********" required>
+            <input type="password" id="login-password" name="password" class="form-control" placeholder="***********" required>
         </div>
     </div>
     <!--<div class="custom-control custom-checkbox">
@@ -49,7 +56,6 @@ if ( isset( $_SESSION["user"] ) ) {
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/all.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="js/script.js"></script>
 <script>
     /*  $(function ()
      {
@@ -57,21 +63,23 @@ if ( isset( $_SESSION["user"] ) ) {
     $(".form-login").submit(function (e)
     {
         var form = $(this);
-        var url = form.attr("action");
-
         $.ajax({
             method: "POST",
-            url   : url,
+            url   : "api/user/login.php",
             data  : form.serialize(),
-        }).done(function (result)
+        }).done(function (response)
         {
-            if (result.length > 1)
+            if (response["message"] === "login was successful")
             {
-                alert(result);
+                window.location = "oversigt";
             }
-            else{
-                window.location="oversigt";
+            else
+            {
+                alert(response["message"]);
             }
+        }).fail(function (response)
+        {
+            alert(response["message"]);
         });
 
         e.preventDefault();
