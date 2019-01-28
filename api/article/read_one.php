@@ -2,8 +2,7 @@
 // required headers
 header( "Access-Control-Allow-Origin: *" );
 header( "Access-Control-Allow-Methods: POST" );
-header( "Content-Type: text/plain; charset=UTF-8" );
-//header( "Content-Type: application/json; charset=UTF-8" );
+header( "Content-Type: application/json; charset=UTF-8" );
 
 if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' )
 {
@@ -15,18 +14,25 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 	$article = new Article( $conn );
 
 	// set ID property of record to read
-	$article->id = isset( $_POST['barcode'] ) ? $_POST['barcode'] : die();
+	$article->barcode = isset( $_POST['barcode'] ) ? $_POST['barcode'] : die();
 
 	// read the details of product to be edited
 	$stmt = $article->readOne();
 
 	if ( $article->name != null )
 	{
+		//  create array
 		$article_arr = array(
-			"article" => $article->name
+			"article_id"  => $article->id,
+			"article"     => $article->name,
+			"tray_number" => $article->tray_number,
+			"barcode"     => $article->barcode,
+			"on_loan"     => $article->on_loan,
+			"quantity"    => $article->quantity,
+			"category_id" => $article->category_id,
+			"category"    => $article->category
 		);
 
-		// make it json format
 		echo json_encode( $article_arr );
 
 		// set response code - 200 OK

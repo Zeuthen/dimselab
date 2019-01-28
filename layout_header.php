@@ -36,26 +36,114 @@ else if ( time() - $_SESSION['CREATED'] > 1800 )
 
     <div class="collapse navbar-collapse" id="navbarDimselab">
         <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="./oversigt">Oversigt</a>
-            </li>
-            <li class="nav-item nav-dropdown">
-                <a class="nav-link" href="./udlån">Udlån</a>
-            </li>
-            <!--<li class="nav-item nav-dropdown">
-				<a class="nav-link" href="./udlånreturnering">Udlån/Returnering</a>
-				<div class="dropdown-submenu" aria-labelledby="dropdownLending">
-					<a class="submenu-item" href="./udlån">Udlån</a>
-					<a class="submenu-item" href="./returnering">Returnering</a>
-				</div>
-			</li>-->
-            <li class="nav-item nav-dropdown">
-                <a class="nav-link" href="./historik">Historik</a>
-                <div class="dropdown-submenu" aria-labelledby="dropdownHistory">
-                    <a class="submenu-item" href="./projekter">Projekter</a>
-                    <a class="submenu-item" href="./statistik">Udlånsstatistik</a>
-                </div>
-            </li>
+			<?php
+			switch ( $page_title )
+			{
+				case "Artikeloversigt":
+					echo "<li class=\"nav-item active\">";
+					echo "<a class=\"nav-link\" href=\"./oversigt\">Oversigt</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./udlån\">Udlån</a>";
+					echo " </li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./statistik\">Udlånsstatistik</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./projekter\">Projekter</a>";
+					echo "</li>";
+					break;
+				case "Udlån":
+					echo "<li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./oversigt\">Oversigt</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item active\">";
+					echo "<a class=\"nav-link\" href=\"./udlån\">Udlån</a>";
+					echo " </li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./statistik\">Udlånsstatistik</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./projekter\">Projekter</a>";
+					echo "</li>";
+					break;
+				case "Returnering":
+					echo "<li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./oversigt\">Oversigt</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./udlån\">Udlån</a>";
+					echo " </li>";
+					echo " <li class=\"nav-item active\">";
+					echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./statistik\">Udlånsstatistik</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./projekter\">Projekter</a>";
+					echo "</li>";
+					break;
+				case "Statistik":
+					echo "<li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./oversigt\">Oversigt</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./udlån\">Udlån</a>";
+					echo " </li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item active\">";
+					echo "<a class=\"nav-link\" href=\"./statistik\">Udlånsstatistik</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./projekter\">Projekter</a>";
+					echo "</li>";
+					break;
+				case "Projekter":
+					echo "<li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./oversigt\">Oversigt</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./udlån\">Udlån</a>";
+					echo " </li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./statistik\">Udlånsstatistik</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item active\">";
+					echo "<a class=\"nav-link\" href=\"./projekter\">Projekter</a>";
+					echo "</li>";
+					break;
+				default:
+					echo "<li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./oversigt\">Oversigt</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./udlån\">Udlån</a>";
+					echo " </li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./statistik\">Udlånsstatistik</a>";
+					echo "</li>";
+					echo " <li class=\"nav-item\">";
+					echo "<a class=\"nav-link\" href=\"./projekter\">Projekter</a>";
+					echo "</li>";
+					break;
+					break;
+			}
+			?>
         </ul>
         <ul class="form-inline ml-auto navbar-nav">
             <li class="nav-item"><span class="navbar-text">Velkommen <strong><?php echo $_SESSION["user"] ?></strong></span></li>

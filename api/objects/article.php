@@ -26,7 +26,7 @@ class Article {
 	function create() {
 		// query to insert record
 		$query = "INSERT INTO " . $this->table_name . " (name, tray_number, barcode, on_loan, quantity, fk_category_id) 
-					VALUES (:name, :tray_number, :barcode, :on_loan, :quantity, :fk_category_id)";
+					VALUES (:name, :tray_number, :barcode, :on_loan, :quantity, :category_id)";
 
 		// prepare query
 		$stmt = $this->conn->prepare( $query );
@@ -104,8 +104,9 @@ class Article {
 	// read one article
 	function readOne() {
 		// update query
-		$query = "SELECT name
-				FROM " . $this->table_name . "
+		$query = "SELECT a.id as article_id, a.name as article, a.tray_number, a.barcode, a.on_loan, a.quantity, a.fk_category_id as category_id, c.name as category
+				FROM " . $this->table_name . " a
+				INNER JOIN categories c ON c.id = a.fk_category_id
 				WHERE barcode = :barcode";
 
 		// prepare query statement
@@ -123,7 +124,14 @@ class Article {
 		$row = $stmt->fetch( PDO::FETCH_ASSOC );
 
 		// set values to object properties
-		$this->name = $row['name'];
+		$this->id          = $row['article_id'];
+		$this->name        = $row['article'];
+		$this->tray_number = $row['tray_number'];
+		$this->barcode     = $row['barcode'];
+		$this->on_loan     = $row['on_loan'];
+		$this->quantity    = $row['quantity'];
+		$this->category_id = $row['category_id'];
+		$this->category    = $row['category'];
 
 		return $stmt;
 	}
@@ -154,7 +162,7 @@ class Article {
 	function update() {
 		// select all query
 		$query = "UPDATE " . $this->table_name .
-		         " SET name = :name, tray_number = :tray_number, barcode = :barcode, quantity = :quantity, fk_category_id = :fk_category_id WHERE ID = :id";
+		         " SET name = :name, tray_number = :tray_number, barcode = :barcode, quantity = :quantity, fk_category_id = :category_id WHERE ID = :id";
 
 		// prepare query statement
 		$stmt = $this->conn->prepare( $query );
@@ -173,7 +181,6 @@ class Article {
 		$stmt->bindParam( ":name", $this->name, PDO::PARAM_STR );
 		$stmt->bindParam( ":tray_number", $this->tray_number, PDO::PARAM_INT );
 		$stmt->bindParam( ":barcode", $this->barcode, PDO::PARAM_STR );
-		$stmt->bindParam( ":on_loan", $this->on_loan, PDO::PARAM_INT );
 		$stmt->bindParam( ":quantity", $this->quantity, PDO::PARAM_INT );
 		$stmt->bindParam( ":category_id", $this->category_id, PDO::PARAM_INT );
 

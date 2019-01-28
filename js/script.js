@@ -2,7 +2,28 @@ $(function ()
 {
     $("[data-toggle=\"tooltip\"]").tooltip();
 
-    $(document).ready(function ()
+    var $category_dropdown = $("select#article-category");
+    $.ajax({
+        method: "GET",
+        url   : "api/category/read.php",
+    }).done(function (response)
+    {
+        var categories = "<option value=''>Vælg Kategori</option>";
+        //$("select#new-article-category").append("<option value=''>Vælg Kategori</option>");
+        $.each(response, function (k, v)
+        {
+            //$("select#new-article-category").append("<option value=" + v.id + ">" + v.name + "</option>");
+            categories += "<option value=" + v.id + ">" + v.name + "</option>";
+        });
+        $category_dropdown.html(categories);
+    }).fail(function (response)
+    {
+        $category_dropdown.html("<option value=''>" + response["message"] + "</option>");
+        $category_dropdown.attr("disabled", "disabled");
+    });
+    get_articles();
+
+    function get_articles()
     {
         $.ajax({
             method: "GET",
@@ -21,10 +42,10 @@ $(function ()
                 articles += "<td>" + v.on_loan + "</td>";
                 articles += "<td>" + v.quantity + "</td>";
                 articles += "<td>";
-                articles += "<a href='#' data-toggle='modal' data-target='#editArticleModal' data-article-id='" + v.article_id + "' data-article='" + v.article + "' data-category='" + v.category_id + "' data-barcode='" + v.barcode + "' data-tray_number='" + v.tray_number + "' data-quantity='" + v.quantity + "'>Redigér</a>";
+                articles += "<a href='#' data-toggle='modal' data-target='#editArticleModal' data-barcode='" + v.barcode + "'>Redigér</a>";
                 articles += "</td>";
                 articles += "<td>";
-                articles += "<a href='#' onclick='return confirm_click(" + v.article_id + "," + v.article + ");'" + " data-article-id='" + v.article_id + "' data-article='" + v.article + "'>Slet</a>";
+                articles += "<a href='#' class='delete-article' data-article-id='" + v.article_id + "' data-article='" + v.article + "'>Slet</a>";
                 articles += "</td>";
                 articles += "</tr>";
             });
@@ -38,162 +59,177 @@ $(function ()
 
             $("#table-article").html(articles);
         });
-        $("#articlesearch").keyup(function (event)
-        {
-            var $searchtext = $(event.target).val();
+    }
 
-            if ($searchtext !== "")
-            {
-                $.ajax({
-                    method: "POST",
-                    url   : "api/article/search.php",
-                    data  : $(event.target).serialize(),
-                }).done(function (response)
-                {
-                    var articles = "";
-                    $.each(response, function (k, v)
-                    {
-                        articles += "<tr>";
-                        articles += "<td>" + v.article + "</td>";
-                        articles += "<td>" + v.category + "</td>";
-                        articles += "<td>" + v.barcode + "</td>";
-                        articles += "<td>" + v.tray_number + "</td>";
-                        articles += "<td>" + (v.quantity - v.on_loan) + "</td>";
-                        articles += "<td>" + v.on_loan + "</td>";
-                        articles += "<td>" + v.quantity + "</td>";
-                        articles += "<td>";
-                        articles += "<a href='#' data-toggle='modal' data-target='#editArticleModal' data-article-id='" + v.article_id + "' data-article='" + v.article + "' data-category='" + v.category_id + "' data-barcode='" + v.barcode + "' data-tray_number='" + v.tray_number + "' data-quantity='" + v.quantity + "'>Redigér</a>";
-                        articles += "</td>";
-                        articles += "<td>";
-                        articles += "<a href='#' onclick='return confirm_click(" + v.article_id + "," + v.article + ");'" + " data-article-id='" + v.article_id + "' data-article='" + v.article + "'>Slet</a>";
-                        articles += "</td>";
-                        articles += "</tr>";
-                    });
-
-                    $("#table-article").html(articles);
-                }).fail(function (response)
-                {
-                    var articles = "<tr>";
-                    articles += "<td colspan='8'>" + response["responseJSON"].message + "</td>";
-                    articles += "</tr>";
-
-                    $("#table-article").html(articles);
-                });
-            }
-            else
-            {
-                $.ajax({
-                    method: "GET",
-                    url   : "api/article/read.php",
-                }).done(function (response)
-                {
-                    $("#table-article").html(response);
-                });
-            }
-        });
-
-        $.ajax({
-            method: "GET",
-            url   : "api/category/read.php",
-        }).done(function (response)
-        {
-            var categories = "<option value=''>Vælg Kategori</option>";
-            //$("select#new-article-category").append("<option value=''>Vælg Kategori</option>");
-            $.each(response, function (k, v)
-            {
-                //$("select#new-article-category").append("<option value=" + v.id + ">" + v.name + "</option>");
-                categories += "<option value=" + v.id + ">" + v.name + "</option>";
-            });
-            $("select#new-article-category").html(categories);
-        }).fail(function (response)
-        {
-            $("select#new-article-category").html("<option value=''>" + response["message"] + "</option>");
-            $("select#new-article-category").attr("disabled", "disabled");
-        });
-    });
-    $("button[type=\"submit\"]").click(function (e)
+    $(document).on("click", ".delete-article", function (e)
     {
-        $(this).parent("form").submit();
-    });
-    $(".form-new-article").submit(function (e)
-    {
-        var form = $(this);
-        //var url = form.attr("action");
-        $.ajax({
-            method: "POST",
-            url   : "api/article/update.php",
-            data  : form.serialize(),
-        }).done(function (response)
-        {
-            alert("Artikel tilføjet");
-            location.reload();
-        });
-
-        e.preventDefault();
-    });
-    $(".form-edit-article").submit(function (e)
-    {
-        var form = $(this);
-        //var url = form.attr("action");
-        $.ajax({
-            method: "POST",
-            url   : "api/article/update.php",
-            data  : form.serialize(),
-        }).done(function (response)
-        {
-            alert("Artikel ændret");
-            location.reload();
-        });
-
-        e.preventDefault();
-    });
-    $("#form-new-article input").keyup(function ()
-    {
-        var artikel = $("#form-new-article input#artikelprefix").val();
-        var location = $("#form-new-article input#lokation").val();
-        var skuffenummer = $("#form-new-article input#skuffenummer").val();
-        if (artikel.length === 4 && location.length === 4 && skuffenummer.length === 4)
-        {
-            $("input#stregkode").val(location + "." + artikel + "." + skuffenummer);
-        }
-    });
-    $("#editArticleModal").on("show.bs.modal", function (event)
-    {
-        var button = $(event.relatedTarget);
-        var articleid = button.data("article-id");
-        var article = button.data("article");
-        var category = button.data("category");
-        var stregkode = button.data("stregkode");
-        var skuffenummer = button.data("skuffenummer");
-        var antal = button.data("antal");
-
-        var modal = $(this);
-        modal.find(".modal-body input#articleid").val(articleid);
-        modal.find(".modal-body input#artikel").val(article);
-        modal.find(".modal-body select#kategori").val(category);
-        modal.find(".modal-body input#stregkode").val(stregkode);
-        modal.find(".modal-body input#skuffenummer").val(skuffenummer);
-        modal.find(".modal-body input#antal").val(antal);
-    });
-
-    function confirm_delete_article(artikelid, artikel)
-    {
-        var check = confirm("Er du sikker på du vil slette artiklen: " + artikel);
-        if (check)
+        var article = $(e.target).data("article");
+        var article_id = $(e.target).data("article-id");
+        if (confirm("Er du sikker på at slette artiklen: " + article + "?"))
         {
             $.ajax({
                 method: "POST",
                 url   : "api/delete.php",
-                data  : "articleid=" + artikelid,
-            }).
-                done(function (response)
+                data  : "article_id=" + article_id,
+            }).done(function (response)
+            {
+                alert(response["message"]);
+                location.reload();
+            }).fail(function (response)
+            {
+                alert(response["message"]);
+            });
+        }
+    });
+    $("#articlesearch").keyup(function (event)
+    {
+        var $searchtext = $(event.target).val();
+
+        if ($searchtext.length > 0)
+        {
+            $.ajax({
+                method: "POST",
+                url   : "api/article/search.php",
+                data  : $(event.target).serialize(),
+            }).done(function (response)
+            {
+                var articles = "";
+                $.each(response, function (k, v)
                 {
-                    alert("Artikel slettet");
-                    location.reload();
+                    articles += "<tr>";
+                    articles += "<td>" + v.article + "</td>";
+                    articles += "<td>" + v.category + "</td>";
+                    articles += "<td>" + v.barcode + "</td>";
+                    articles += "<td>" + v.tray_number + "</td>";
+                    articles += "<td>" + (v.quantity - v.on_loan) + "</td>";
+                    articles += "<td>" + v.on_loan + "</td>";
+                    articles += "<td>" + v.quantity + "</td>";
+                    articles += "<td>";
+                    articles += "<a href='#' data-toggle='modal' data-target='#editArticleModal' data-barcode='" + v.barcode + "'>Redigér</a>";
+                    articles += "</td>";
+                    articles += "<td>";
+                    articles += "<a href='#' class='delete-article' data-article-id='" + v.article_id + "' data-article='" + v.article + "'>Slet</a>";
+                    articles += "</td>";
+                    articles += "</tr>";
                 });
 
-        }
-    }
+                $("#table-article").html(articles);
+            }).fail(function (response)
+            {
+                var articles = "<tr>";
+                articles += "<td colspan='8'>" + response["responseJSON"].message + "</td>";
+                articles += "</tr>";
 
-})
-;
+                $("#table-article").html(articles);
+            });
+        }
+        else
+        {
+            $.ajax({
+                method: "GET",
+                url   : "api/article/read.php",
+            }).done(function (response)
+            {
+                var articles = "";
+                $.each(response, function (k, v)
+                {
+                    articles += "<tr>";
+                    articles += "<td>" + v.article + "</td>";
+                    articles += "<td>" + v.category + "</td>";
+                    articles += "<td>" + v.barcode + "</td>";
+                    articles += "<td>" + v.tray_number + "</td>";
+                    articles += "<td>" + (v.quantity - v.on_loan) + "</td>";
+                    articles += "<td>" + v.on_loan + "</td>";
+                    articles += "<td>" + v.quantity + "</td>";
+                    articles += "<td>";
+                    articles += "<a href='#' data-toggle='modal' data-target='#editArticleModal' data-barcode='" + v.barcode + "'>Redigér</a>";
+                    articles += "</td>";
+                    articles += "<td>";
+                    articles += "<a href='#' class='delete-article' data-article-id='" + v.article_id + "' data-article='" + v.article + "'>Slet</a>";
+                    articles += "</td>";
+                    articles += "</tr>";
+                });
+
+                $("#table-article").html(articles);
+            }).fail(function (response)
+            {
+                var articles = "<tr>";
+                articles += "<td colspan='8'>" + response["responseJSON"].message + "</td>";
+                articles += "</tr>";
+
+                $("#table-article").html(articles);
+            });
+        }
+    });
+
+    $("#form-edit-article").submit(function (e)
+    {
+        var form = $(this);
+        //var url = form.attr("action");
+        $.ajax({
+            method: "POST",
+            url   : "api/article/update.php",
+            data  : form.serialize(),
+        }).done(function (response)
+        {
+            alert(response["message"]);
+            get_articles();
+            $(".modal").modal("hide");
+        }).fail(function (response)
+        {
+            alert(response["message"]);
+        });
+
+        e.preventDefault();
+    });
+
+    $("#editArticleModal").on("show.bs.modal", function (event)
+    {
+        var button = $(event.relatedTarget);
+        var $modal = $(this);
+        $.ajax({
+            method: "POST",
+            url   : "api/article/read_one.php",
+            data  : "barcode=" + button.data("barcode"),
+        }).done(function (response)
+        {
+            $modal.find(".modal-body input#edit-article-id").val(response.article_id);
+            $modal.find(".modal-body input#edit-article").val(response.article);
+            $modal.find(".modal-body select#article-category").val(response.category_id);
+            $modal.find(".modal-body input#edit-article-barcode").val(response.barcode);
+            $modal.find(".modal-body input#edit-article-tray_number").val(response.tray_number);
+            $modal.find(".modal-body input#edit-article-quantity").val(response.quantity);
+        });
+    });
+
+    $("#form-new-article input").keyup(function ()
+    {
+        var location = $("#form-new-article input#new-article-location").val();
+        var article = $("#form-new-article input#new-article-prefix").val();
+        var tray_number = $("#form-new-article input#new-article-tray_number").val();
+        if (location.length === 4 && article.length === 4 && tray_number.length === 4)
+        {
+            $("input#new-article-barcode").val(location + "." + article + "." + tray_number);
+        }
+    });
+    $("#form-new-article").submit(function (e)
+    {
+        var form = $(this);
+        //var url = form.attr("action");
+        $.ajax({
+            method: "POST",
+            url   : "api/article/create.php",
+            data  : form.serialize(),
+        }).done(function (response)
+        {
+            alert(response["message"]);
+            get_articles();
+            $(".modal").modal("hide");
+        }).fail(function (response)
+        {
+            alert(response["message"]);
+        });
+
+        e.preventDefault();
+    });
+});

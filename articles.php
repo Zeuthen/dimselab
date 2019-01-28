@@ -2,7 +2,7 @@
 // set page headers
 $page_title = "Artikeloversigt";
 $site_title = "Dimselab";
-include_once "layout_header.php";
+require_once "layout_header.php";
 ?>
 
     <div class="container content">
@@ -47,7 +47,7 @@ include_once "layout_header.php";
                 </div>
                 <div class="modal-body">
                     <form id="form-edit-article" class="form-article" name="editarticle" method="post" action="api/article/update.php">
-                        <input type="hidden" id="article-id" name="articleid">
+                        <input type="hidden" id="edit-article-id" name="article_id">
                         <div class="form-group">
                             <label for="edit-article">Artikel</label>
                             <div class="input-group">
@@ -55,15 +55,15 @@ include_once "layout_header.php";
                                        class="form-control"
                                        id="edit-article"
                                        name="article"
-                                       placeholder="Artikel"
+                                       placeholder="Artikel" data-toggle="tooltip"
                                        title="Artikel"
                                        required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="edit-article-category">Kategori</label>
+                            <label for="article-category">Kategori</label>
                             <div class="input-group">
-                                <select class="custom-select" id="edit-article-category" name="category" title="Kategori" required>
+                                <select class="custom-select" id="article-category" name="category" data-toggle="tooltip" title="Kategori" required>
                                 </select>
                             </div>
                         </div>
@@ -74,19 +74,19 @@ include_once "layout_header.php";
                                        class="form-control"
                                        id="edit-article-barcode"
                                        name="barcode"
-                                       placeholder="Stregkode"
+                                       placeholder="Stregkode" data-toggle="tooltip"
                                        title="Stregkode"
                                        required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="edit-article-traynumber">Skuffenummer</label>
+                            <label for="edit-article-tray_number">Skuffenummer</label>
                             <div class="input-group">
                                 <input type="text"
                                        class="form-control"
-                                       id="edit-article-traynumber"
-                                       name="traynumber"
-                                       placeholder="Skuffenummer"
+                                       id="edit-article-tray_number"
+                                       name="tray_number"
+                                       placeholder="Skuffenummer" data-toggle="tooltip"
                                        title="Skuffenummer"
                                        required>
                             </div>
@@ -100,7 +100,7 @@ include_once "layout_header.php";
                                        name="quantity"
                                        min="0"
                                        max="1000000"
-                                       placeholder="Antal"
+                                       placeholder="Antal" data-toggle="tooltip"
                                        title="Skuffenummer"
                                        required>
                             </div>
@@ -132,13 +132,19 @@ include_once "layout_header.php";
                                            class="form-control"
                                            id="new-article"
                                            name="article"
-                                           placeholder="Artikel"
+                                           placeholder="Artikel" data-toggle="tooltip"
                                            title="Artikel"
                                            required>
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control" id="new-article-prefix" name="articleprefix" placeholder="Artikel Præfiks"
-                                           title="Artikel Præfiks" required>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="new-article-prefix"
+                                           name="articleprefix"
+                                           placeholder="Artikel Præfiks"
+                                           data-toggle="tooltip"
+                                           title="Artikel Præfiks"
+                                           required>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +155,7 @@ include_once "layout_header.php";
                                        class="form-control"
                                        id="new-article-location"
                                        name="articlelocation"
-                                       placeholder="Lokation"
+                                       placeholder="Lokation" data-toggle="tooltip"
                                        title="Lokation ex ROD5"
                                        required>
                             </div>
@@ -157,7 +163,7 @@ include_once "layout_header.php";
                         <div class="form-group">
                             <label for="new-article-category">Kategori</label>
                             <div class="input-group">
-                                <select class="custom-select" id="new-article-category" name="category" title="Kategori" required>
+                                <select class="custom-select" id="article-category" name="category" title="Kategori" required>
                                 </select>
                             </div>
                         </div>
@@ -168,8 +174,8 @@ include_once "layout_header.php";
                                        class="form-control"
                                        id="new-article-barcode"
                                        name="barcode"
-                                       placeholder="Stregkode"
-                                       title="Kategori"
+                                       placeholder="Stregkode" data-toggle="tooltip"
+                                       title="Stregkode"
                                        readonly>
                             </div>
                         </div>
@@ -182,7 +188,7 @@ include_once "layout_header.php";
                                        name="tray_number"
                                        min="0"
                                        max="10000"
-                                       placeholder="Skuffenummer"
+                                       placeholder="Skuffenummer" data-toggle="tooltip"
                                        title="Skuffenummer"
                                        required>
                             </div>
@@ -190,8 +196,16 @@ include_once "layout_header.php";
                         <div class="form-group">
                             <label for="new-article-quantity">Antal</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" id="new-article-quantity" name="quantity" min="0" max="1000000"
-                                       placeholder="Antal" title="Antal" required>
+                                <input type="number"
+                                       class="form-control"
+                                       id="new-article-quantity"
+                                       name="quantity"
+                                       min="0"
+                                       max="1000000"
+                                       placeholder="Antal"
+                                       data-toggle="tooltip"
+                                       title="Antal"
+                                       required>
                             </div>
                         </div>
                     </form>

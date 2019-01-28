@@ -22,9 +22,11 @@ class Utilities {
 		$paging_arr['pages'] = array();
 		$page_count          = 0;
 
-		for ( $x = $initial_num; $x < $condition_limit_num; $x ++ ) {
+		for ( $x = $initial_num; $x < $condition_limit_num; $x ++ )
+		{
 			// be sure '$x is greater than 0' AND 'less than or equal to the $total_pages'
-			if ( ( $x > 0 ) && ( $x <= $total_pages ) ) {
+			if ( ( $x > 0 ) && ( $x <= $total_pages ) )
+			{
 				$paging_arr['pages'][ $page_count ]["page"]         = $x;
 				$paging_arr['pages'][ $page_count ]["url"]          = "{$page_url}page={$x}";
 				$paging_arr['pages'][ $page_count ]["current_page"] = $x == $page ? "yes" : "no";
@@ -39,8 +41,6 @@ class Utilities {
 		// json format
 		return $paging_arr;
 	}
-
 }
-
 
 ?>

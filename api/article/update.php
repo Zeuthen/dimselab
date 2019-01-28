@@ -35,7 +35,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 		if ( $article->update() )
 		{
 			// tell the user
-			echo json_encode( array( "message" => "Article was updated." ) );
+			echo json_encode( array( "message" => "Artiklen er ændret" ) );
 
 			// set response code - 200 ok
 			http_response_code( 200 );
@@ -48,7 +48,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 			http_response_code( 503 );
 
 			// tell the user
-			die( json_encode( array( "message" => "Unable to update article." ) ) );
+			die( json_encode( array( "message" => "Fejl under ændring af artikel" ) ) );
 		}
 	}
 }

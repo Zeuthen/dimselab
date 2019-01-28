@@ -32,7 +32,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 			extract( $row );
 
 			$article_item = array(
-				"id"          => $article_id,
+				"article_id"  => $article_id,
 				"article"     => $article,
 				"tray_number" => $tray_number,
 				"barcode"     => $barcode,
@@ -56,7 +56,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 		http_response_code( 404 );
 
 		// tell the user no articles found
-		die( json_encode( array( "message" => "Ingen artikler fundet." ) ) );
+		die( json_encode( array( "message" => "Ingen artikler blev fundet" ) ) );
 	}
 }
 ?>
