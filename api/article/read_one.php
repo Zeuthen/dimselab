@@ -22,16 +22,24 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 
 	if ( $article->name != null )
 	{
-
-		// set response code - 200 OK
-		http_response_code( 200 );
-
 		$article_arr = array(
 			"article" => $article->name
 		);
 
 		// make it json format
 		echo json_encode( $article_arr );
+
+		// set response code - 200 OK
+		http_response_code( 200 );
+	}
+	// no articles found will be here
+	else
+	{
+		// set response code - 404 Not found
+		http_response_code( 404 );
+
+		// tell the user no articles found
+		die( json_encode( array( "message" => "Ingen artikel fundet." ) ) );
 	}
 }
 ?>

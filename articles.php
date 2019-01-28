@@ -1,9 +1,4 @@
 <?php
-session_start();
-if ( ! isset( $_SESSION["user"] ) )
-{
-	header( "location: logind" );
-}
 // set page headers
 $page_title = "Artikeloversigt";
 $site_title = "Dimselab";

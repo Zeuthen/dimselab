@@ -73,6 +73,34 @@ class Article {
 		return $stmt;
 	}
 
+	// search articles
+	function search( $keywords ) {
+
+		// select all query
+		$query = "SELECT a.id as article_id, a.name as article, a.tray_number, a.barcode, a.on_loan, a.quantity, a.fk_category_id as category_id, c.name as category
+				FROM " . $this->table_name . " a
+				INNER JOIN categories c ON c.id = a.fk_category_id
+				WHERE a.name LIKE ? OR a.barcode LIKE ? OR a.tray_number LIKE ? OR c.name LIKE ?";
+
+		// prepare query statement
+		$stmt = $this->conn->prepare( $query );
+
+		// sanitize
+		$keywords = htmlspecialchars( strip_tags( $keywords ) );
+		$keywords = "%{$keywords}%";
+
+		// bind
+		$stmt->bindParam( 1, $keywords );
+		$stmt->bindParam( 2, $keywords );
+		$stmt->bindParam( 3, $keywords );
+		$stmt->bindParam( 4, $keywords );
+
+		// execute query
+		$stmt->execute();
+
+		return $stmt;
+	}
+
 	// read one article
 	function readOne() {
 		// update query
@@ -96,6 +124,28 @@ class Article {
 
 		// set values to object properties
 		$this->name = $row['name'];
+
+		return $stmt;
+	}
+
+	// search articles
+	function readPaging( $from_record_num, $records_per_page ) {
+
+		// select all query
+		$query = "SELECT a.id as article_id, a.name as article, a.tray_number, a.barcode, a.on_loan, a.quantity, a.fk_category_id as category_id, c.name as category
+				FROM " . $this->table_name . " a
+				INNER JOIN categories c ON c.id = a.fk_category_id
+				LIMIT ?, ?";
+
+		// prepare query statement
+		$stmt = $this->conn->prepare( $query );
+
+		// bind
+		$stmt->bindParam( 1, $from_record_num );
+		$stmt->bindParam( 2, $records_per_page );
+
+		// execute query
+		$stmt->execute();
 
 		return $stmt;
 	}
@@ -159,31 +209,20 @@ class Article {
 		return false;
 	}
 
-	// search articles
-	function search( $keywords ) {
+	// delete article
+	function count() {
+		// delete query
+		$query = "SELECT COUNT(*) as total_rows FROM " . $this->table_name;
 
-		// select all query
-		$query = "SELECT a.id as article_id, a.name as article, a.tray_number, a.barcode, a.on_loan, a.quantity, a.fk_category_id as category_id, c.name as category
-				FROM " . $this->table_name . " a
-				INNER JOIN categories c ON c.id = a.fk_category_id
-				WHERE a.name LIKE ? OR a.barcode LIKE ? OR a.tray_number LIKE ? OR c.name LIKE ?";
-
-		// prepare query statement
+		// prepare query
 		$stmt = $this->conn->prepare( $query );
-
-		// sanitize
-		$keywords = htmlspecialchars( strip_tags( $keywords ) );
-		$keywords = "%{$keywords}%";
-
-		// bind
-		$stmt->bindParam( 1, $keywords );
-		$stmt->bindParam( 2, $keywords );
-		$stmt->bindParam( 3, $keywords );
-		$stmt->bindParam( 4, $keywords );
 
 		// execute query
 		$stmt->execute();
 
-		return $stmt;
+		$row = $stmt->fetch( PDO::FETCH_ASSOC );
+
+		return $row["total_rows"];
 	}
+
 }

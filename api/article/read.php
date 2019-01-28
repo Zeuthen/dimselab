@@ -20,11 +20,9 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 	// check if more than 0 record found
 	if ( $num > 0 )
 	{
-		//  categories_array
-		$articles_arr = array();
 
-		// set response code - 200 OK
-		http_response_code( 200 );
+		//  articles_array
+		$articles_arr = array();
 
 		while( $row = $stmt->fetch( PDO::FETCH_ASSOC ) )
 		{
@@ -47,6 +45,9 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 			array_push( $articles_arr, $article_item );
 		}
 		echo json_encode( $articles_arr );
+
+		// set response code - 200 OK
+		http_response_code( 200 );
 	}
 	// no articles found will be here
 	else
@@ -55,11 +56,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 		http_response_code( 404 );
 
 		// tell the user no articles found
-		echo json_encode( array( "message" => "Ingen artikler fundet." ) );
-
-		echo "<tr>";
-		echo "<td colspan='8'>Ingen artikler fundet</td>";
-		echo "</tr>";
+		die( json_encode( array( "message" => "Ingen artikler fundet." ) ) );
 	}
 }
 ?>

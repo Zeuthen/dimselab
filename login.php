@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ( isset( $_SESSION["user"] ) )
+if ( isset( $_SESSION["USER"] ) )
 {
 	header( "location: oversigt" );
 }

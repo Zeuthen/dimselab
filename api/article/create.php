@@ -1,12 +1,13 @@
 <?php
 // required headers
 header( "Access-Control-Allow-Origin: *" );
-header("Content-Type: application/json; charset=UTF-8");
+header( "Content-Type: application/json; charset=UTF-8" );
 header( "Access-Control-Allow-Methods: POST" );
 header( "Access-Control-Max-Age: 3600" );
 header( "Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With" );
 
-if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) {
+if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' )
+{
 	// include database and object files
 	require_once '../config/database.php';
 	require_once '../objects/article.php';
@@ -17,7 +18,9 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 	// get posted data
 	//$data = json_decode( file_get_contents( "php://input" ) );
 
-	if ( isset( $_POST['article'] ) && isset( $_POST['category'] ) && isset( $_POST['barcode'] ) && isset( $_POST['tray_number'] ) && isset( $_POST['quantity'] ) ) {
+	if ( isset( $_POST['article'] ) && isset( $_POST['category'] ) && isset( $_POST['barcode'] ) && isset( $_POST['tray_number'] ) &&
+	     isset( $_POST['quantity'] ) )
+	{
 		// set user property values
 		$article->name        = $_POST['article'];
 		$article->tray_number = $_POST['tray_number'];
@@ -26,29 +29,32 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 		$article->category_id = $_POST['category'];
 
 		// create the user
-		if ( $article->create() ) {
-			// set response code - 201 created
-			http_response_code( 201 );
-
+		if ( $article->create() )
+		{
 			// tell the user
 			echo json_encode( array( "message" => "Article was created." ) );
+
+			// set response code - 201 created
+			http_response_code( 201 );
 		}
 		// if unable to create the user, tell the user
-		else {
+		else
+		{
 			// set response code - 503 service unavailable
 			http_response_code( 503 );
 
 			// tell the user
-			echo json_encode( array( "message" => "Unable to create article." ) );
+			die( json_encode( array( "message" => "Unable to create article." ) ) );
 		}
 	}
 	// tell the user data is incomplete
-	else {
+	else
+	{
 		// set response code - 400 bad request
 		http_response_code( 400 );
 
 		// tell the user
-		echo json_encode( array( "message" => "Unable to create user. Data is incomplete." ) );
+		die( json_encode( array( "message" => "Unable to create user. Data is incomplete." ) ) );
 	}
 }
 ?>

@@ -32,8 +32,8 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 			http_response_code( 200 );
 
 			session_start();
-			$_SESSION["user"]   = $user->name;
-			$_SESSION["userid"] = $user->id;
+			$_SESSION["USER"]   = $user->name;
+			$_SESSION["USER_ID"] = $user->id;
 
 			// tell the user
 			echo json_encode( array( "message" => "login was successful") );

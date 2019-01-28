@@ -1,12 +1,13 @@
 <?php
 // required headers
 header( "Access-Control-Allow-Origin: *" );
-header("Content-Type: application/json; charset=UTF-8");
+header( "Content-Type: application/json; charset=UTF-8" );
 header( "Access-Control-Allow-Methods: POST" );
 header( "Access-Control-Max-Age: 3600" );
 header( "Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With" );
 
-if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) {
+if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' )
+{
 	// include database and object files
 	require_once '../config/database.php';
 	require_once '../objects/article.php';
@@ -20,7 +21,9 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 	// set ID property of record to read
 	$article->id = isset( $_POST['article_id'] ) ? $_POST['article_id'] : die();
 
-	if ( isset( $_POST['article'] ) && isset( $_POST['category'] ) && isset( $_POST['barcode'] ) && isset( $_POST['tray_number'] ) && isset( $_POST['quantity'] ) ) {
+	if ( isset( $_POST['article'] ) && isset( $_POST['category'] ) && isset( $_POST['barcode'] ) && isset( $_POST['tray_number'] ) &&
+	     isset( $_POST['quantity'] ) )
+	{
 		// set product property values
 		$article->name        = $_POST['article'];
 		$article->tray_number = $_POST['tray_number'];
@@ -29,21 +32,23 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 		$article->category_id = $_POST['category'];
 
 		// create the product
-		if ( $article->update() ) {
-			// set response code - 200 ok
-			http_response_code( 200 );
-
+		if ( $article->update() )
+		{
 			// tell the user
 			echo json_encode( array( "message" => "Article was updated." ) );
+
+			// set response code - 200 ok
+			http_response_code( 200 );
 		}
 		// if unable to update the product, tell the user
-		else {
+		else
+		{
 
 			// set response code - 503 service unavailable
 			http_response_code( 503 );
 
 			// tell the user
-			echo json_encode( array( "message" => "Unable to update article." ) );
+			die( json_encode( array( "message" => "Unable to update article." ) ) );
 		}
 	}
 }
