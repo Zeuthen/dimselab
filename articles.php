@@ -5,35 +5,32 @@ $site_title = "Dimselab";
 require_once "layout_header.php";
 ?>
 
-    <div class="container content">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-search"></i></span>
-            </div>
-            <input type="search" name="search" class="form-control" id="articlesearch" placeholder="Søg artikel" autofocus autocomplete="off">
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-search"></i></span>
         </div>
+        <input type="search" name="search" class="form-control" id="articlesearch" placeholder="Søg artikel" autofocus autocomplete="off">
+    </div>
 
-        <button class="btn btn-success my-4 float-right" data-toggle='modal' data-target='#newArticleModal'>Ny artikel</button>
+    <button class="btn btn-success my-4 float-right" data-toggle='modal' data-target='#newArticleModal'>Ny artikel</button>
 
-        <div class="content-article">
-            <table class="table table-hover table-bordered">
-                <thead>
-                <tr>
-                    <th>Artikel</th>
-                    <th>Kategori</th>
-                    <th>Stregkode</th>
-                    <th>Skuffenr</th>
-                    <th>Lager</th>
-                    <th>Udlånt</th>
-                    <th>I alt</th>
-                    <th colspan="2">Handling</th>
-                </tr>
-                </thead>
-                <tbody id="table-article">
-                </tbody>
-            </table>
-        </div>
-
+    <div class="content-article">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>Artikel</th>
+                <th>Kategori</th>
+                <th>Stregkode</th>
+                <th>Skuffenr</th>
+                <th>Lager</th>
+                <th>Udlånt</th>
+                <th>I alt</th>
+                <th colspan="2">Handling</th>
+            </tr>
+            </thead>
+            <tbody id="table-article">
+            </tbody>
+        </table>
     </div>
 
     <div class="modal fade" id="editArticleModal" tabindex="-1" role="dialog" aria-labelledby="projectModalCenterTitle" aria-hidden="true">
@@ -101,7 +98,7 @@ require_once "layout_header.php";
                                        min="0"
                                        max="1000000"
                                        placeholder="Antal" data-toggle="tooltip"
-                                       title="Skuffenummer"
+                                       title="Antal"
                                        required>
                             </div>
                         </div>
@@ -127,36 +124,12 @@ require_once "layout_header.php";
                         <div class="form-group">
                             <label for="new-article">Artikel</label>
                             <div class="input-group">
-                                <div class="col">
-                                    <input type="text"
-                                           class="form-control"
-                                           id="new-article"
-                                           name="article"
-                                           placeholder="Artikel" data-toggle="tooltip"
-                                           title="Artikel"
-                                           required>
-                                </div>
-                                <div class="col">
-                                    <input type="text"
-                                           class="form-control"
-                                           id="new-article-prefix"
-                                           name="articleprefix"
-                                           placeholder="Artikel Præfiks"
-                                           data-toggle="tooltip"
-                                           title="Artikel Præfiks"
-                                           required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="new-article-location">Lokation</label>
-                            <div class="input-group">
                                 <input type="text"
                                        class="form-control"
-                                       id="new-article-location"
-                                       name="articlelocation"
-                                       placeholder="Lokation" data-toggle="tooltip"
-                                       title="Lokation ex ROD5"
+                                       id="new-article"
+                                       name="article"
+                                       placeholder="Artikel" data-toggle="tooltip"
+                                       title="Artikel"
                                        required>
                             </div>
                         </div>
@@ -168,29 +141,31 @@ require_once "layout_header.php";
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="new-article-barcode">Stregkode</label>
+                            <label for="new-article-tray_number">Stregkode</label>
                             <div class="input-group">
-                                <input type="text"
-                                       class="form-control"
-                                       id="new-article-barcode"
-                                       name="barcode"
-                                       placeholder="Stregkode" data-toggle="tooltip"
-                                       title="Stregkode"
-                                       readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="new-article-tray_number">Skuffenummer</label>
-                            <div class="input-group">
-                                <input type="number"
-                                       class="form-control"
-                                       id="new-article-tray_number"
-                                       name="tray_number"
-                                       min="0"
-                                       max="10000"
-                                       placeholder="Skuffenummer" data-toggle="tooltip"
-                                       title="Skuffenummer"
-                                       required>
+                                <div class="col pl-0">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="new-article-location"
+                                           name="location"
+                                           placeholder="Lokation" data-toggle="tooltip"
+                                           title="Lokation: ROD5" maxlength="4" minlength="4" required></div>
+                                <span>.</span>
+                                <div class="col">
+                                    <input type="text"
+                                           class="form-control"
+                                           id="new-article-prefix"
+                                           name="article_prefix"
+                                           placeholder="Artikel Præfiks" data-toggle="tooltip"
+                                           title="Artikel Præfiks: SGS8" maxlength="4" minlength="4" required></div>
+                                <span>.</span>
+                                <div class="col pr-0">
+                                    <input type="number"
+                                           class="form-control"
+                                           id="new-article-tray_number"
+                                           name="tray_number"
+                                           placeholder="Skuffenr" data-toggle="tooltip"
+                                           title="Skuffenummer: 0007" min="0" max="9999" maxlength="4" minlength="4" required></div>
                             </div>
                         </div>
                         <div class="form-group">

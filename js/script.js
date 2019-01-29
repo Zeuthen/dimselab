@@ -245,5 +245,66 @@ $(function ()
         notification += "</button>";
         notification += "</div>";
         $("body").append(notification);
+        setTimeout(function () { $(".alert").alert("close"); }, 10000);
     }
+
+
+    $.ajax({
+        method: "GET",
+        url   : "api/project/read.php",
+    }).done(function (response)
+    {
+        $("select#project").html(response);
+    }).fail(function (response)
+    {
+        alert(response);
+    });
+
+    $(".form-lend #checkbarcode").click(function (e)
+    {
+        if ($(".form-lend #barcode").val().length > 0)
+        {
+            $.ajax(
+                {
+                    method  : "GET",
+                    url     : url,
+                    data    : "barcode=" + $(".form-lend #barcode").val(),
+                    dataType: "json",
+                }).done(function (response)
+                {
+                    if (response.length > 0)
+                    {
+                        var result = response[0];
+                        alert("Vi fandt " + result["Artikel"]);
+                        $(".form-lend #artikel").val(result["Artikel"]);
+                    }
+                    else
+                    {
+                        alert("Ingen artikel");
+                    }
+                }
+            );
+        }
+        else
+        {
+            alert("Scan en stregkode");
+        }
+        e.preventDefault();
+    });
+    $(".form-lend").submit(function (e)
+    {
+        var form = $(this);
+        var url = form.attr("action");
+        $.ajax({
+            method: "POST",
+            url   : url,
+            data  : form.serialize(),
+        }).done(function (response)
+        {
+            alert("udlån fuldført");
+            location.reload();
+        });
+
+        e.preventDefault();
+    });
 });

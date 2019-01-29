@@ -5,31 +5,27 @@ $site_title = "Dimselab";
 require_once "layout_header.php";
 ?>
 
-<div class="container content">
-
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fas fa-search"></i></span>
-        </div>
-        <input type="search" name="search" class="form-control" id="projectsearch" placeholder="Søg projekt" autofocus autocomplete="off">
+<div class="input-group">
+    <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-search"></i></span>
     </div>
+    <input type="search" name="search" class="form-control" id="projectsearch" placeholder="Søg projekt" autofocus autocomplete="off">
+</div>
 
-    <button class="btn btn-success my-4 float-right" data-toggle='modal' data-target='#newProjectModal'>Nyt projekt</button>
+<button class="btn btn-success my-4 float-right" data-toggle='modal' data-target='#newProjectModal'>Nyt projekt</button>
 
-    <div class="content-overview">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">Projekt</th>
-                <th scope="col">Beskrivelse</th>
-                <th scope="col">Bruger</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-            </thead>
-            <tbody id="table-project"></tbody>
-        </table>
-    </div>
-
+<div class="content-overview">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Projekt</th>
+            <th scope="col">Beskrivelse</th>
+            <th scope="col">Bruger</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </thead>
+        <tbody id="table-project"></tbody>
+    </table>
 </div>
 
 <div class="modal fade" id="editProjectModal" tabindex="-1" role="dialog" aria-labelledby="projectModalCenterTitle" aria-hidden="true">
@@ -174,12 +170,13 @@ include_once "layout_footer.php";
             data  : form.serialize(),
         }).done(function (result)
         {
-            alert("Projekt ændret"+result);
+            alert("Projekt ændret" + result);
             location.reload();
         });
 
         e.preventDefault();
     });
+
     function confirm_click(projectid, project)
     {
         var check = confirm("Er du sikker på du vil slette projektet: " + project);
@@ -189,7 +186,7 @@ include_once "layout_footer.php";
                 method: "POST",
                 url   : "api/deleteproject.php",
                 data  :
-                "projectid=" + projectid,
+                    "projectid=" + projectid,
             }).
                 done(function (result)
                 {

@@ -3,30 +3,6 @@ body
 	padding-top : 56px;
 }
 
-.content
-{
-	padding-top : 35px;
-}
-
-.form-login
-{
-	max-width : 350px;
-}
-
-.table
-{
-	overflow-x : auto;
-}
-
-.form-article .input-group .col:nth-child(1)
-{
-	padding-left : 0;
-}
-
-.form-article .input-group .col:nth-child(2)
-{
-	padding-right : 0;
-}
 .custom-select:disabled
 {
 	background-image : none;

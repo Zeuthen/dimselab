@@ -146,11 +146,11 @@ else if ( time() - $_SESSION['CREATED'] > 1800 )
 			?>
         </ul>
         <ul class="form-inline ml-auto navbar-nav">
-            <li class="nav-item"><span class="navbar-text">Velkommen <strong><?php echo $_SESSION["user"] ?></strong></span></li>
+            <li class="nav-item"><span class="navbar-text">Velkommen <strong><?php echo $_SESSION["USER"] ?></strong></span></li>
             <li><a class="nav-link" href="./logud">Log ud</a></li>
         </ul>
     </div>
 </nav>
 
 <!-- container -->
-<div class="container content">
+<div class="container pt-5 mt-4">

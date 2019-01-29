@@ -19,7 +19,7 @@ if ( isset( $_SESSION["USER"] ) )
 <body class="bg-light mt-5">
 <h1 class="text-center mb-5">Velkommen til Dimselab</h1>
 
-<form class="form-login text-center mx-auto mt-5 px-3 py-3" method="post">
+<form class="form-login text-center mx-auto mt-5 px-3 py-3 w-25" method="post">
     <div class="mb-3">
         <label for="email" class="sr-only">E-mail adresse</label>
         <div class="input-group">
