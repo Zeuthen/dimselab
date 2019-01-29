@@ -34,12 +34,10 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 			$project_item = array(
 				"project_id"  => $project_id,
 				"project"     => $project,
-				"tray_number" => $tray_number,
-				"barcode"     => $barcode,
-				"on_loan"     => $on_loan,
-				"quantity"    => $quantity,
-				"category_id" => $category_id,
-				"category"    => $category
+				"description" => $description,
+				"user"        => $username,
+				"user_id"     => $user_id,
+				"user_name"   => $user_name
 			);
 
 			array_push( $projects_arr, $project_item );
