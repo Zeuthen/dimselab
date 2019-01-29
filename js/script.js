@@ -172,12 +172,12 @@ $(function ()
             data  : form.serialize(),
         }).done(function (response)
         {
-            alert(response["message"]);
+            notification(response["message"], "success");
             get_articles();
             $(".modal").modal("hide");
         }).fail(function (response)
         {
-            alert(response["message"]);
+            notification(response["message"], "danger");
         });
 
         e.preventDefault();
@@ -222,14 +222,28 @@ $(function ()
             data  : form.serialize(),
         }).done(function (response)
         {
-            alert(response["message"]);
+            notification(response["message"], "success");
             get_articles();
             $(".modal").modal("hide");
+
         }).fail(function (response)
         {
-            alert(response["message"]);
+            notification(response["message"], "danger");
         });
 
         e.preventDefault();
     });
+
+    //notification("message", "danger");
+    function notification(message, status)
+    {
+        // status : info, danger, success
+        var notification = "<div class=\"alert alert-" + status + " alert-dismissible fade show container notification\" role=\"alert\">";
+        notification += message;
+        notification += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">";
+        notification += "<span aria-hidden=\"true\">&times;</span>";
+        notification += "</button>";
+        notification += "</div>";
+        $("body").append(notification);
+    }
 });

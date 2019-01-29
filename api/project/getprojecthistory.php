@@ -36,7 +36,7 @@ try
 			echo "<td>" . $row["Bruger"] . "</td>";
 			echo "<td><a href='#' data-toggle='modal' data-target='#editProjectModal' data-project-id='" . $row["ProjektID"] . "' data-project='" .
 			     $row["Projekt"] . "' data-description='" . $row["Beskrivelse"] . "'>Redigér</a></td>";
-			echo "<td><a href='#' onclick='return confirm_click(\"" . $row["ProjektID"] . "\",\"" . $row["Projekt"] . "\");' data-project-id='" .
+			echo "<td><a href='#' onclick='return confirm_click(\"" . $row["ProjektID"] . "\",\"" . $row["Projekt"] . " .
 			     $row["ProjektID"] . "' data-project='" . $row["Projekt"] . "'>Slet</a></td>";
 			echo "</tr>";
 		}
