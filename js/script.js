@@ -73,11 +73,11 @@ $(function ()
                 data  : "article_id=" + article_id,
             }).done(function (response)
             {
-                alert(response["message"]);
+                notification(response["message"], "success");
                 location.reload();
             }).fail(function (response)
             {
-                alert(response["message"]);
+                notification(response["responseJSON"].message, "danger");
             });
         }
     });
@@ -177,7 +177,7 @@ $(function ()
             $(".modal").modal("hide");
         }).fail(function (response)
         {
-            notification(response["message"], "danger");
+            notification(response["responseJSON"].message, "danger");
         });
 
         e.preventDefault();
@@ -228,7 +228,7 @@ $(function ()
 
         }).fail(function (response)
         {
-            notification(response["message"], "danger");
+            notification(response["responseJSON"].message, "danger");
         });
 
         e.preventDefault();
@@ -248,50 +248,54 @@ $(function ()
         setTimeout(function () { $(".alert").alert("close"); }, 10000);
     }
 
-
+    var $project_dropdown = $("select#loan-project");
     $.ajax({
         method: "GET",
         url   : "api/project/read.php",
     }).done(function (response)
     {
-        $("select#project").html(response);
+        var projects = "<option value=''>Vælg Projekt</option>";
+        //$("select#new-article-category").append("<option value=''>Vælg Kategori</option>");
+        $.each(response, function (k, v)
+        {
+            //$("select#new-article-category").append("<option value=" + v.id + ">" + v.name + "</option>");
+            projects += "<option value=" + v.project_id + ">" + v.project + ", " + v.description + "</option>";
+        });
+        $project_dropdown.html(projects);
     }).fail(function (response)
     {
-        alert(response);
+        $project_dropdown.html("<option value=''>" + response["responseJSON"].message + "</option>");
+        $project_dropdown.attr("disabled", "disabled");
+        notification(response["responseJSON"].message, "danger");
     });
 
-    $(".form-lend #checkbarcode").click(function (e)
+    $(".form-loan #checkbarcode").click(function (e)
     {
-        if ($(".form-lend #barcode").val().length > 0)
+        if ($(".form-loan #barcode").val().length > 0)
         {
             $.ajax(
                 {
                     method  : "GET",
                     url     : url,
-                    data    : "barcode=" + $(".form-lend #barcode").val(),
+                    data    : "barcode=" + $(".form-loan #barcode").val(),
                     dataType: "json",
                 }).done(function (response)
-                {
-                    if (response.length > 0)
-                    {
-                        var result = response[0];
-                        alert("Vi fandt " + result["Artikel"]);
-                        $(".form-lend #artikel").val(result["Artikel"]);
-                    }
-                    else
-                    {
-                        alert("Ingen artikel");
-                    }
-                }
-            );
+            {
+                $(".form-loan #loan-article").val(result["Artikel"]);
+                notification(response["message"], "success");
+            }).fail(function (response)
+            {
+                notification(response["responseJSON"].message, "danger");
+
+            });
         }
         else
         {
-            alert("Scan en stregkode");
+            notification("Scan venligst en stregkode", "info");
         }
         e.preventDefault();
     });
-    $(".form-lend").submit(function (e)
+    $(".form-loan").submit(function (e)
     {
         var form = $(this);
         var url = form.attr("action");
@@ -307,4 +311,5 @@ $(function ()
 
         e.preventDefault();
     });
-});
+})
+;

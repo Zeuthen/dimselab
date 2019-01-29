@@ -54,7 +54,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 		http_response_code( 400 );
 
 		// tell the user
-		die( json_encode( array( "message" => "Unable to create user. Data is incomplete." ) ) );
+		die( json_encode( array( "message" => "Fejl under oprettelse af artikel. Data er ikke korrekt." ) ) );
 	}
 }
 ?>

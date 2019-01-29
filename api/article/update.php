@@ -35,7 +35,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 		if ( $article->update() )
 		{
 			// tell the user
-			echo json_encode( array( "message" => "Artiklen er ændret" ) );
+			echo json_encode( array( "message" => "Artiklen blev ændret" ) );
 
 			// set response code - 200 ok
 			http_response_code( 200 );

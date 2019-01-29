@@ -3,30 +3,7 @@ require_once "database1.php";
 
 try
 {
-	$result = "";
-	if ( isset( $_GET["search"] ) )
-	{
-		$sql    = "SELECT projekter.ID as ProjektID, projekter.Navn as Projekt, projekter.Beskrivelse, brugere.Brugernavn as Bruger
-				FROM projekter
-				INNER JOIN brugere ON brugere.ID = projekter.FK_bruger_ID
-				WHERE projekter.Navn LIKE :project";
-		$sth    = $conn->prepare( $sql );
-		$search = "%" . $_GET["search"] . "%";
-		$sth->bindParam( ':project', $search, PDO::PARAM_STR );
-		$sth->execute();
-		$result = $sth->fetchAll( PDO::FETCH_ASSOC );
-	}
-	else
-	{
-		$sql = "SELECT projekter.ID as ProjektID, projekter.Navn as Projekt, projekter.Beskrivelse, brugere.Brugernavn as Bruger
-				FROM projekter
-				INNER JOIN brugere ON brugere.ID = projekter.FK_bruger_ID";
-		$sth = $conn->prepare( $sql );
-		$sth->execute();
-		$result = $sth->fetchAll( PDO::FETCH_ASSOC );
-	}
-
-	if ( count( $result ) > 0 )
+		if ( count( $result ) > 0 )
 	{
 		foreach ( $result as $row )
 		{

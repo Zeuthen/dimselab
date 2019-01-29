@@ -44,7 +44,6 @@ require_once "layout_header.php";
             <label for="loan-project">Projekt</label>
             <div class="input-group">
                 <select class="custom-select" name="project" id="loan-project" data-toggle="tooltip" title="Projekt" required>
-                    <option value="">Projekt</option>
                 </select>
             </div>
         </div>

@@ -1,25 +1,29 @@
 <?php
 // required headers
 header( "Access-Control-Allow-Origin: *" );
-header( "Access-Control-Allow-Methods: GET" );
+header( "Access-Control-Allow-Methods: POST" );
 header( "Content-Type: application/json; charset=UTF-8" );
 
 if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) {
 	// include database and object files
-	require_once '../config/database.php';
-	require_once '../objects/article.php';
+	include_once '../config/core.php';
+	include_once '../config/database.php';
+	include_once '../objects/project.php';
 
 	// initialize object
-	$article = new Article( $conn );
+	$project = new Project( $conn );
 
-	// query articles
-	$stmt = $article->read();
+	// get keywords
+	$keywords = isset( $_POST["search"] ) ? $_POST["search"] : "";
+
+	// query projects
+	$stmt = $project->search( $keywords );
 	$num  = $stmt->rowCount();
 
 	// check if more than 0 record found
 	if ( $num > 0 ) {
-		//  articles_array
-		$articles_arr = array();
+		//  categories_array
+		$projects_arr = array();
 
 		while( $row = $stmt->fetch( PDO::FETCH_ASSOC ) ) {
 			//  extract row
@@ -27,9 +31,9 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 			//  just $name only
 			extract( $row );
 
-			$article_item = array(
-				"article_id"  => $article_id,
-				"article"     => $article,
+			$project_item = array(
+				"project_id"  => $project_id,
+				"project"     => $project,
 				"tray_number" => $tray_number,
 				"barcode"     => $barcode,
 				"on_loan"     => $on_loan,
@@ -38,20 +42,20 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 				"category"    => $category
 			);
 
-			array_push( $articles_arr, $article_item );
+			array_push( $projects_arr, $project_item );
 		}
-		echo json_encode( $articles_arr );
+		echo json_encode( $projects_arr );
 
 		// set response code - 200 OK
 		http_response_code( 200 );
 	}
-	// no articles found will be here
+	// no projects found will be here
 	else {
 		// set response code - 404 Not found
 		http_response_code( 404 );
 
-		// tell the user no articles found
-		die( json_encode( array( "message" => "Ingen artikler blev fundet" ) ) );
+		// tell the user no projects found
+		die( json_encode( array( "message" => "Ingen projekter blev fundet" ) ) );
 	}
 }
 ?>

@@ -19,7 +19,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 	$article = new Article( $conn );
 
 	// query articles
-	$stmt = $article->readPaging( $from_Record_num, $records_per_page );
+	$stmt = $article->readPaging( $from_record_num, $records_per_page );
 	$num  = $stmt->rowCount();
 
 	if ( $num > 0 )

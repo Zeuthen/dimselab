@@ -11,6 +11,7 @@ class Project {
 	public $description;
 	public $created;
 	public $user_id;
+	public $user_name;
 	public $user;
 
 	public $search;
@@ -40,8 +41,7 @@ class Project {
 		$stmt->bindParam( ":user_id", $this->user_id, PDO::PARAM_INT );
 
 		// execute query
-		if ( $stmt->execute() )
-		{
+		if ( $stmt->execute() ) {
 			return true;
 		}
 
@@ -52,9 +52,9 @@ class Project {
 	// read articles
 	function read() {
 		// select all query
-		$query = "SELECT a.id as article_id, a.name as article, a.tray_number, a.barcode, a.on_loan, a.quantity, a.fk_category_id as category_id, c.name as category
-				FROM " . $this->table_name . " a
-				INNER JOIN categories c ON c.id = a.fk_category_id";
+		$query = "SELECT p.id as project_id, p.name as project, p.description, u.username as username, u.name as user_name, p.fk_user_id as user_id
+				FROM " . $this->table_name . " p
+				INNER JOIN users u ON u.id = p.fk_user_id";
 
 		// prepare query statement
 		$stmt = $this->conn->prepare( $query );
@@ -69,10 +69,10 @@ class Project {
 	function search( $keywords ) {
 
 		// select all query
-		$query = "SELECT a.id as article_id, a.name as article, a.tray_number, a.barcode, a.on_loan, a.quantity, a.fk_category_id as category_id, c.name as category
-				FROM " . $this->table_name . " a
-				INNER JOIN categories c ON c.id = a.fk_category_id
-				WHERE a.name LIKE ? OR a.barcode LIKE ? OR a.tray_number LIKE ? OR c.name LIKE ?";
+		$query = "SELECT p.id as project_id, p.name as project, p.description, u.username as username, u.name as user_name, p.fk_user_id as user_id
+				FROM " . $this->table_name . " p
+				INNER JOIN users u ON u.id = p.fk_user_id
+				WHERE p.name LIKE ? OR p.description LIKE ? OR u.username LIKE ?";
 
 		// prepare query statement
 		$stmt = $this->conn->prepare( $query );
@@ -85,7 +85,6 @@ class Project {
 		$stmt->bindParam( 1, $keywords );
 		$stmt->bindParam( 2, $keywords );
 		$stmt->bindParam( 3, $keywords );
-		$stmt->bindParam( 4, $keywords );
 
 		// execute query
 		$stmt->execute();
@@ -96,18 +95,18 @@ class Project {
 	// read one article
 	function readOne() {
 		// update query
-		$query = "SELECT a.id as article_id, a.name as article, a.tray_number, a.barcode, a.on_loan, a.quantity, a.fk_category_id as category_id, c.name as category
-				FROM " . $this->table_name . " a
-				INNER JOIN categories c ON c.id = a.fk_category_id
-				WHERE barcode = :barcode";
+		$query = "SELECT p.id as project_id, p.name as project, p.description, u.username as username, u.name as user_name, p.fk_user_id as user_id
+				FROM " . $this->table_name . " p
+				INNER JOIN users u ON u.id = p.fk_user_id
+				WHERE p.id = ?";
 
 		// prepare query statement
 		$stmt = $this->conn->prepare( $query );
 
-		$this->barcode = htmlspecialchars( strip_tags( $this->barcode ) );
+		$this->id = htmlspecialchars( strip_tags( $this->id ) );
 
 		// bind values
-		$stmt->bindParam( ":barcode", $this->barcode, PDO::PARAM_STR );
+		$stmt->bindParam( 1, $this->id );
 
 		// execute query
 		$stmt->execute();
@@ -118,12 +117,10 @@ class Project {
 		// set values to object properties
 		$this->id          = $row['article_id'];
 		$this->name        = $row['article'];
-		$this->tray_number = $row['tray_number'];
-		$this->barcode     = $row['barcode'];
-		$this->on_loan     = $row['on_loan'];
-		$this->quantity    = $row['quantity'];
-		$this->category_id = $row['category_id'];
-		$this->category    = $row['category'];
+		$this->description = $row['description'];
+		$this->username    = $row['username'];
+		$this->user_name   = $row['user_name'];
+		$this->user_id     = $row['user_id'];
 
 		return $stmt;
 	}
@@ -132,9 +129,9 @@ class Project {
 	function readPaging( $from_record_num, $records_per_page ) {
 
 		// select all query
-		$query = "SELECT a.id as article_id, a.name as article, a.tray_number, a.barcode, a.on_loan, a.quantity, a.fk_category_id as category_id, c.name as category
-				FROM " . $this->table_name . " a
-				INNER JOIN categories c ON c.id = a.fk_category_id
+		$query = "SELECT p.id as project_id, p.name as project, p.description, u.username as username, u.name as user_name, projects.fk_user_id as user_id
+				FROM " . $this->table_name . " p
+				INNER JOIN users u ON u.id = p.fk_user_id
 				LIMIT ?, ?";
 
 		// prepare query statement
@@ -153,8 +150,7 @@ class Project {
 	// update articles
 	function update() {
 		// select all query
-		$query = "UPDATE " . $this->table_name .
-		         " SET name = :name, tray_number = :tray_number, barcode = :barcode, quantity = :quantity, fk_category_id = :category_id WHERE ID = :id";
+		$query = "UPDATE " . $this->table_name . " SET name = :name, description = :description WHERE ID = :id";
 
 		// prepare query statement
 		$stmt = $this->conn->prepare( $query );
@@ -162,23 +158,15 @@ class Project {
 		// sanitize
 		$this->id          = htmlspecialchars( strip_tags( $this->id ) );
 		$this->name        = htmlspecialchars( strip_tags( $this->name ) );
-		$this->tray_number = htmlspecialchars( strip_tags( $this->tray_number ) );
-		$this->barcode     = htmlspecialchars( strip_tags( $this->barcode ) );
-		$this->on_loan     = htmlspecialchars( strip_tags( $this->on_loan ) );
-		$this->quantity    = htmlspecialchars( strip_tags( $this->quantity ) );
-		$this->category_id = htmlspecialchars( strip_tags( $this->category_id ) );
+		$this->description = htmlspecialchars( strip_tags( $this->description ) );
 
 		// bind values
 		$stmt->bindParam( ":id", $this->id, PDO::PARAM_INT );
 		$stmt->bindParam( ":name", $this->name, PDO::PARAM_STR );
-		$stmt->bindParam( ":tray_number", $this->tray_number, PDO::PARAM_INT );
-		$stmt->bindParam( ":barcode", $this->barcode, PDO::PARAM_STR );
-		$stmt->bindParam( ":quantity", $this->quantity, PDO::PARAM_INT );
-		$stmt->bindParam( ":category_id", $this->category_id, PDO::PARAM_INT );
+		$stmt->bindParam( ":description", $this->description, PDO::PARAM_STR );
 
 		// execute the query
-		if ( $stmt->execute() )
-		{
+		if ( $stmt->execute() ) {
 			return true;
 		}
 
@@ -200,8 +188,7 @@ class Project {
 		$stmt->bindParam( ":id", $this->id, PDO::PARAM_INT );
 
 		// execute query
-		if ( $stmt->execute() )
-		{
+		if ( $stmt->execute() ) {
 			return true;
 		}
 

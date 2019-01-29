@@ -25,7 +25,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 	if ( $article->delete() )
 	{
 		// tell the user
-		echo json_encode( array( "message" => "Article was deleted." ) );
+		echo json_encode( array( "message" => "Artiklen blev slettet" ) );
 
 		// set response code - 200 OK
 		http_response_code( 200 );
@@ -39,7 +39,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 		http_response_code( 503 );
 
 		// tell the user
-		die( json_encode( array( "message" => "Unable to delete article." ) ) );
+		die( json_encode( array( "message" => "Fejl under slettelse af artikel" ) ) );
 	}
 }
 ?>
