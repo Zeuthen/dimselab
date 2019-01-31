@@ -322,7 +322,6 @@ $(function ()
             projects += "<tr>";
             projects += "<td>" + v.project + "</td>";
             projects += "<td>" + v.description + "</td>";
-            projects += "<td>" + v.barcode + "</td>";
             projects += "<td>" + v.user + "</td>";
             projects += "<td>";
             projects += "<a href='#' data-toggle='modal' data-target='#editProjectModal' data-project-id='" + v.project_id + "'>Redigér</a>";

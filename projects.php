@@ -15,14 +15,14 @@ require_once "layout_header.php";
 <button class="btn btn-success my-4 float-right" data-toggle='modal' data-target='#newProjectModal'>Nyt projekt</button>
 
 <div class="content-overview">
-    <table class="table table-hover">
+    <table class="table table-hover table-bordered">
         <thead>
         <tr>
-            <th scope="col">Projekt</th>
-            <th scope="col">Beskrivelse</th>
-            <th scope="col">Bruger</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
+            <th>Projekt</th>
+            <th>Beskrivelse</th>
+            <th>Bruger</th>
+            <th colspan="2">Handling</th>
+        </tr>
         </thead>
         <tbody id="table-project"></tbody>
     </table>
