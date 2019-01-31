@@ -8,11 +8,22 @@ body
 	background-image : none;
 }
 
-.notification {
-	position:fixed;
-	top:65px;
-	left:15%;
-	z-index:99999;
-	text-align:center;
-	opacity : 0.85;
+.notification
+{
+	position   : fixed;
+	top        : 65px;
+	left       : 3.5%;
+	z-index    : 99999;
+	text-align : center;
+	opacity    : 0.85;
+}
+
+@media only screen and  (min-width : 1200px )
+{
+	.notification
+	{
+		/*position   : fixed;*/
+		/*top        : 65px;*/
+		left : 15%;
+	}
 }
