@@ -502,3 +502,4 @@ $(function ()
 
         e.preventDefault();
     });
+});
