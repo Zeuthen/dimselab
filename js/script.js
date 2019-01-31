@@ -281,7 +281,7 @@ $(function ()
                     dataType: "json",
                 }).done(function (response)
             {
-                $(".form-loan #loan-article").val(result["Artikel"]);
+                $(".form-loan #loan-article").val(response["Artikel"]);
                 notification(response["message"], "success");
             }).fail(function (response)
             {
@@ -305,8 +305,7 @@ $(function ()
             data  : form.serialize(),
         }).done(function (response)
         {
-            alert("udlån fuldført");
-            location.reload();
+            notification("Udlån udført", "success");
         });
 
         e.preventDefault();
