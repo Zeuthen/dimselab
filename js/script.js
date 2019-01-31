@@ -132,7 +132,6 @@ $(function ()
     $("#form-edit-article").submit(function (e)
     {
         var form = $(this);
-        //var url = form.attr("action");
         $.ajax({
             method: "POST",
             url   : "api/article/update.php",
@@ -276,10 +275,9 @@ $(function ()
     $(".form-loan").submit(function (e)
     {
         var form = $(this);
-        var url = form.attr("action");
         $.ajax({
             method: "POST",
-            url   : "api/loan.php",
+            url   : "api/user/loan.php",
             data  : form.serialize(),
         }).done(function (response)
         {
@@ -399,7 +397,6 @@ $(function ()
     $(".form-new-project").submit(function (e)
     {
         var form = $(this);
-        var url = form.attr("action");
         $.ajax({
             method: "POST",
             url   : "api/project/create.php",
@@ -419,7 +416,6 @@ $(function ()
     $(".form-edit-project").submit(function (e)
     {
         var form = $(this);
-        var url = form.attr("action");
         $.ajax({
             method: "POST",
             url   : "api/project/update.php",

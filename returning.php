@@ -5,7 +5,7 @@ $site_title = "Dimselab";
 require_once "layout_header.php";
 ?>
 
-<form class="form-lend row" method="post" action="api/loan.php">
+<form class="form-lend row" method="post" action="api/user/loan.php">
     <div class="col-lg-10">
         <input type="text"
                name="stregkode"

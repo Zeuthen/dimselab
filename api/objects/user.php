@@ -19,6 +19,10 @@ class User {
 	public $password;
 	public $barcode;
 
+	public $article;
+	public $user;
+	public $project;
+
 	// constructor with $db as database connection
 	public function __construct( $db ) {
 		$this->conn = $db;
@@ -47,13 +51,42 @@ class User {
 			$row = $stmt->fetch( PDO::FETCH_ASSOC );
 
 			// set values to object properties
-			$this->id    = $row['id'];
-			$this->name    = $row['name'];
+			$this->id   = $row['id'];
+			$this->name = $row['name'];
 
 			return true;
 		}
 
 		return false;
 	}
+
+	// read products
+	function loan() {
+		// select all query
+		$query = "INSERT INTO statistics (fk_article_id, fk_user_id, fk_project_id)
+					VALUES ((SELECT a.ID FROM articles a WHERE a.barcode = :barcode LIMIT 1), :user, :project)";
+
+		// prepare query statement
+		$stmt = $this->conn->prepare( $query );
+
+		// sanitize
+		$this->article    = htmlspecialchars( strip_tags( $this->article ) );
+		$this->user = htmlspecialchars( strip_tags( $this->user ) );
+		$this->project   = htmlspecialchars( strip_tags( $this->project ) );
+
+		// bind values
+		$stmt->bindParam( ":barcode", $this->article, PDO::PARAM_INT );
+		$stmt->bindParam( ":user", $this->user, PDO::PARAM_INT );
+		$stmt->bindParam( ":project", $this->project, PDO::PARAM_INT );
+
+		// execute the query
+		if ( $stmt->execute() )
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 
 }
