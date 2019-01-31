@@ -35,8 +35,7 @@ require_once "layout_header.php";
                     </div>
                 </div>
                 <div class="col-lg-4 pr-0">
-                    <button id="checkbarcode" class="btn btn-primary btn-block" data-toggle="tooltip" title="Validér Stregkode">Validér Stregkode
-                    </button>
+                    <input type="button" id="check-barcode" class="btn btn-primary btn-block" data-toggle="tooltip" title="Validér Stregkode" value="Validér Stregkode"/>
                 </div>
             </div>
         </div>

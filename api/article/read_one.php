@@ -45,7 +45,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 		http_response_code( 404 );
 
 		// tell the user no articles found
-		die( json_encode( array( "message" => "Ingen artikel fundet." ) ) );
+		exit( json_encode( array( "message" => "Ingen artikel fundet." ) ) );
 	}
 }
 ?>

@@ -63,8 +63,8 @@ $(function ()
 
     $(document).on("click", ".delete-article", function (e)
     {
-        var article = $(e.target).data("article");
         var article_id = $(e.target).data("article-id");
+        var article = $(e.target).data("article-id");
         if (confirm("Er du sikker på at slette artiklen: " + article + "?"))
         {
             $.ajax({
@@ -74,7 +74,7 @@ $(function ()
             }).done(function (response)
             {
                 notification(response["message"], "success");
-                location.reload();
+                get_articles();
             }).fail(function (response)
             {
                 notification(response["responseJSON"].message, "danger");
@@ -125,40 +125,7 @@ $(function ()
         }
         else
         {
-            $.ajax({
-                method: "GET",
-                url   : "api/article/read.php",
-            }).done(function (response)
-            {
-                var articles = "";
-                $.each(response, function (k, v)
-                {
-                    articles += "<tr>";
-                    articles += "<td>" + v.article + "</td>";
-                    articles += "<td>" + v.category + "</td>";
-                    articles += "<td>" + v.barcode + "</td>";
-                    articles += "<td>" + v.tray_number + "</td>";
-                    articles += "<td>" + (v.quantity - v.on_loan) + "</td>";
-                    articles += "<td>" + v.on_loan + "</td>";
-                    articles += "<td>" + v.quantity + "</td>";
-                    articles += "<td>";
-                    articles += "<a href='#' data-toggle='modal' data-target='#editArticleModal' data-barcode='" + v.barcode + "'>Redigér</a>";
-                    articles += "</td>";
-                    articles += "<td>";
-                    articles += "<a href='#' class='delete-article' data-article-id='" + v.article_id + "' data-article='" + v.article + "'>Slet</a>";
-                    articles += "</td>";
-                    articles += "</tr>";
-                });
-
-                $("#table-article").html(articles);
-            }).fail(function (response)
-            {
-                var articles = "<tr>";
-                articles += "<td colspan='8'>" + response["responseJSON"].message + "</td>";
-                articles += "</tr>";
-
-                $("#table-article").html(articles);
-            });
+            get_articles();
         }
     });
 
@@ -212,14 +179,26 @@ $(function ()
             $("input#new-article-barcode").val(location + "." + article + "." + tray_number);
         }
     });
+
+    function pad(str, max)
+    {
+        str = str.toString();
+        return str.length < max ? pad("0" + str, max) : str;
+    }
+
     $("#form-new-article").submit(function (e)
     {
         var form = $(this);
-        //var url = form.attr("action");
+        var location = form.find("#new-article-location").val();
+        var prefix = form.find("#new-article-prefix").val();
+        var tray_number = form.find("#new-article-tray_number").val();
+        var barcode = location + "." + prefix + "." + pad(tray_number, 4);
+
+        var data = form.serialize() + "&barcode=" + barcode;
         $.ajax({
             method: "POST",
             url   : "api/article/create.php",
-            data  : form.serialize(),
+            data  : data,
         }).done(function (response)
         {
             notification(response["message"], "success");
@@ -269,24 +248,23 @@ $(function ()
         notification(response["responseJSON"].message, "danger");
     });
 
-    $(".form-loan #checkbarcode").click(function (e)
+    $(".form-loan #check-barcode").click(function (e)
     {
-        if ($(".form-loan #barcode").val().length > 0)
+        var barcode = $(".form-loan #loan-barcode").val();
+        if (barcode.length > 0)
         {
             $.ajax(
                 {
-                    method  : "GET",
-                    url     : url,
-                    data    : "barcode=" + $(".form-loan #barcode").val(),
-                    dataType: "json",
+                    method  : "POST",
+                    url     : "api/article/read_one.php",
+                    data    : "barcode=" + barcode,
                 }).done(function (response)
             {
-                $(".form-loan #loan-article").val(response["Artikel"]);
-                notification(response["message"], "success");
+                $(".form-loan #loan-article").val(response["article"])
+                notification("Fandt: "+response["article"], "success");
             }).fail(function (response)
             {
-                notification(response["responseJSON"].message, "danger");
-
+                notification(response["ResponseJSON"].message, "danger");
             });
         }
         else
@@ -301,7 +279,7 @@ $(function ()
         var url = form.attr("action");
         $.ajax({
             method: "POST",
-            url   : url,
+            url   : "api/loan.php",
             data  : form.serialize(),
         }).done(function (response)
         {
@@ -311,28 +289,6 @@ $(function ()
         e.preventDefault();
     });
 
-    $.ajax({
-        method: "GET",
-        url   : "api/project/read.php",
-    }).done(function (response)
-    {
-        var projects = "";
-        $.each(response, function (k, v)
-        {
-            projects += "<tr>";
-            projects += "<td>" + v.project + "</td>";
-            projects += "<td>" + v.description + "</td>";
-            projects += "<td>" + v.user + "</td>";
-            projects += "<td>";
-            projects += "<a href='#' data-toggle='modal' data-target='#editProjectModal' data-project-id='" + v.project_id + "'>Redigér</a>";
-            projects += "</td>";
-            projects += "<td>";
-            projects += "<a href='#' class='delete-project' data-project-id='" + v.project_id + "' data-project='" + v.project + "'>Slet</a>";
-            projects += "</td>";
-            projects += "</tr>";
-        });
-        $("#table-project").html(projects);
-    });
     $("#editProjectModal").on("show.bs.modal", function (event)
     {
         var button = $(event.relatedTarget);
@@ -341,8 +297,8 @@ $(function ()
         var description = button.data("description");
 
         var modal = $(this);
-        modal.find(".modal-body input#projectid").val(project_id);
-        modal.find(".modal-body input#project-name").val(project);
+        modal.find(".modal-body input#project-id").val(project_id);
+        modal.find(".modal-body input#edit-project-name").val(project);
         modal.find(".modal-body textarea").val(description);
     });
     $("#projectsearch").keyup(function (event)
@@ -363,17 +319,15 @@ $(function ()
                     projects += "<tr>";
                     projects += "<td>" + v.project + "</td>";
                     projects += "<td>" + v.description + "</td>";
-                    projects += "<td>" + v.barcode + "</td>";
                     projects += "<td>" + v.user + "</td>";
                     projects += "<td>";
-                    projects += "<a href='#' data-toggle='modal' data-target='#editProjectModal' data-project-id='" + v.project_id + "'>Redigér</a>";
+                    projects += "<a href='#' data-toggle='modal' data-target='#editProjectModal' data-project-id='" + v.project_id + "' data-project='" + v.project + "' data-description='" + v.description + "'>Redigér</a>";
                     projects += "</td>";
                     projects += "<td>";
                     projects += "<a href='#' class='delete-project' data-project-id='" + v.project_id + "' data-project='" + v.project + "'>Slet</a>";
                     projects += "</td>";
                     projects += "</tr>";
                 });
-
                 $("#table-project").html(projects);
             }).fail(function (response)
             {
@@ -397,18 +351,17 @@ $(function ()
                     projects += "<tr>";
                     projects += "<td>" + v.project + "</td>";
                     projects += "<td>" + v.description + "</td>";
-                    projects += "<td>" + v.barcode + "</td>";
                     projects += "<td>" + v.user + "</td>";
                     projects += "<td>";
-                    projects += "<a href='#' data-toggle='modal' data-target='#editArticleModal' data-barcode='" + v.barcode + "'>Redigér</a>";
+                    projects += "<a href='#' data-toggle='modal' data-target='#editProjectModal' data-project-id='" + v.project_id + "' data-project='" + v.project + "' data-description='" + v.description + "'>Redigér</a>";
                     projects += "</td>";
                     projects += "<td>";
-                    projects += "<a href='#' class='delete-article' data-article-id='" + v.article_id + "' data-article='" + v.article + "'>Slet</a>";
+                    projects += "<a href='#' class='delete-project' data-project-id='" + v.project_id + "' data-project='" + v.project + "'>Slet</a>";
                     projects += "</td>";
                     projects += "</tr>";
                 });
 
-                $("#table-project").html(articles);
+                $("#table-project").html(projects);
             }).fail(function (response)
             {
                 var articles = "<tr>";
@@ -449,12 +402,12 @@ $(function ()
         var url = form.attr("action");
         $.ajax({
             method: "POST",
-            url   : url,
+            url   : "api/project/create.php",
             data  : form.serialize(),
         }).done(function (response)
         {
             notification(response["message"], "success");
-            get_articles();
+            get_projects();
             $(".modal").modal("hide");
         }).fail(function (response)
         {
@@ -469,12 +422,12 @@ $(function ()
         var url = form.attr("action");
         $.ajax({
             method: "POST",
-            url   : url,
+            url   : "api/project/update.php",
             data  : form.serialize(),
         }).done(function (response)
         {
             notification(response["message"], "success");
-            get_articles();
+            get_projects();
             $(".modal").modal("hide");
         }).fail(function (response)
         {
@@ -483,4 +436,51 @@ $(function ()
 
         e.preventDefault();
     });
+    $(document).on("click", ".delete-project", function (e)
+    {
+        var project_id = $(e.target).data("project-id");
+        var project = $(e.target).data("project");
+        if (confirm("Er du sikker på at slette projektet: " + project + "?"))
+        {
+            $.ajax({
+                method: "POST",
+                url   : "api/project/delete.php",
+                data  : "project_id=" + project_id,
+            }).done(function (response)
+            {
+                notification(response["message"], "success");
+                get_projects();
+            }).fail(function (response)
+            {
+                notification(response["responseJSON"].message, "danger");
+            });
+        }
+    });
+    get_projects();
+
+    function get_projects()
+    {
+        $.ajax({
+            method: "GET",
+            url   : "api/project/read.php",
+        }).done(function (response)
+        {
+            var projects = "";
+            $.each(response, function (k, v)
+            {
+                projects += "<tr>";
+                projects += "<td>" + v.project + "</td>";
+                projects += "<td>" + v.description + "</td>";
+                projects += "<td>" + v.user + "</td>";
+                projects += "<td>";
+                projects += "<a href='#' data-toggle='modal' data-target='#editProjectModal' data-project-id='" + v.project_id + "' data-project='" + v.project + "' data-description='" + v.description + "'>Redigér</a>";
+                projects += "</td>";
+                projects += "<td>";
+                projects += "<a href='#' class='delete-project' data-project-id='" + v.project_id + "' data-project='" + v.project + "'>Slet</a>";
+                projects += "</td>";
+                projects += "</tr>";
+            });
+            $("#table-project").html(projects);
+        });
+    }
 });
