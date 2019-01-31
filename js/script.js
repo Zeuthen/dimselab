@@ -352,154 +352,153 @@ $(function ()
         });
         $("#table-project").html(projects);
     });
-});
-$("#editProjectModal").on("show.bs.modal", function (event)
-{
-    var button = $(event.relatedTarget);
-    var projectid = button.data("project-id");
-    var project = button.data("project");
-    var description = button.data("description");
-
-    var modal = $(this);
-    modal.find(".modal-body input#projectid").val(projectid);
-    modal.find(".modal-body input#project-name").val(project);
-    modal.find(".modal-body textarea").val(description);
-});
-$("#projectsearch").keyup(function (event)
-{
-    var $searchtext = $("");
-
-    if ($searchtext.length > 0)
+    $("#editProjectModal").on("show.bs.modal", function (event)
     {
-        $.ajax({
-            method: "POST",
-            url   : "api/project/search.php",
-            data  : $(event.target).serialize(),
-        }).done(function (response)
-        {
-            var projects = "";
-            $.each(response, function (k, v)
-            {
-                projects += "<tr>";
-                projects += "<td>" + v.project + "</td>";
-                projects += "<td>" + v.description + "</td>";
-                projects += "<td>" + v.barcode + "</td>";
-                projects += "<td>" + v.user + "</td>";
-                projects += "<td>";
-                projects += "<a href='#' data-toggle='modal' data-target='#editProjectModal' data-project-id='" + v.project_id + "'>Redigér</a>";
-                projects += "</td>";
-                projects += "<td>";
-                projects += "<a href='#' class='delete-project' data-project-id='" + v.project_id + "' data-project='" + v.project + "'>Slet</a>";
-                projects += "</td>";
-                projects += "</tr>";
-            });
+        var button = $(event.relatedTarget);
+        var projectid = button.data("project-id");
+        var project = button.data("project");
+        var description = button.data("description");
 
-            $("#table-project").html(projects);
-        }).fail(function (response)
-        {
-            var project = "<tr>";
-            articles += "<td colspan='8'>" + response["responseJSON"].message + "</td>";
-            articles += "</tr>";
-
-            $("#table-project").html(articles);
-        });
-    }
-    else
+        var modal = $(this);
+        modal.find(".modal-body input#projectid").val(projectid);
+        modal.find(".modal-body input#project-name").val(project);
+        modal.find(".modal-body textarea").val(description);
+    });
+    $("#projectsearch").keyup(function (event)
     {
-        $.ajax({
-            method: "GET",
-            url   : "api/project/read.php",
-        }).done(function (response)
-        {
-            var projects = "";
-            $.each(response, function (k, v)
-            {
-                projects += "<tr>";
-                projects += "<td>" + v.project + "</td>";
-                projects += "<td>" + v.description + "</td>";
-                projects += "<td>" + v.barcode + "</td>";
-                projects += "<td>" + v.user + "</td>";
-                projects += "<td>";
-                projects += "<a href='#' data-toggle='modal' data-target='#editArticleModal' data-barcode='" + v.barcode + "'>Redigér</a>";
-                projects += "</td>";
-                projects += "<td>";
-                projects += "<a href='#' class='delete-article' data-article-id='" + v.article_id + "' data-article='" + v.article + "'>Slet</a>";
-                projects += "</td>";
-                projects += "</tr>";
-            });
+        var $searchtext = $("");
 
-            $("#table-project").html(articles);
-        }).fail(function (response)
-        {
-            var articles = "<tr>";
-            articles += "<td colspan='8'>" + response["responseJSON"].message + "</td>";
-            articles += "</tr>";
-
-            $("#table-project").html(articles);
-        });
-
-        var $searchtext = $(event.target).val();
-
-        if ($searchtext.length === 0)
+        if ($searchtext.length > 0)
         {
             $.ajax({
                 method: "POST",
-                url   : "api/article/search.php",
+                url   : "api/project/search.php",
                 data  : $(event.target).serialize(),
             }).done(function (response)
             {
-                $("#table-project").html(response);
+                var projects = "";
+                $.each(response, function (k, v)
+                {
+                    projects += "<tr>";
+                    projects += "<td>" + v.project + "</td>";
+                    projects += "<td>" + v.description + "</td>";
+                    projects += "<td>" + v.barcode + "</td>";
+                    projects += "<td>" + v.user + "</td>";
+                    projects += "<td>";
+                    projects += "<a href='#' data-toggle='modal' data-target='#editProjectModal' data-project-id='" + v.project_id + "'>Redigér</a>";
+                    projects += "</td>";
+                    projects += "<td>";
+                    projects += "<a href='#' class='delete-project' data-project-id='" + v.project_id + "' data-project='" + v.project + "'>Slet</a>";
+                    projects += "</td>";
+                    projects += "</tr>";
+                });
+
+                $("#table-project").html(projects);
+            }).fail(function (response)
+            {
+                var project = "<tr>";
+                articles += "<td colspan='8'>" + response["responseJSON"].message + "</td>";
+                articles += "</tr>";
+
+                $("#table-project").html(articles);
             });
         }
         else
         {
             $.ajax({
                 method: "GET",
-                url   : "api/getprojecthistory.php?search=" + $searchtext,
+                url   : "api/project/read.php",
             }).done(function (response)
             {
-                $("#table-project").html(response);
+                var projects = "";
+                $.each(response, function (k, v)
+                {
+                    projects += "<tr>";
+                    projects += "<td>" + v.project + "</td>";
+                    projects += "<td>" + v.description + "</td>";
+                    projects += "<td>" + v.barcode + "</td>";
+                    projects += "<td>" + v.user + "</td>";
+                    projects += "<td>";
+                    projects += "<a href='#' data-toggle='modal' data-target='#editArticleModal' data-barcode='" + v.barcode + "'>Redigér</a>";
+                    projects += "</td>";
+                    projects += "<td>";
+                    projects += "<a href='#' class='delete-article' data-article-id='" + v.article_id + "' data-article='" + v.article + "'>Slet</a>";
+                    projects += "</td>";
+                    projects += "</tr>";
+                });
+
+                $("#table-project").html(articles);
+            }).fail(function (response)
+            {
+                var articles = "<tr>";
+                articles += "<td colspan='8'>" + response["responseJSON"].message + "</td>";
+                articles += "</tr>";
+
+                $("#table-project").html(articles);
             });
+
+            var $searchtext = $(event.target).val();
+
+            if ($searchtext.length === 0)
+            {
+                $.ajax({
+                    method: "POST",
+                    url   : "api/article/search.php",
+                    data  : $(event.target).serialize(),
+                }).done(function (response)
+                {
+                    $("#table-project").html(response);
+                });
+            }
+            else
+            {
+                $.ajax({
+                    method: "GET",
+                    url   : "api/getprojecthistory.php?search=" + $searchtext,
+                }).done(function (response)
+                {
+                    $("#table-project").html(response);
+                });
+            }
         }
-    }
-});
-$(".form-new-project").submit(function (e)
-{
-    var form = $(this);
-    var url = form.attr("action");
-    $.ajax({
-        method: "POST",
-        url   : url,
-        data  : form.serialize(),
-    }).done(function (response)
-    {
-        notification(response["message"], "success");
-        get_articles();
-        $(".modal").modal("hide");
-    }).fail(function (response)
-    {
-        notification(response["responseJSON"].message, "danger");
     });
+    $(".form-new-project").submit(function (e)
+    {
+        var form = $(this);
+        var url = form.attr("action");
+        $.ajax({
+            method: "POST",
+            url   : url,
+            data  : form.serialize(),
+        }).done(function (response)
+        {
+            notification(response["message"], "success");
+            get_articles();
+            $(".modal").modal("hide");
+        }).fail(function (response)
+        {
+            notification(response["responseJSON"].message, "danger");
+        });
 
-    e.preventDefault();
-});
-$(".form-edit-project").submit(function (e)
-{
-    var form = $(this);
-    var url = form.attr("action");
-    $.ajax({
-        method: "POST",
-        url   : url,
-        data  : form.serialize(),
-    }).done(function (response)
-    {
-        notification(response["message"], "success");
-        get_articles();
-        $(".modal").modal("hide");
-    }).fail(function (response)
-    {
-        notification(response["responseJSON"].message, "danger");
+        e.preventDefault();
     });
+    $(".form-edit-project").submit(function (e)
+    {
+        var form = $(this);
+        var url = form.attr("action");
+        $.ajax({
+            method: "POST",
+            url   : url,
+            data  : form.serialize(),
+        }).done(function (response)
+        {
+            notification(response["message"], "success");
+            get_articles();
+            $(".modal").modal("hide");
+        }).fail(function (response)
+        {
+            notification(response["responseJSON"].message, "danger");
+        });
 
-    e.preventDefault();
-});
+        e.preventDefault();
+    });
