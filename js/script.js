@@ -311,24 +311,6 @@ $(function ()
         e.preventDefault();
     });
 
-    $(".form-login").submit(function (e)
-    {
-        var form = $(this);
-        $.ajax({
-            method: "POST",
-            url   : "api/user/login.php",
-            data  : form.serialize(),
-        }).done(function (response)
-        {
-            window.location = "oversigt";
-        }).fail(function (response)
-        {
-            alert(response["message"]);
-        });
-
-        e.preventDefault();
-    });
-
     $.ajax({
         method: "GET",
         url   : "api/project/read.php",
@@ -355,20 +337,20 @@ $(function ()
     $("#editProjectModal").on("show.bs.modal", function (event)
     {
         var button = $(event.relatedTarget);
-        var projectid = button.data("project-id");
+        var project_id = button.data("project-id");
         var project = button.data("project");
         var description = button.data("description");
 
         var modal = $(this);
-        modal.find(".modal-body input#projectid").val(projectid);
+        modal.find(".modal-body input#projectid").val(project_id);
         modal.find(".modal-body input#project-name").val(project);
         modal.find(".modal-body textarea").val(description);
     });
     $("#projectsearch").keyup(function (event)
     {
-        var $searchtext = $("");
+        var $search_text = $("");
 
-        if ($searchtext.length > 0)
+        if ($search_text.length > 0)
         {
             $.ajax({
                 method: "POST",
@@ -397,10 +379,10 @@ $(function ()
             }).fail(function (response)
             {
                 var project = "<tr>";
-                articles += "<td colspan='8'>" + response["responseJSON"].message + "</td>";
-                articles += "</tr>";
+                project += "<td colspan='8'>" + response["responseJSON"].message + "</td>";
+                project += "</tr>";
 
-                $("#table-project").html(articles);
+                $("#table-project").html(project);
             });
         }
         else
