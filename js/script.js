@@ -215,6 +215,7 @@ $(function ()
     //notification("message", "danger");
     function notification(message, status)
     {
+        $(".alert").alert("close");
         // status : info, danger, success
         var notification = "<div class=\"alert alert-" + status + " alert-dismissible fade show container notification\" role=\"alert\">";
         notification += message;
@@ -254,13 +255,13 @@ $(function ()
         {
             $.ajax(
                 {
-                    method  : "POST",
-                    url     : "api/article/read_one.php",
-                    data    : "barcode=" + barcode,
+                    method: "POST",
+                    url   : "api/article/read_one.php",
+                    data  : "barcode=" + barcode,
                 }).done(function (response)
             {
-                $(".form-loan #loan-article").val(response["article"])
-                notification("Fandt: "+response["article"], "success");
+                $(".form-loan #loan-article").val(response["article"]);
+                notification("Artikel fundet: " + response["article"], "success");
             }).fail(function (response)
             {
                 notification(response["ResponseJSON"].message, "danger");
@@ -281,7 +282,7 @@ $(function ()
             data  : form.serialize(),
         }).done(function (response)
         {
-            notification("Udlån udført", "success");
+            notification(response.message, "success");
         });
 
         e.preventDefault();
@@ -479,4 +480,58 @@ $(function ()
             $("#table-project").html(projects);
         });
     }
+
+    get_statistics();
+
+    function get_statistics()
+    {
+        $.ajax({
+            method: "GET",
+            url   : "api/statistic/read.php",
+        }).done(function (response)
+        {
+            var statistics = "";
+            $.each(response, function (k, v)
+            {
+                statistics += "<tr>";
+                statistics += "<td>" + v.article + "</td>";
+                statistics += "<td>" + v.barcode + "</td>";
+                statistics += "<td>" + v.user + "</td>";
+                statistics += "<td>" + v.project + "</td>";
+                statistics += "<td>" +  v.date + "</td>";
+                statistics += "</tr>";
+            });
+            $("#table-statistic").html(statistics);
+        });
+    }
+
+    $("#statisticsearch").keyup(function (event)
+    {
+        var $search_text = $(event.target).val();
+
+        if ($search_text.length > 0)
+        {
+            $.ajax({
+                method: "GET",
+                url   : "api/getstatistics.php?search=" + $search_text,
+            }).done(function (response)
+            {
+                var projects = "";
+                $.each(response, function (k, v)
+                {
+                    projects += "<tr>";
+                    projects += "<td>" + v.article + "</td>";
+                    projects += "<td>" + v.user + "</td>";
+                    projects += "<td>" + v.project + "</td>";
+                    projects += "<td>" + v.created + "</td>";
+                    projects += "</tr>";
+                });
+                $("#table-project").html(projects);
+            });
+        }
+        else
+        {
+            get_statistics();
+        }
+    });
 });

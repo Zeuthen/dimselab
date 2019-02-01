@@ -28,7 +28,7 @@ class User {
 		$this->conn = $db;
 	}
 
-	// read products
+	// login
 	function login() {
 		// select all query
 		$query = "SELECT id,name FROM " . $this->table_name . " WHERE email = :email AND password = :password LIMIT 1";
@@ -60,11 +60,11 @@ class User {
 		return false;
 	}
 
-	// read products
+	// loan
 	function loan() {
 		// select all query
 		$query = "INSERT INTO statistics (fk_article_id, fk_user_id, fk_project_id)
-					VALUES ((SELECT a.ID FROM articles a WHERE a.barcode = :barcode LIMIT 1), :user, :project)";
+					VALUES ((SELECT ID FROM articles WHERE barcode = :barcode LIMIT 1), :user, :project)";
 
 		// prepare query statement
 		$stmt = $this->conn->prepare( $query );

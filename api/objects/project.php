@@ -21,7 +21,7 @@ class Project {
 		$this->conn = $db;
 	}
 
-	// create article
+	// create projects
 	function create() {
 		// query to insert record
 		$query = "INSERT INTO " . $this->table_name . " (name, description, fk_user_id) 
@@ -49,7 +49,7 @@ class Project {
 
 	}
 
-	// read articles
+	// read projects
 	function read() {
 		// select all query
 		$query = "SELECT p.id as project_id, p.name as project, p.description, u.username as username, u.name as user_name, p.fk_user_id as user_id
@@ -65,7 +65,7 @@ class Project {
 		return $stmt;
 	}
 
-	// search articles
+	// search projects
 	function search( $keywords ) {
 
 		// select all query
@@ -92,7 +92,7 @@ class Project {
 		return $stmt;
 	}
 
-	// read one article
+	// read one project
 	function readOne() {
 		// update query
 		$query = "SELECT p.id as project_id, p.name as project, p.description, u.username as username, u.name as user_name, p.fk_user_id as user_id
@@ -125,7 +125,7 @@ class Project {
 		return $stmt;
 	}
 
-	// search articles
+	// search projects
 	function readPaging( $from_record_num, $records_per_page ) {
 
 		// select all query
@@ -147,7 +147,7 @@ class Project {
 		return $stmt;
 	}
 
-	// update articles
+	// update projects
 	function update() {
 		// select all query
 		$query = "UPDATE " . $this->table_name . " SET name = :name, description = :description WHERE ID = :id";
@@ -173,7 +173,7 @@ class Project {
 		return false;
 	}
 
-	// delete article
+	// delete project
 	function delete() {
 		// delete query
 		$query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
@@ -195,7 +195,7 @@ class Project {
 		return false;
 	}
 
-	// delete article
+	// count projects
 	function count() {
 		// delete query
 		$query = "SELECT COUNT(*) as total_rows FROM " . $this->table_name;

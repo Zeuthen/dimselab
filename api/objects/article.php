@@ -216,7 +216,7 @@ class Article {
 		return false;
 	}
 
-	// delete article
+	// count article
 	function count() {
 		// delete query
 		$query = "SELECT COUNT(*) as total_rows FROM " . $this->table_name;

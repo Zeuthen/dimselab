@@ -149,7 +149,7 @@ require_once "layout_header.php";
                                            id="new-article-location"
                                            name="location"
                                            placeholder="Lokation" data-toggle="tooltip"
-                                           title="Lokation: ROD5" maxlength="4" minlength="4" required></div>
+                                           title="ROD5 = Roskilde Bygning D5" maxlength="4" minlength="4" required></div>
                                 <span>.</span>
                                 <div class="col">
                                     <input type="text"
@@ -157,7 +157,7 @@ require_once "layout_header.php";
                                            id="new-article-prefix"
                                            name="article_prefix"
                                            placeholder="Artikel Præfiks" data-toggle="tooltip"
-                                           title="Artikel Præfiks: SGS8" maxlength="4" minlength="4" required></div>
+                                           title="Samsung Galaxy S8 = SGS8" maxlength="4" minlength="4" required></div>
                                 <span>.</span>
                                 <div class="col pr-0">
                                     <input type="number"
@@ -165,7 +165,7 @@ require_once "layout_header.php";
                                            id="new-article-tray_number"
                                            name="tray_number"
                                            placeholder="Skuffenr" data-toggle="tooltip"
-                                           title="Skuffenummer: 0007" min="0" max="9999" maxlength="4" minlength="4" required></div>
+                                           title="Skuffenummer" min="0" max="9999" maxlength="4" minlength="4" required></div>
                             </div>
                         </div>
                         <div class="form-group">

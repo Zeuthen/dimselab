@@ -5,7 +5,7 @@ $site_title = "Dimselab";
 require_once "layout_header.php";
 ?>
 
-    <form class="form-loan mx-auto py-3 w-50" method="POST" action="api/loan.php">
+    <form class="form-loan mx-auto py-3 w-50" method="POST" action="api/user/loan.php">
         <div class="form-group">
             <label for="loan-article">Artikel</label>
             <div class="input-group">

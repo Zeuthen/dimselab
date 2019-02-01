@@ -1,44 +1,59 @@
 <?php
-require_once "database1.php";
+// required headers
+header( "Access-Control-Allow-Origin: *" );
+header( "Access-Control-Allow-Methods: GET" );
+header( "Content-Type: application/json; charset=UTF-8" );
 
-try {
+if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' )
+{
+	// include database and object files
+	require_once '../config/database.php';
+	require_once '../objects/statistic.php';
 
-	$result = "";
-	if ( isset( $_GET["search"] ) ) {
+	// initialize object
+	$statistic = new statistic( $conn );
 
-		$sql = "SELECT artikler.Navn as Artikel, artikler.Stregkode, brugere.Navn as Bruger, projekter.Navn as Projekt, statistik.Created
-				FROM statistik
-				INNER JOIN brugere ON brugere.ID = statistik.FK_bruger_ID
-				INNER JOIN artikler ON artikler.ID = statistik.FK_artikel_ID
-				INNER JOIN projekter ON projekter.ID = statistik.FK_projekt_ID
-				WHERE artikler.Navn LIKE :artikel";
-		$sth = $conn->prepare( $sql );
-		$search = "%" . $_GET["search"] . "%";
-		$sth->bindParam( ':artikel', $search, PDO::PARAM_STR );
-		$sth->execute();
-		$result = $sth->fetchAll( PDO::FETCH_ASSOC );
-	} else {
-		$sql = "SELECT artikler.Navn as Artikel, artikler.Stregkode, brugere.Navn as Bruger, projekter.Navn as Projekt, statistik.Created
-				FROM statistik
-				INNER JOIN brugere ON brugere.ID = statistik.FK_bruger_ID
-				INNER JOIN artikler ON artikler.ID = statistik.FK_artikel_ID
-				INNER JOIN projekter ON projekter.ID = statistik.FK_projekt_ID";
-		$sth = $conn->prepare( $sql );
-		$sth->execute();
-		$result = $sth->fetchAll( PDO::FETCH_ASSOC );
+	// query statistics
+	$stmt = $statistic->read();
+	$num  = $stmt->rowCount();
+
+	// check if more than 0 record found
+	if ( $num > 0 )
+	{
+		//  statistics_array
+		$statistics_arr = array();
+
+		while( $row = $stmt->fetch( PDO::FETCH_ASSOC ) )
+		{
+			//  extract row
+			//  this will make $row['name'] to
+			//  just $name only
+			extract( $row );
+
+			$statistic_item = array(
+				"article" => $article,
+				"barcode" => $barcode,
+				"user"    => $user,
+				"project" => $project,
+				"date"    => $created,
+			);
+
+			array_push( $statistics_arr, $statistic_item );
+		}
+		echo json_encode( $statistics_arr );
+
+		// set response code - 200 OK
+		http_response_code( 200 );
 	}
+	// no statistics found will be here
+	else
+	{
+		// set response code - 404 Not found
+		http_response_code( 404 );
 
-	foreach ( $result as $row ) {
-		echo "<tr>";
-		echo "<td>" . $row["Artikel"] . "</td>";
-		echo "<td>" . $row["Stregkode"] . "</td>";
-		echo "<td>" . $row["Bruger"] . "</td>";
-		echo "<td>" . $row["Projekt"] . "</td>";
-		echo "<td>" . $row["Created"] . "</td>";
-		echo "</tr>";
+		// tell the user no statistics found
+		die( json_encode( array( "message" => "Ingen statistikker blev fundet" ) ) );
 	}
 }
-catch( PDOException $e ) {
-	echo $e->getMessage();
-}
+
 ?>

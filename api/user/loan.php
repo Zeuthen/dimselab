@@ -11,7 +11,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 {
 	// include database and object files
 	require_once '../config/database.php';
-	require_once '../objects/article.php';
+	require_once '../objects/user.php';
 
 	// initialize object
 	$user = new User( $conn );
@@ -30,7 +30,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 		if ( $user->loan() )
 		{
 			// tell the user
-			echo json_encode( array( "message" => "udlån er fuldført" ) );
+			echo json_encode( array( "message" => "Udlån er fuldført" ) );
 
 			// set response code - 201 created
 			http_response_code( 201 );

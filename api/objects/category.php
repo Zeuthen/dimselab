@@ -14,7 +14,7 @@ class Category {
 		$this->conn = $db;
 	}
 
-	// read products
+	// read categories
 	function read() {
 		// select all query
 		$query = "SELECT id, name FROM " . $this->table_name;

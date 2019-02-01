@@ -13,7 +13,7 @@ require_once "layout_header.php";
            autocomplete="off">
 </div>
 
-<div class="content-overview">
+<div class="content-statistic">
     <table class="table table-hover mt-4">
         <thead>
         <tr>
@@ -37,39 +37,5 @@ require_once "layout_header.php";
 include_once "layout_footer.php";
 ?>
 <script>
-    $(document).ready(function ()
-    {
-        $.ajax({
-            method: "GET",
-            url   : "api/getstatistics.php",
-        }).done(function (result)
-        {
-            $("#table-statistic").html(result);
-        });
-    });
-    $("#statisticsearch").keyup(function (event)
-    {
-        var $searchtext = $(event.target).val();
 
-        if ($searchtext.length === 0)
-        {
-            $.ajax({
-                method: "GET",
-                url   : "api/getstatistics.php",
-            }).done(function (result)
-            {
-                $("#table-statistic").html(result);
-            });
-        }
-        else
-        {
-            $.ajax({
-                method: "GET",
-                url   : "api/getstatistics.php?search=" + $searchtext,
-            }).done(function (result)
-            {
-                $("#table-statistic").html(result);
-            });
-        }
-    });
 </script>
