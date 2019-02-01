@@ -502,6 +502,13 @@ $(function ()
                 statistics += "</tr>";
             });
             $("#table-statistic").html(statistics);
+        }).fail(function (response)
+        {
+            var statistics = "<tr>";
+            statistics += "<td colspan='8'>" + response["responseJSON"].message + "</td>";
+            statistics += "</tr>";
+
+            $("#table-statistic").html(statistics);
         });
     }
 

@@ -20,7 +20,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 	// set ID property of record to read
 	$project->id = isset( $_POST['project_id'] ) ? $_POST['project_id'] : die();
 
-	if ( isset( $_POST["projekt"] ) && isset( $_POST["beskrivelse"] ) ) {
+	if ( isset( $_POST["project"] ) && isset( $_POST["description"] ) ) {
 		// set product property values
 		$project->name        = $_POST['project'];
 		$project->description = $_POST['tray_number'];
