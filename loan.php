@@ -55,3 +55,6 @@ require_once "layout_header.php";
 // footer
 include_once "layout_footer.php";
 ?>
+<script type="text/javascript" src="js/loan.js"></script>
+</body>
+</html>

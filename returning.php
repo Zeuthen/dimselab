@@ -126,3 +126,6 @@ include_once "layout_footer.php";
         e.preventDefault();
     });
 </script>
+
+</body>
+</html>

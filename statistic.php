@@ -14,7 +14,7 @@ require_once "layout_header.php";
 </div>
 
 <div class="content-statistic">
-    <table class="table table-hover mt-4">
+    <table class="table table-hover table-bordered mt-4">
         <thead>
         <tr>
             <th scope="col">Artikel</th>
@@ -36,6 +36,6 @@ require_once "layout_header.php";
 // footer
 include_once "layout_footer.php";
 ?>
-<script>
-
-</script>
+<script type="text/javascript" src="js/statistics.js"></script>
+</body>
+</html>
