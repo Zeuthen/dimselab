@@ -8,38 +8,49 @@ header( "Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Header
 
 if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' )
 {
-	// include database and object file
-	include_once '../config/database.php';
-	include_once '../objects/project.php';
-
-	// prepare project object
-	$project = new Project( $conn );
-
-	// get project id
-	//$data = json_decode(file_get_contents("php://input"));
-
-	// set project id to be deleted
-	$project->id = isset( $_POST['project_id'] ) ? $_POST['project_id'] : die();
-
-	// delete the project
-	if ( $project->delete() )
+	try
 	{
-		// tell the user
-		echo json_encode( array( "message" => "Projektet blev slettet" ) );
+		// include database and object file
+		include_once '../config/database.php';
+		include_once '../objects/project.php';
 
-		// set response code - 200 OK
-		http_response_code( 200 );
+		// prepare project object
+		$project = new Project( $conn );
+
+		// get project id
+		//$data = json_decode(file_get_contents("php://input"));
+
+		// set project id to be deleted
+		$project->id = isset( $_POST['project_id'] ) ? $_POST['project_id'] : die();
+
+		// delete the project
+		if ( $project->delete() )
+		{
+			// tell the user
+			echo json_encode( array( "message" => "Projektet blev slettet" ) );
+
+			// set response code - 200 OK
+			http_response_code( 200 );
+		}
+
+		// if unable to delete the project
+		else
+		{
+
+			// set response code - 503 service unavailable
+			http_response_code( 503 );
+
+			// tell the user
+			die( json_encode( array( "message" => "Fejl under slettelse af projekt" ) ) );
+		}
 	}
-
-	// if unable to delete the project
-	else
+	catch( Exception $e )
 	{
-
-		// set response code - 503 service unavailable
-		http_response_code( 503 );
+		// set response code - 400 bad request
+		http_response_code( 500 );
 
 		// tell the user
-		die( json_encode( array( "message" => "Fejl under slettelse af projekt" ) ) );
+		die( json_encode( array( "message" => "Fejl på siden, kontakt administrator" ) ) );
 	}
 }
 ?>

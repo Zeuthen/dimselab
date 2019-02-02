@@ -1,5 +1,6 @@
 $(".form-login").submit(function (e)
 {
+    e.preventDefault();
     var form = $(this);
     $.ajax({
         method: "POST",
@@ -12,6 +13,4 @@ $(".form-login").submit(function (e)
     {
         alert(response["message"]);
     });
-
-    e.preventDefault();
 });

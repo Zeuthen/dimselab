@@ -5,10 +5,8 @@ $.ajax({
 }).done(function (response)
 {
     var categories = "<option value=''>Vælg Kategori</option>";
-    //$("select#new-article-category").append("<option value=''>Vælg Kategori</option>");
     $.each(response, function (k, v)
     {
-        //$("select#new-article-category").append("<option value=" + v.id + ">" + v.name + "</option>");
         categories += "<option value=" + v.id + ">" + v.name + "</option>";
     });
     $category_dropdown.html(categories);

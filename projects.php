@@ -39,7 +39,7 @@ require_once "layout_header.php";
             </div>
             <div class="modal-body">
                 <form id="form-edit-project" class="form-edit-project" method="post" action="api/project/update.php">
-                    <input type="hidden" id="project-id" name="projectid">
+                    <input type="hidden" id="edit-project-id" name="project_id">
                     <div class="form-group">
                         <label for="project-name" class="col-form-label">Projekt navn:</label>
                         <input type="text" class="form-control" id="edit-project-name" name="project" placeholder="Projekt navn" required>
@@ -95,6 +95,7 @@ require_once "layout_header.php";
 // footer
 include_once "layout_footer.php";
 ?>
-<script type="text/javascript" src="js/projects.js"></script>
+<!--<script type="text/javascript" src="js/projects.js"></script>-->
+<script type="text/javascript" src="js/projects.min.js"></script>
 </body>
 </html>

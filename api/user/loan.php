@@ -9,50 +9,61 @@ header( "Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Header
 
 if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' )
 {
-	// include database and object files
-	require_once '../config/database.php';
-	require_once '../objects/user.php';
-
-	// initialize object
-	$user = new User( $conn );
-
-	// get posted data
-	//$data = json_decode( file_get_contents( "php://input" ) );
-
-	if ( isset( $_POST["article"] ) && isset( $_POST["barcode"] ) && isset( $_POST["project"] ) && isset( $_SESSION["USER_ID"] ) )
+	try
 	{
-		// set user property values
-		$user->barcode = $_POST['barcode'];
-		$user->user    = $_SESSION["USER_ID"];
-		$user->project = $_POST['project'];
+		// include database and object files
+		require_once '../config/database.php';
+		require_once '../objects/user.php';
 
-		// create the user
-		if ( $user->loan() )
+		// initialize object
+		$user = new User( $conn );
+
+		// get posted data
+		//$data = json_decode( file_get_contents( "php://input" ) );
+
+		if ( isset( $_POST["article"] ) && isset( $_POST["barcode"] ) && isset( $_POST["project"] ) && isset( $_SESSION["USER_ID"] ) )
 		{
-			// tell the user
-			echo json_encode( array( "message" => "Udlån er fuldført" ) );
+			// set user property values
+			$user->barcode = $_POST['barcode'];
+			$user->user    = $_SESSION["USER_ID"];
+			$user->project = $_POST['project'];
 
-			// set response code - 201 created
-			http_response_code( 201 );
+			// create the user
+			if ( $user->loan() )
+			{
+				// tell the user
+				echo json_encode( array( "message" => "Udlån er fuldført" ) );
+
+				// set response code - 201 created
+				http_response_code( 201 );
+			}
+			// if unable to create the loan, tell the user
+			else
+			{
+				// set response code - 503 service unavailable
+				http_response_code( 503 );
+
+				// tell the user
+				die( json_encode( array( "message" => "Fejl under oprettelse af udlån" ) ) );
+			}
 		}
-		// if unable to create the user, tell the user
+		// tell the user data is incomplete
 		else
 		{
-			// set response code - 503 service unavailable
-			http_response_code( 503 );
+			// set response code - 400 bad request
+			http_response_code( 400 );
 
 			// tell the user
-			die( json_encode( array( "message" => "Fejl under oprettelse af udlån" ) ) );
+			die( json_encode( array( "message" => "Fejl under oprettelse af udlån. Data er ikke korrekt." ) ) );
 		}
 	}
-	// tell the user data is incomplete
-	else
+	catch( Exception $e )
 	{
-		// set response code - 400 bad request
-		http_response_code( 400 );
+		// set response code - 500 internal server error
+		http_response_code( 500 );
 
 		// tell the user
-		die( json_encode( array( "message" => "Fejl under oprettelse af udlån. Data er ikke korrekt." ) ) );
+		die( json_encode( array( "message" => "Fejl på siden, kontakt administrator" ) ) );
 	}
 }
 ?>

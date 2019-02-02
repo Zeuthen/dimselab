@@ -75,7 +75,7 @@ class User {
 		$this->project   = htmlspecialchars( strip_tags( $this->project ) );
 
 		// bind values
-		$stmt->bindParam( ":barcode", $this->article, PDO::PARAM_INT );
+		$stmt->bindParam( ":barcode", $this->barcode, PDO::PARAM_STR );
 		$stmt->bindParam( ":user", $this->user, PDO::PARAM_INT );
 		$stmt->bindParam( ":project", $this->project, PDO::PARAM_INT );
 
