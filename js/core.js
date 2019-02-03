@@ -34,12 +34,13 @@ function get_statistics()
         var statistics = "";
         $.each(response, function (k, v)
         {
+            ;
             statistics += "<tr>";
             statistics += "<td>" + v.article + "</td>";
             statistics += "<td>" + v.barcode + "</td>";
             statistics += "<td>" + v.user + "</td>";
             statistics += "<td>" + v.project + "</td>";
-            statistics += "<td>" + v.date + "</td>";
+            statistics += "<td>" + new Date(v.date).getDate() + "-" + new Date(v.date).getMonth() + "-" + new Date(v.date).getFullYear() + "</td>";
             statistics += "</tr>";
         });
         $("#table-statistic").html(statistics);
@@ -63,22 +64,29 @@ $("#statisticsearch").keyup(function (event)
     if ($search_text.length > 0)
     {
         $.ajax({
-            method: "GET",
-            url   : "api/statistics/search.php?search=" + $search_text,
-
+            method: "POST",
+            url   : "api/statistic/search.php",
+            data  : $(event.target).serialize(),
         }).done(function (response)
         {
-            var projects = "";
+            var statistics = "";
             $.each(response, function (k, v)
             {
-                projects += "<tr>";
-                projects += "<td>" + v.article + "</td>";
-                projects += "<td>" + v.user + "</td>";
-                projects += "<td>" + v.project + "</td>";
-                projects += "<td>" + v.created + "</td>";
-                projects += "</tr>";
+                statistics += "<tr>";
+                statistics += "<td>" + v.article + "</td>";
+                statistics += "<td>" + v.user + "</td>";
+                statistics += "<td>" + v.project + "</td>";
+                statistics += "<td>" + new Date(v.date).toString("DD-MM-YYYY") + "</td>";
+                statistics += "</tr>";
             });
-            $("#table-project").html(projects);
+            $("#table-project").html(statistics);
+        }).fail(function (response)
+        {
+            var statistics = "<tr>";
+            statistics += "<td colspan='8'>" + response["responseJSON"].message + "</td>";
+            statistics += "</tr>";
+
+            $("#table-statistic").html(statistics);
         });
     }
     else
@@ -487,7 +495,7 @@ $(".form-loan #check-barcode").click(function (e)
             notification("Artikel fundet: " + response["article"], "success");
         }).fail(function (response)
         {
-            
+
             notification(response["responseJSON"].message, "danger");
             if ($(".form-loan #loan-article").val().length > 0)
             {

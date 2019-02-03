@@ -44,7 +44,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 					"on_loan"     => $on_loan,
 					"quantity"    => $quantity,
 					"category_id" => $category_id,
-					"category.js" => $category
+					"category" => $category
 				);
 
 				array_push( $articles_arr, $article_item );

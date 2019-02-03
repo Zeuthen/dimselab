@@ -21,7 +21,7 @@ require_once "layout_header.php";
             <th scope="col">Stregkode</th>
             <th scope="col">Bruger</th>
             <th scope="col">Projekt</th>
-            <th scope="col">Dato</th>
+            <th scope="col">Oprettelsesdato</th>
         </tr>
         </thead>
         <tbody id="table-statistic">
@@ -36,6 +36,7 @@ require_once "layout_header.php";
 // footer
 include_once "layout_footer.php";
 ?>
+<!--<script type="text/javascript" src="js/statistics.min.js"></script>-->
 <script type="text/javascript" src="js/statistics.js"></script>
 </body>
 </html>

@@ -37,12 +37,11 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 				extract( $row );
 
 				$statistic_item = array(
-					"statistic_id" => $statistic_id,
-					"statistic"    => $statistic,
-					"description"  => $description,
-					"user"         => $username,
-					"user_id"      => $user_id,
-					"user_name"    => $user_name
+					"article" => $article,
+					"barcode" => $barcode,
+					"user"    => $user,
+					"project" => $project,
+					"date"    => $created,
 				);
 
 				array_push( $statistics_arr, $statistic_item );
