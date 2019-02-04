@@ -294,9 +294,8 @@ $(document).on("click", ".delete-article", function (e)
     {
         $.ajax({
             method: "POST",
-            url   : "api/delete.php",
+            url   : "api/article/delete.php",
             data  : "article_id=" + article_id,
-
         }).done(function (response)
         {
             notification(response["message"], "success");
