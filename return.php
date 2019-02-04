@@ -2,7 +2,7 @@
 // set page headers
 $page_title = "Returnering";
 $site_title = "Dimselab";
-require_once "layout_header.php";
+require_once "../layout_header.php";
 ?>
 
 <form class="form-lend row" method="post" action="api/user/loan.php">

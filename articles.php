@@ -24,7 +24,7 @@ require_once "layout/layout_header.php";
                 <th>Lager</th>
                 <th>Udlånt</th>
                 <th>I alt</th>
-                <th colspan="2">Handling</th>
+               <?php if($_SESSION["PERMISSION"]>10) echo "<th colspan=\"2\">Handling</th>"?>
             </tr>
             </thead>
             <tbody id="table-article">

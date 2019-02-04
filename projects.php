@@ -2,7 +2,7 @@
 // set page headers
 $page_title = "Projekter";
 $site_title = "Dimselab";
-require_once "layout_header.php";
+require_once "layout/layout_header.php";
 ?>
 
 <div class="input-group">
@@ -21,7 +21,7 @@ require_once "layout_header.php";
             <th>Projekt</th>
             <th>Beskrivelse</th>
             <th>Bruger</th>
-            <th colspan="2">Handling</th>
+	        <?php if($_SESSION["PERMISSION"]>10) echo "<th colspan=\"2\">Handling</th>"?>
         </tr>
         </thead>
         <tbody id="table-project"></tbody>
@@ -93,7 +93,7 @@ require_once "layout_header.php";
 </div>
 <?php
 // footer
-include_once "layout_footer.php";
+include_once "layout/layout_footer.php";
 ?>
 <!--<script type="text/javascript" src="js/projects.js"></script>-->
 <script type="text/javascript" src="js/projects.min.js"></script>

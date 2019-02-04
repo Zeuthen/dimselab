@@ -2,7 +2,7 @@
 // set page headers
 $page_title = "Udlån";
 $site_title = "Dimselab";
-require_once "layout_header.php";
+require_once "layout/layout_header.php";
 ?>
 <div class="row mx-auto py-3 w-50">
     <label for="loan-barcode">Scan stregkode</label>
@@ -57,7 +57,7 @@ require_once "layout_header.php";
 
 <?php
 // footer
-include_once "layout_footer.php";
+include_once "layout/layout_footer.php";
 ?>
 <!--<script type="text/javascript" src="js/loan.js"></script>-->
 <script type="text/javascript" src="js/loan.min.js"></script>

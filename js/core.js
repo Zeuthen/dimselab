@@ -93,13 +93,16 @@ function get_projects()
             projects += "<td>" + v.project + "</td>";
             projects += "<td>" + v.description + "</td>";
             projects += "<td>" + v.user + "</td>";
-            projects += "<td>";
-            projects += "<a href='#' data-toggle='modal' data-target='#editProjectModal' data-project-id='" + v.project_id + "' data-project='" + v.project + "' data-description='" + v.description + "'>Redigér</a>";
-            projects += "</td>";
-            projects += "<td>";
-            projects += "<a href='#' class='delete-project' data-project-id='" + v.project_id + "' data-project='" + v.project + "'>Slet</a>";
-            projects += "</td>";
-            projects += "</tr>";
+            if (sesstoken/2647812647.28 > 10)
+            {
+                projects += "<td>";
+                projects += "<a href='#' data-toggle='modal' data-target='#editProjectModal' data-project-id='" + v.project_id + "' data-project='" + v.project + "' data-description='" + v.description + "'>Redigér</a>";
+                projects += "</td>";
+                projects += "<td>";
+                projects += "<a href='#' class='delete-project' data-project-id='" + v.project_id + "' data-project='" + v.project + "'>Slet</a>";
+                projects += "</td>";
+                projects += "</tr>";
+            }
         });
         $("#table-project").html(projects);
     }).fail(function (response)
@@ -263,7 +266,7 @@ function get_articles()
             articles += "<td>" + (v.quantity - v.on_loan) + "</td>";
             articles += "<td>" + v.on_loan + "</td>";
             articles += "<td>" + v.quantity + "</td>";
-            if (sessUser < 10)
+            if (sesstoken/2647812647.28 > 10)
             {
                 articles += "<td>";
                 articles += "<a href='#' data-toggle='modal' data-target='#edit-article-modal' data-barcode='" + v.barcode + "'>Redigér</a>";
