@@ -41,7 +41,8 @@ class Project {
 		$stmt->bindParam( ":user_id", $this->user_id, PDO::PARAM_INT );
 
 		// execute query
-		if ( $stmt->execute() ) {
+		if ( $stmt->execute() )
+		{
 			return true;
 		}
 
@@ -52,9 +53,10 @@ class Project {
 	// read projects
 	function read() {
 		// select all query
-		$query = "SELECT p.id as project_id, p.name as project, p.description, u.username as username, u.name as user_name, p.fk_user_id as user_id
+		$query = "SELECT p.id as project_id, p.name as project, p.description, u.username as username, u.name as user_name, p.created as date, p.fk_user_id as user_id
 				FROM " . $this->table_name . " p
-				INNER JOIN users u ON u.id = p.fk_user_id";
+				INNER JOIN users u ON u.id = p.fk_user_id
+				ORDER BY p.name DESC";
 
 		// prepare query statement
 		$stmt = $this->conn->prepare( $query );
@@ -72,7 +74,8 @@ class Project {
 		$query = "SELECT p.id as project_id, p.name as project, p.description, u.username as username, u.name as user_name, p.fk_user_id as user_id
 				FROM " . $this->table_name . " p
 				INNER JOIN users u ON u.id = p.fk_user_id
-				WHERE p.name LIKE ? OR p.description LIKE ? OR u.username LIKE ?";
+				WHERE p.name LIKE ? OR p.description LIKE ? OR u.username LIKE ?
+				ORDER BY p.name DESC";
 
 		// prepare query statement
 		$stmt = $this->conn->prepare( $query );
@@ -85,6 +88,29 @@ class Project {
 		$stmt->bindParam( 1, $keywords );
 		$stmt->bindParam( 2, $keywords );
 		$stmt->bindParam( 3, $keywords );
+
+		// execute query
+		$stmt->execute();
+
+		return $stmt;
+	}
+
+	// read projects paged
+	function readPaging( $from_record_num, $records_per_page ) {
+
+		// select all query
+		$query = "SELECT p.id as project_id, p.name as project, p.description, u.username as username, u.name as user_name, projects.fk_user_id as user_id
+				FROM " . $this->table_name . " p
+				INNER JOIN users u ON u.id = p.fk_user_id
+				LIMIT ?, ?
+				ORDER BY p.name DESC";
+
+		// prepare query statement
+		$stmt = $this->conn->prepare( $query );
+
+		// bind
+		$stmt->bindParam( 1, $from_record_num );
+		$stmt->bindParam( 2, $records_per_page );
 
 		// execute query
 		$stmt->execute();
@@ -125,28 +151,6 @@ class Project {
 		return $stmt;
 	}
 
-	// search projects
-	function readPaging( $from_record_num, $records_per_page ) {
-
-		// select all query
-		$query = "SELECT p.id as project_id, p.name as project, p.description, u.username as username, u.name as user_name, projects.fk_user_id as user_id
-				FROM " . $this->table_name . " p
-				INNER JOIN users u ON u.id = p.fk_user_id
-				LIMIT ?, ?";
-
-		// prepare query statement
-		$stmt = $this->conn->prepare( $query );
-
-		// bind
-		$stmt->bindParam( 1, $from_record_num );
-		$stmt->bindParam( 2, $records_per_page );
-
-		// execute query
-		$stmt->execute();
-
-		return $stmt;
-	}
-
 	// update projects
 	function update() {
 		// select all query
@@ -166,7 +170,8 @@ class Project {
 		$stmt->bindParam( ":description", $this->description, PDO::PARAM_STR );
 
 		// execute the query
-		if ( $stmt->execute() ) {
+		if ( $stmt->execute() )
+		{
 			return true;
 		}
 
@@ -188,7 +193,8 @@ class Project {
 		$stmt->bindParam( ":id", $this->id, PDO::PARAM_INT );
 
 		// execute query
-		if ( $stmt->execute() ) {
+		if ( $stmt->execute() )
+		{
 			return true;
 		}
 

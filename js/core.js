@@ -5,23 +5,6 @@ $(function ()
 });
 /* end page_load */
 
-/* start notification */
-function notification(message, status)
-{
-    $(".alert").alert("close");
-    // status : info, danger, success
-    var notification = "<div class=\"alert alert-" + status + " alert-dismissible fade show container notification\" role=\"alert\">";
-    notification += message;
-    notification += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">";
-    notification += "<span aria-hidden=\"true\">&times;</span>";
-    notification += "</button>";
-    notification += "</div>";
-    $("body").append(notification);
-    setTimeout(function () { $(".alert").alert("close"); }, 10000);
-}
-
-/* end get_statistics */
-
 /* start get_statistics */
 function get_statistics()
 {
@@ -34,13 +17,12 @@ function get_statistics()
         var statistics = "";
         $.each(response, function (k, v)
         {
-            ;
             statistics += "<tr>";
             statistics += "<td>" + v.article + "</td>";
             statistics += "<td>" + v.barcode + "</td>";
             statistics += "<td>" + v.user + "</td>";
             statistics += "<td>" + v.project + "</td>";
-            statistics += "<td>" + new Date(v.date).getDate() + "-" + new Date(v.date).getMonth() + "-" + new Date(v.date).getFullYear() + "</td>";
+            statistics += "<td>" + v.date + "</td>";
             statistics += "</tr>";
         });
         $("#table-statistic").html(statistics);
@@ -76,7 +58,7 @@ $("#statisticsearch").keyup(function (event)
                 statistics += "<td>" + v.article + "</td>";
                 statistics += "<td>" + v.user + "</td>";
                 statistics += "<td>" + v.project + "</td>";
-                statistics += "<td>" + new Date(v.date).toString("DD-MM-YYYY") + "</td>";
+                statistics += "<td>" + v.date + "</td>";
                 statistics += "</tr>";
             });
             $("#table-project").html(statistics);
@@ -403,6 +385,7 @@ $("#form-edit-article").submit(function (e)
 /* start editArticleModal */
 $("#editArticleModal").on("show.bs.modal", function (event)
 {
+    categories_dropdown();
     var button = $(event.relatedTarget);
     var $modal = $(this);
     $.ajax({
@@ -437,15 +420,6 @@ $("#form-new-article input").keyup(function ()
     }
 });
 /* end form-new-article input */
-
-/* start add_beginning_zeros */
-function add_beginning_zeros(str, max)
-{
-    str = str.toString();
-    return str.length < max ? add_beginning_zeros("0" + str, max) : str;
-}
-
-/* end add_beginning_zeros */
 
 /* start form-new-article */
 $("#form-new-article").submit(function (e)
@@ -541,3 +515,53 @@ $(".modal").on("show.bs.modal", function (event)
     $(".alert").alert("close");
 });
 /* end form-loan */
+
+/* start categories_dropdown */
+function categories_dropdown()
+{
+    var $category_dropdown = $("select#article-category");
+    $.ajax({
+        method: "GET",
+        url   : "api/category/read.php",
+    }).done(function (response)
+    {
+        var categories = "<option value=''>Vælg Kategori</option>";
+        $.each(response, function (k, v)
+        {
+            categories += "<option value=" + v.id + ">" + v.name + "</option>";
+        });
+        $category_dropdown.html(categories);
+    }).fail(function (response)
+    {
+        $category_dropdown.html("<option value=''>" + response["message"] + "</option>");
+        $category_dropdown.attr("disabled", "disabled");
+    });
+}
+
+/* end categories_dropdown */
+
+/* start add_beginning_zeros */
+function add_beginning_zeros(str, max)
+{
+    str = str.toString();
+    return str.length < max ? add_beginning_zeros("0" + str, max) : str;
+}
+
+/* end add_beginning_zeros */
+
+/* start notification */
+function notification(message, status)
+{
+    $(".alert").alert("close");
+    // status : info, danger, success
+    var notification = "<div class=\"alert alert-" + status + " alert-dismissible fade show container notification\" role=\"alert\">";
+    notification += message;
+    notification += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">";
+    notification += "<span aria-hidden=\"true\">&times;</span>";
+    notification += "</button>";
+    notification += "</div>";
+    $("body").append(notification);
+    setTimeout(function () { $(".alert").alert("close"); }, 10000);
+}
+
+/* end notification */

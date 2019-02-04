@@ -42,7 +42,8 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 					"description" => $description,
 					"user"        => $username,
 					"user_id"     => $user_id,
-					"user_name"   => $user_name
+					"user_name"   => $user_name,
+					"date"        => $date
 				);
 
 				array_push( $projects_arr, $project_item );

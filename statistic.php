@@ -25,9 +25,6 @@ require_once "layout_header.php";
         </tr>
         </thead>
         <tbody id="table-statistic">
-        <tr>
-            <td colspan="7">Ingen statistikker hentet</td>
-        </tr>
         </tbody>
     </table>
 </div>

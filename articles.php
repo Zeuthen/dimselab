@@ -196,9 +196,7 @@ require_once "layout_header.php";
 // footer
 include_once "layout_footer.php";
 ?>
-<!--<script type="text/javascript" src="js/articles.js"></script>-->
-<script type="text/javascript" src="js/articles.min.js"></script>
-<!--<script type="text/javascript" src="js/categories.js"></script>-->
-<script type="text/javascript" src="js/categories.min.js"></script>
+<script type="text/javascript" src="js/articles.js"></script>
+<!--<script type="text/javascript" src="js/articles.min.js"></script>-->
 </body>
 </html>
