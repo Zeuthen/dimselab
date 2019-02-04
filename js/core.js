@@ -19,7 +19,6 @@ function get_statistics()
         {
             statistics += "<tr>";
             statistics += "<td>" + v.article + "</td>";
-            statistics += "<td>" + v.barcode + "</td>";
             statistics += "<td>" + v.user + "</td>";
             statistics += "<td>" + v.project + "</td>";
             statistics += "<td>" + v.date + "</td>";
@@ -105,6 +104,7 @@ function get_projects()
         $("#table-project").html(projects);
     }).fail(function (response)
     {
+        console.log(response);
         var projects = "<tr>";
         projects += "<td colspan='8'>" + response["responseJSON"].message + "</td>";
         projects += "</tr>";
@@ -258,13 +258,13 @@ function get_articles()
             articles += "<tr>";
             articles += "<td>" + v.article + "</td>";
             articles += "<td>" + v.category + "</td>";
-            articles += "<td>" + v.barcode + "</td>";
+            // articles += "<td>" + v.barcode + "</td>";
             articles += "<td>" + v.tray_number + "</td>";
             articles += "<td>" + (v.quantity - v.on_loan) + "</td>";
             articles += "<td>" + v.on_loan + "</td>";
             articles += "<td>" + v.quantity + "</td>";
             articles += "<td>";
-            articles += "<a href='#' data-toggle='modal' data-target='#editArticleModal' data-barcode='" + v.barcode + "'>Redigér</a>";
+            articles += "<a href='#' data-toggle='modal' data-target='#edit-article-modal' data-barcode='" + v.barcode + "'>Redigér</a>";
             articles += "</td>";
             articles += "<td>";
             articles += "<a href='#' class='delete-article' data-article-id='" + v.article_id + "' data-article='" + v.article + "'>Slet</a>";
@@ -329,13 +329,12 @@ $("#articlesearch").keyup(function (event)
                 articles += "<tr>";
                 articles += "<td>" + v.article + "</td>";
                 articles += "<td>" + v.category + "</td>";
-                articles += "<td>" + v.barcode + "</td>";
                 articles += "<td>" + v.tray_number + "</td>";
                 articles += "<td>" + (v.quantity - v.on_loan) + "</td>";
                 articles += "<td>" + v.on_loan + "</td>";
                 articles += "<td>" + v.quantity + "</td>";
                 articles += "<td>";
-                articles += "<a href='#' data-toggle='modal' data-target='#editArticleModal' data-barcode='" + v.barcode + "'>Redigér</a>";
+                articles += "<a href='#' data-toggle='modal' data-target='#edit-article-modal' data-barcode='" + v.barcode + "'>Redigér</a>";
                 articles += "</td>";
                 articles += "<td>";
                 articles += "<a href='#' class='delete-article' data-article-id='" + v.article_id + "' data-article='" + v.article + "'>Slet</a>";
@@ -382,10 +381,16 @@ $("#form-edit-article").submit(function (e)
 });
 /* end form-edit-article */
 
-/* start editArticleModal */
-$("#editArticleModal").on("show.bs.modal", function (event)
+/* start article-modal */
+$(".article-modal").on("show.bs.modal", function (event)
 {
     categories_dropdown();
+});
+/* end article-modal */
+
+/* start edit-article-modal */
+$("#edit-article-modal").on("show.bs.modal", function (event)
+{
     var button = $(event.relatedTarget);
     var $modal = $(this);
     $.ajax({
@@ -406,7 +411,7 @@ $("#editArticleModal").on("show.bs.modal", function (event)
         console.log(response["responseJSON"].message);
     });
 });
-/* end editArticleModal */
+/* end edit-article-modal */
 
 /* start form-new-article input */
 $("#form-new-article input").keyup(function ()
@@ -451,30 +456,30 @@ $("#form-new-article").submit(function (e)
 /* end form-new-article */
 
 /* start check-barcode */
-$(".form-loan #check-barcode").click(function (e)
+$(".loan-article #check-barcode").click(function (e)
 {
     e.preventDefault();
-    var barcode = $(".form-loan #loan-barcode").val();
-    if (barcode.length > 0)
+    var $barcode = $(".loan-article #loan-barcode");
+    var $article = $(".form-loan input#loan-article");
+
+    if ($barcode.val().length > 0)
     {
         $.ajax(
             {
                 method: "POST",
                 url   : "api/article/read_one.php",
-                data  : "barcode=" + barcode,
-
+                data  : $barcode.serialize(),
             }).done(function (response)
         {
-            $(".form-loan #loan-article").val(response["article"]);
+            $article.val(response["article"]);
             notification("Artikel fundet: " + response["article"], "success");
         }).fail(function (response)
         {
-
-            notification(response["responseJSON"].message, "danger");
-            if ($(".form-loan #loan-article").val().length > 0)
+            if ($article.val().length > 0)
             {
-                $(".form-loan #loan-article").val("");
+                $article.val("");
             }
+            notification(response["responseJSON"].message, "danger");
         });
     }
     else
@@ -488,14 +493,15 @@ $(".form-loan #check-barcode").click(function (e)
 $(".form-loan").submit(function (e)
 {
     e.preventDefault();
-    if ($(".form-loan input#loan-article").val().length > 0)
+    var $button = $(".form-loan input#check-barcode");
+    var $article = $(".form-loan input#loan-article");
+    if ($article.val().length > 0)
     {
         var form = $(this);
         $.ajax({
             method: "POST",
             url   : "api/user/loan.php",
             data  : form.serialize(),
-
         }).done(function (response)
         {
             notification(response.message, "success");
@@ -503,8 +509,8 @@ $(".form-loan").submit(function (e)
     }
     else
     {
-        notification("Validér stregkoden", "success");
-        $(".form-loan input#check-barcode").focus();
+        notification("Validér venligst stregkoden", "success");
+        $button.focus();
     }
 });
 /* end form-loan */
@@ -546,7 +552,6 @@ function add_beginning_zeros(str, max)
     str = str.toString();
     return str.length < max ? add_beginning_zeros("0" + str, max) : str;
 }
-
 /* end add_beginning_zeros */
 
 /* start notification */

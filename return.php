@@ -46,7 +46,6 @@ require_once "layout_header.php";
         <tr>
             <th scope="col">Artikel</th>
             <th scope="col">Kategori</th>
-            <th scope="col">Stregkode</th>
             <th scope="col">Skuffenr</th>
             <th scope="col">Antal</th>
         </tr>

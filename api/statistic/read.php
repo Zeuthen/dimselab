@@ -37,7 +37,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 					"barcode" => $barcode,
 					"user"    => $user,
 					"project" => $project,
-					"date"    => $date,
+					"date"    => date( "d-m-Y", strtotime( $date ) )
 				);
 
 				array_push( $statistics_arr, $statistic_item );

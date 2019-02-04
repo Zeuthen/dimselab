@@ -20,7 +20,6 @@ require_once "layout_header.php";
             <tr>
                 <th>Artikel</th>
                 <th>Kategori</th>
-                <th>Stregkode</th>
                 <th>Skuffenr</th>
                 <th>Lager</th>
                 <th>Udlånt</th>
@@ -33,7 +32,8 @@ require_once "layout_header.php";
         </table>
     </div>
 
-    <div class="modal fade" id="editArticleModal" tabindex="-1" role="dialog" aria-labelledby="projectModalCenterTitle" aria-hidden="true">
+    <div class="modal fade article-modal" id="edit-article-modal" tabindex="-1" role="dialog" aria-labelledby="projectModalCenterTitle"
+         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -110,7 +110,7 @@ require_once "layout_header.php";
             </div>
         </div>
     </div>
-    <div class="modal fade" id="newArticleModal" tabindex="-1" role="dialog" aria-labelledby="projectModalCenterTitle" aria-hidden="true">
+    <div class="modal fade article-modal" id="newArticleModal" tabindex="-1" role="dialog" aria-labelledby="projectModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -196,7 +196,7 @@ require_once "layout_header.php";
 // footer
 include_once "layout_footer.php";
 ?>
-<script type="text/javascript" src="js/articles.js"></script>
-<!--<script type="text/javascript" src="js/articles.min.js"></script>-->
+<!--<script type="text/javascript" src="js/articles.js"></script>-->
+<script type="text/javascript" src="js/articles.min.js"></script>
 </body>
 </html>

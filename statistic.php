@@ -18,7 +18,6 @@ require_once "layout_header.php";
         <thead>
         <tr>
             <th scope="col">Artikel</th>
-            <th scope="col">Stregkode</th>
             <th scope="col">Bruger</th>
             <th scope="col">Projekt</th>
             <th scope="col">Oprettelsesdato</th>
@@ -33,7 +32,7 @@ require_once "layout_header.php";
 // footer
 include_once "layout_footer.php";
 ?>
-<!--<script type="text/javascript" src="js/statistics.min.js"></script>-->
-<script type="text/javascript" src="js/statistics.js"></script>
+<script type="text/javascript" src="js/statistics.min.js"></script>
+<!--<script type="text/javascript" src="js/statistics.js"></script>-->
 </body>
 </html>

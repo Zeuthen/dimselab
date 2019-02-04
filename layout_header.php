@@ -24,11 +24,12 @@ else if ( time() - $_SESSION['CREATED'] > 1800 )
     <link rel="shortcut icon" type="image/png" href="assets/favicon.ico"/>
     <link rel="stylesheet" href="css/all.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/style.css"/>
+    <!--    <link rel="stylesheet" href="css/style.css"/>-->
+    <link rel="stylesheet" href="css/style.min.css"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="./"><?php echo $site_title; ?></a>
+    <a class="navbar-brand" href="./oversigt"><?php echo $site_title; ?></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarDimselab" aria-controls="navbarDimselab"
             aria-expanded="false" aria-label="Vis menu">
         <span class="navbar-toggler-icon"></span>
@@ -47,7 +48,7 @@ else if ( time() - $_SESSION['CREATED'] > 1800 )
 					echo "<a class=\"nav-link\" href=\"./udlån\">Udlån</a>";
 					echo " </li>";
 					echo " <li class=\"nav-item\">";
-					echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
+					//echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
 					echo "</li>";
 					echo " <li class=\"nav-item\">";
 					echo "<a class=\"nav-link\" href=\"./statistik\">Udlånsstatistik</a>";
@@ -64,7 +65,7 @@ else if ( time() - $_SESSION['CREATED'] > 1800 )
 					echo "<a class=\"nav-link\" href=\"./udlån\">Udlån</a>";
 					echo " </li>";
 					echo " <li class=\"nav-item\">";
-					echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
+					//echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
 					echo "</li>";
 					echo " <li class=\"nav-item\">";
 					echo "<a class=\"nav-link\" href=\"./statistik\">Udlånsstatistik</a>";
@@ -81,7 +82,7 @@ else if ( time() - $_SESSION['CREATED'] > 1800 )
 					echo "<a class=\"nav-link\" href=\"./udlån\">Udlån</a>";
 					echo " </li>";
 					echo " <li class=\"nav-item active\">";
-					echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
+					//echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
 					echo "</li>";
 					echo " <li class=\"nav-item\">";
 					echo "<a class=\"nav-link\" href=\"./statistik\">Udlånsstatistik</a>";
@@ -98,7 +99,7 @@ else if ( time() - $_SESSION['CREATED'] > 1800 )
 					echo "<a class=\"nav-link\" href=\"./udlån\">Udlån</a>";
 					echo " </li>";
 					echo " <li class=\"nav-item\">";
-					echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
+					//echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
 					echo "</li>";
 					echo " <li class=\"nav-item active\">";
 					echo "<a class=\"nav-link\" href=\"./statistik\">Udlånsstatistik</a>";
@@ -115,7 +116,7 @@ else if ( time() - $_SESSION['CREATED'] > 1800 )
 					echo "<a class=\"nav-link\" href=\"./udlån\">Udlån</a>";
 					echo " </li>";
 					echo " <li class=\"nav-item\">";
-					echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
+					//echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
 					echo "</li>";
 					echo " <li class=\"nav-item\">";
 					echo "<a class=\"nav-link\" href=\"./statistik\">Udlånsstatistik</a>";
@@ -132,7 +133,7 @@ else if ( time() - $_SESSION['CREATED'] > 1800 )
 					echo "<a class=\"nav-link\" href=\"./udlån\">Udlån</a>";
 					echo " </li>";
 					echo " <li class=\"nav-item\">";
-					echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
+					//echo "<a class=\"nav-link\" href=\"./returnering\">Returnering</a>";
 					echo "</li>";
 					echo " <li class=\"nav-item\">";
 					echo "<a class=\"nav-link\" href=\"./statistik\">Udlånsstatistik</a>";

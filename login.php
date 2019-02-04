@@ -50,6 +50,7 @@ require_once "layout_header.php";
 // footer
 include_once "layout_footer.php";
 ?>
-<script type="text/javascript" src="js/login.js"></script>
+<!--<script type="text/javascript" src="js/login.js"></script>-->
+<script type="text/javascript" src="js/login.min.js"></script>
 </body>
 </html>

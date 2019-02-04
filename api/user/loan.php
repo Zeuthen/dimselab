@@ -28,7 +28,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 			$user->user    = $_SESSION["USER_ID"];
 			$user->project = $_POST['project'];
 
-			// create the user
+			// create the loan
 			if ( $user->loan() )
 			{
 				// tell the user

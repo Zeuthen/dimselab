@@ -34,7 +34,7 @@ class Statistic {
 				INNER JOIN articles a ON a.id = s.fk_article_id
 				INNER JOIN users u ON u.id = s.fk_user_id
 				INNER JOIN projects p ON p.id = s.fk_project_id
-				ORDER BY s.created as date DESC";
+				ORDER BY s.created DESC";
 
 		// prepare query statement
 		$stmt = $this->conn->prepare( $query );
@@ -53,10 +53,9 @@ class Statistic {
 				FROM " . $this->table_name . " s
 				INNER JOIN articles a ON a.id = s.fk_article_id
 				INNER JOIN users u ON u.id = s.fk_user_id
-				INNER JOIN users u ON u.id = s.fk_user_id
 				INNER JOIN projects p ON p.id = s.fk_project_id
 				WHERE a.name LIKE ? OR a.barcode LIKE ? OR u.name LIKE ? OR p.name LIKE ?
-				ORDER BY s.created as date DESC";
+				ORDER BY s.created DESC";
 
 		// prepare query statement
 		$stmt = $this->conn->prepare( $query );
