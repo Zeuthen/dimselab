@@ -18,6 +18,7 @@ class User {
 	public $email;
 	public $password;
 	public $barcode;
+	public $permission;
 
 	public $article;
 	public $user;
@@ -31,7 +32,10 @@ class User {
 	// login
 	function login() {
 		// select all query
-		$query = "SELECT id,name FROM " . $this->table_name . " WHERE email = :email AND password = :password LIMIT 1";
+		$query = "SELECT u.id, u.name, r.permission
+					FROM " . $this->table_name . " u
+					INNER JOIN roles r ON r.id = u.fk_role_id
+					WHERE email = :email AND password = :password LIMIT 1";
 
 		// prepare query statement
 		$stmt = $this->conn->prepare( $query );
@@ -53,6 +57,7 @@ class User {
 			// set values to object properties
 			$this->id   = $row['id'];
 			$this->name = $row['name'];
+			$this->permission = $row['permission'];
 
 			return true;
 		}
@@ -70,9 +75,9 @@ class User {
 		$stmt = $this->conn->prepare( $query );
 
 		// sanitize
-		$this->article    = htmlspecialchars( strip_tags( $this->article ) );
-		$this->user = htmlspecialchars( strip_tags( $this->user ) );
-		$this->project   = htmlspecialchars( strip_tags( $this->project ) );
+		$this->article = htmlspecialchars( strip_tags( $this->article ) );
+		$this->user    = htmlspecialchars( strip_tags( $this->user ) );
+		$this->project = htmlspecialchars( strip_tags( $this->project ) );
 
 		// bind values
 		$stmt->bindParam( ":barcode", $this->barcode, PDO::PARAM_STR );

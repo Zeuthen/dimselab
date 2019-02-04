@@ -36,6 +36,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 				session_start();
 				$_SESSION["USER"]    = $user->name;
 				$_SESSION["USER_ID"] = $user->id;
+				$_SESSION["PERMISSION"] = $user->permission;
 
 				// tell the user
 				echo json_encode( array( "message" => "login was successful" ) );
@@ -47,7 +48,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 				http_response_code( 501 );
 
 				// tell the user
-				echo json_encode( array( "message" => "Unable to create user." ) );
+				echo json_encode( array( "message" => "Unable to login user." ) );
 			}
 		}
 		// tell the user data is incomplete
@@ -57,7 +58,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 			http_response_code( 400 );
 
 			// tell the user
-			echo json_encode( array( "message" => "Unable to create user. Data is incomplete." ) );
+			echo json_encode( array( "message" => "Unable to login user. Data is incomplete." ) );
 		}
 	}
 	catch( Exception $e )

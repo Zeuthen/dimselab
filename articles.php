@@ -2,7 +2,7 @@
 // set page headers
 $page_title = "Artikeloversigt";
 $site_title = "Dimselab";
-require_once "layout_header.php";
+require_once "layout/layout_header.php";
 ?>
 
     <div class="input-group">
@@ -194,9 +194,9 @@ require_once "layout_header.php";
 
 <?php
 // footer
-include_once "layout_footer.php";
+include_once "layout/layout_footer.php";
 ?>
-<!--<script type="text/javascript" src="js/articles.js"></script>-->
-<script type="text/javascript" src="js/articles.min.js"></script>
+<script type="text/javascript" src="js/articles.js"></script>
+<!--<script type="text/javascript" src="js/articles.min.js"></script>-->
 </body>
 </html>

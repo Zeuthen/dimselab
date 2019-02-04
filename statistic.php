@@ -1,6 +1,6 @@
 <?php
 // set page headers
-$page_title = "Statistik";
+$page_title = "Udlånsstatistik";
 $site_title = "Dimselab";
 require_once "layout_header.php";
 ?>

@@ -263,13 +263,16 @@ function get_articles()
             articles += "<td>" + (v.quantity - v.on_loan) + "</td>";
             articles += "<td>" + v.on_loan + "</td>";
             articles += "<td>" + v.quantity + "</td>";
-            articles += "<td>";
-            articles += "<a href='#' data-toggle='modal' data-target='#edit-article-modal' data-barcode='" + v.barcode + "'>Redigér</a>";
-            articles += "</td>";
-            articles += "<td>";
-            articles += "<a href='#' class='delete-article' data-article-id='" + v.article_id + "' data-article='" + v.article + "'>Slet</a>";
-            articles += "</td>";
-            articles += "</tr>";
+            if (sessUser < 10)
+            {
+                articles += "<td>";
+                articles += "<a href='#' data-toggle='modal' data-target='#edit-article-modal' data-barcode='" + v.barcode + "'>Redigér</a>";
+                articles += "</td>";
+                articles += "<td>";
+                articles += "<a href='#' class='delete-article' data-article-id='" + v.article_id + "' data-article='" + v.article + "'>Slet</a>";
+                articles += "</td>";
+                articles += "</tr>";
+            }
         });
 
         $("#table-article").html(articles);
@@ -551,6 +554,7 @@ function add_beginning_zeros(str, max)
     str = str.toString();
     return str.length < max ? add_beginning_zeros("0" + str, max) : str;
 }
+
 /* end add_beginning_zeros */
 
 /* start notification */
