@@ -36,7 +36,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 			if ( $article->create() )
 			{
 				// tell the user
-				echo json_encode( array( "message" => "Artiklen er oprettet" ) );
+				echo json_encode( array( "message" => "Artiklen blev oprettet" ) );
 
 				// set response code - 201 created
 				http_response_code( 201 );
@@ -48,7 +48,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 				http_response_code( 503 );
 
 				// tell the user
-				die( json_encode( array( "message" => "Fejl under oprettelse af artikel" ) ) );
+				die( json_encode( array( "message" => "Det var ikke muligt at oprette artiklen, server fejl" ) ) );
 			}
 		}
 		// tell the user data is incomplete
@@ -58,11 +58,11 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 			http_response_code( 400 );
 
 			// tell the user
-			die( json_encode( array( "message" => "Fejl under oprettelse af artikel. Data er ikke korrekt." ) ) );
+			die( json_encode( array( "message" => "Det var ikke muligt at oprette en artikel. Data er ikke korrekt" ) ) );
 		}
 	}
 	catch(Exception $e){
-		// set response code - 400 bad request
+		// set response code - 500 internal server error
 		http_response_code( 500 );
 
 		// tell the user

@@ -50,7 +50,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 				http_response_code( 503 );
 
 				// tell the user
-				die( json_encode( array( "message" => "Fejl under ændring af artikel" ) ) );
+				die( json_encode( array( "message" => "Det var ikke muligt at ændre artiklen, server fejl" ) ) );
 			}
 		}
 	}

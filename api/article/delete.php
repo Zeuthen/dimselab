@@ -39,17 +39,17 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 		// if unable to delete the article
 		else
 		{
-			// set response code - 500 internal server error
-			http_response_code( 500 );
+			// set response code - 503 service unavailable
+			http_response_code( 503 );
 
 			// tell the user
-			die( json_encode( array( "message" => "Fejl opstod under slettelse af artikel" ) ) );
+			die( json_encode( array( "message" => "Det var ikke muligt at slette artiklen, server fejl" ) ) );
 
 		}
 	}
 	catch( Exception $e )
 	{
-		// set response code - 400 bad request
+		// set response code - 500 internal server error
 		http_response_code( 500 );
 
 		// tell the user

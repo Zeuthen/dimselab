@@ -47,12 +47,12 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 			http_response_code( 404 );
 
 			// tell the user no articles found
-			exit( json_encode( array( "message" => "Ingen artikel fundet." ) ) );
+			exit( json_encode( array( "message" => "Ingen artikel fundet" ) ) );
 		}
 	}
 	catch( Exception $e )
 	{
-		// set response code - 400 bad request
+		// set response code - 500 internal server error
 		http_response_code( 500 );
 
 		// tell the user
