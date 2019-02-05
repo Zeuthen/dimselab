@@ -39,7 +39,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 				$_SESSION["PERMISSION"] = $user->permission;
 
 				// tell the user
-				echo json_encode( array( "message" => "login was successful" ) );
+				echo json_encode( array( "message" => "Login var succesfuld" ) );
 			}
 			// if unable to create the login, tell the user
 			else
@@ -48,7 +48,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 				http_response_code( 501 );
 
 				// tell the user
-				echo json_encode( array( "message" => "Unable to login user." ) );
+				echo json_encode( array( "message" => "Forkert email eller adgangskode" ) );
 			}
 		}
 		// tell the user data is incomplete
@@ -58,7 +58,7 @@ if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_
 			http_response_code( 400 );
 
 			// tell the user
-			echo json_encode( array( "message" => "Unable to login user. Data is incomplete." ) );
+			echo json_encode( array( "message" => "Det var ikke muligt at log ind. Data er korrupt." ) );
 		}
 	}
 	catch( Exception $e )

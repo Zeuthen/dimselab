@@ -11,6 +11,6 @@ $(".form-login").submit(function (e)
         window.location = "oversigt";
     }).fail(function (response)
     {
-        alert(response["message"]);
+        notification(response["responseJSON"].message, "danger");
     });
 });

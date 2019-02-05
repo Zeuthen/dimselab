@@ -93,7 +93,7 @@ function get_projects()
             projects += "<td>" + v.project + "</td>";
             projects += "<td>" + v.description + "</td>";
             projects += "<td>" + v.user + "</td>";
-            if (sesstoken/2647812647.28 > 10)
+            if (sesstoken / 2647812647.28 > 10)
             {
                 projects += "<td>";
                 projects += "<a href='#' data-toggle='modal' data-target='#editProjectModal' data-project-id='" + v.project_id + "' data-project='" + v.project + "' data-description='" + v.description + "'>Redigér</a>";
@@ -266,7 +266,7 @@ function get_articles()
             articles += "<td>" + (v.quantity - v.on_loan) + "</td>";
             articles += "<td>" + v.on_loan + "</td>";
             articles += "<td>" + v.quantity + "</td>";
-            if (sesstoken/2647812647.28 > 10)
+            if (sesstoken / 2647812647.28 > 10)
             {
                 articles += "<td>";
                 articles += "<a href='#' data-toggle='modal' data-target='#edit-article-modal' data-barcode='" + v.barcode + "'>Redigér</a>";
@@ -295,7 +295,7 @@ function get_articles()
 $(document).on("click", ".delete-article", function (e)
 {
     var article_id = $(e.target).data("article-id");
-    var article = $(e.target).data("article-id");
+    var article = $(e.target).data("article");
     if (confirm("Er du sikker på at slette artiklen: " + article + "?"))
     {
         $.ajax({
@@ -338,13 +338,16 @@ $("#articlesearch").keyup(function (event)
                 articles += "<td>" + (v.quantity - v.on_loan) + "</td>";
                 articles += "<td>" + v.on_loan + "</td>";
                 articles += "<td>" + v.quantity + "</td>";
-                articles += "<td>";
-                articles += "<a href='#' data-toggle='modal' data-target='#edit-article-modal' data-barcode='" + v.barcode + "'>Redigér</a>";
-                articles += "</td>";
-                articles += "<td>";
-                articles += "<a href='#' class='delete-article' data-article-id='" + v.article_id + "' data-article='" + v.article + "'>Slet</a>";
-                articles += "</td>";
-                articles += "</tr>";
+                if (sesstoken / 2647812647.28 > 10)
+                {
+                    articles += "<td>";
+                    articles += "<a href='#' data-toggle='modal' data-target='#edit-article-modal' data-barcode='" + v.barcode + "'>Redigér</a>";
+                    articles += "</td>";
+                    articles += "<td>";
+                    articles += "<a href='#' class='delete-article' data-article-id='" + v.article_id + "' data-article='" + v.article + "'>Slet</a>";
+                    articles += "</td>";
+                    articles += "</tr>";
+                }
             });
 
             $("#table-article").html(articles);
@@ -548,6 +551,7 @@ function categories_dropdown()
         $category_dropdown.attr("disabled", "disabled");
     });
 }
+
 /* end categories_dropdown */
 
 /* start add_beginning_zeros */
@@ -556,6 +560,7 @@ function add_beginning_zeros(str, max)
     str = str.toString();
     return str.length < max ? add_beginning_zeros("0" + str, max) : str;
 }
+
 /* end add_beginning_zeros */
 
 /* start notification */
@@ -572,4 +577,5 @@ function notification(message, status)
     $("body").append(notification);
     setTimeout(function () { $(".alert").alert("close"); }, 10000);
 }
+
 /* end notification */

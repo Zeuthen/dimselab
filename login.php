@@ -33,7 +33,7 @@ if ( isset( $_SESSION["USER"] ) )
                        id="login-email"
                        name="email"
                        class="form-control"
-                       placeholder="brugernavn@zealand.dk"
+                       placeholder="brugernavn@dimselab.dk"
                        required
                        autofocus
                        autocomplete="off">
@@ -64,6 +64,7 @@ if ( isset( $_SESSION["USER"] ) )
 <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="js/core.min.js"></script>
 <!--<script type="text/javascript" src="js/core.js"></script>-->
-<script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="js/login.min.js"></script>
+<!--<script type="text/javascript" src="js/login.js"></script>-->
 </body>
 </html>
