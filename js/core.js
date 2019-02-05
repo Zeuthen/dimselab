@@ -548,7 +548,6 @@ function categories_dropdown()
         $category_dropdown.attr("disabled", "disabled");
     });
 }
-
 /* end categories_dropdown */
 
 /* start add_beginning_zeros */
@@ -557,7 +556,6 @@ function add_beginning_zeros(str, max)
     str = str.toString();
     return str.length < max ? add_beginning_zeros("0" + str, max) : str;
 }
-
 /* end add_beginning_zeros */
 
 /* start notification */
@@ -574,5 +572,4 @@ function notification(message, status)
     $("body").append(notification);
     setTimeout(function () { $(".alert").alert("close"); }, 10000);
 }
-
 /* end notification */
