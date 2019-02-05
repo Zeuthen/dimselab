@@ -32,7 +32,7 @@ require_once "layout/layout_header.php";
 // footer
 include_once "layout/layout_footer.php";
 ?>
-<!--<script type="text/javascript" src="js/statistics.min.js"></script>-->
-<script type="text/javascript" src="js/statistics.js"></script>
+<script type="text/javascript" src="js/statistics.min.js"></script>
+<!--<script type="text/javascript" src="js/statistics.js"></script>-->
 </body>
 </html>

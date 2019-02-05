@@ -11,17 +11,20 @@ require_once "layout/layout_header.php";
     </div>
     <input type="search" name="search" class="form-control" id="projectsearch" placeholder="Søg projekt" autofocus autocomplete="off">
 </div>
+<?php if ( $_SESSION['PERMISSION'] > 10 ) { ?>
+    <button class="btn btn-success my-4 float-right" data-toggle='modal' data-target='#newProjectModal'>Nyt projekt</button>
+<?php } ?>
 
-<button class="btn btn-success my-4 float-right" data-toggle='modal' data-target='#newProjectModal'>Nyt projekt</button>
-
-<div class="content-overview">
+<div class="content-overview mt-4">
     <table class="table table-hover table-bordered">
         <thead>
         <tr>
             <th>Projekt</th>
             <th>Beskrivelse</th>
             <th>Bruger</th>
-	        <?php if($_SESSION["PERMISSION"]>10) echo "<th colspan=\"2\">Handling</th>"?>
+			<?php if ( $_SESSION["PERMISSION"] > 10 )
+				echo "<th colspan=\"2\">Handling</th>"
+			?>
         </tr>
         </thead>
         <tbody id="table-project"></tbody>
@@ -95,7 +98,7 @@ require_once "layout/layout_header.php";
 // footer
 include_once "layout/layout_footer.php";
 ?>
-<script type="text/javascript" src="js/projects.js"></script>
-<!--<script type="text/javascript" src="js/projects.min.js"></script>-->
+<!--<script type="text/javascript" src="js/projects.js"></script>-->
+<script type="text/javascript" src="js/projects.min.js"></script>
 </body>
 </html>

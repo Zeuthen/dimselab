@@ -62,7 +62,7 @@ else if ( time() - $_SESSION['CREATED'] > 1800 )
             <a class="nav-link" href="./udlån">Udlån</a>
             </li>
 	        <?php
-	        if ( $page_title === "Returnering" )
+/*	        if ( $page_title === "Returnering" )
 	        {
 		        echo "<li class=\"nav-item active\">";
 	        }
@@ -70,10 +70,10 @@ else if ( time() - $_SESSION['CREATED'] > 1800 )
 	        {
 		        echo " <li class=\"nav-item\">";
 	        }
-	        ?>
+	        */?><!--
             <a class="nav-link" href="./returnering">Returnering</a>
             </li>
-	        <?php
+	        --><?php
 	        if ( $page_title === "Udlånsstatistik" )
 	        {
 		        echo "<li class=\"nav-item active\">";
